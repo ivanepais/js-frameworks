@@ -2134,3 +2134,302 @@
 
 
 || useEffect
+
+	Usados para manejar efectos secundarios en componentes de función. 
+
+	Los efectos secundarios son acciones que ocurren después de que el componente se ha renderizado en el DOM y pueden incluir tareas como la suscripción a eventos, solicitudes de red, manipulación del DOM y más.
+	
+	Permite a los componentes interactuar con el ciclo de vida de React y realizar tareas de efectos secundarios en respuesta a cambios en el estado del componente o a eventos específicos.
+
+	Equivalente a 'componentDidMount', 'componentDidUpdate' y 'componentWillUnmount' antes de React 16.8. 
+
+	```
+	useEffect(() => {
+	  // Código para manejar efectos secundarios
+	}, [dependencias]);
+
+	```
+
+	La primera función dentro de useEffect contiene el código que se ejecutará cuando se active el efecto secundario.
+
+    El segundo argumento de useEffect es un array de dependencias opcional. 
+
+    Las dependencias son variables o propiedades que, cuando cambian, activan la ejecución del efecto. 
+
+    Si el array de dependencias está vacío ([]), el efecto se ejecutará solo después del primer renderizado del componente.
+
+
+   	1. Efecto que se ejecuta una vez (equivalente a componentDidMount):
+
+   		```
+   		useEffect(() => {
+		  // Código a ejecutar una vez después del primer renderizado
+		}, []);
+
+   		```
+
+
+   	2. Efecto que se ejecuta en respuesta a cambios en una variable específica:
+
+   		```	
+   		useEffect(() => {
+		  // Código a ejecutar cuando myVariable cambie
+		}, [myVariable]);
+
+   		```
+
+
+   	3. Efecto que se ejecuta en cada renderizado (equivalente a componentDidUpdate):
+
+   		```
+   		useEffect(() => {
+		  // Código a ejecutar en cada renderizado
+		});
+
+   		```
+
+   	4. Efecto que se ejecuta al desmontar el componente (equivalente a componentWillUnmount):
+
+   		```
+   		useEffect(() => {
+		  return () => {
+		    // Código a ejecutar al desmontar el componente
+		  };
+		}, []);
+
+   		```
+
+
+|| useEffect Conditional
+
+	Uso de useEffect en un componente de función con una condición que determina cuándo se debe ejecutar el efecto. 
+
+	Esto permite controlar cuándo se activa el efecto secundario basado en cambios específicos en el estado o en las propiedades del componente.
+
+	Solo se ejecutará cuando la condición especificada en la dependencia del useEffect sea verdadera. 
+
+	Para lograr esto, puedes utilizar una variable de estado o propiedades como parte de la dependencia.
+
+
+	```jsx
+
+	import React, { useState, useEffect } from 'react';
+
+	function MiComponente() {
+	  const [valor, setValor] = useState(0);
+	  const [activarEfecto, setActivarEfecto] = useState(false);
+
+	  useEffect(() => {
+	    if (activarEfecto) {
+	      // Realiza un efecto secundario cuando activarEfecto es verdadero
+	      console.log('Efecto secundario activado');
+	      // Puedes realizar tareas adicionales aquí
+	    }
+	  }, [activarEfecto]);
+
+	  return (
+	    <div>
+	      <p>Valor: {valor}</p>
+	      <button onClick={() => setValor(valor + 1)}>Incrementar</button>
+	      <button onClick={() => setActivarEfecto(!activarEfecto)}>
+	        {activarEfecto ? 'Desactivar Efecto' : 'Activar Efecto'}
+	      </button>
+	    </div>
+	  );
+	}
+
+	export default MiComponente;
+
+	```
+
+	Tenemos dos estados: valor y activarEfecto. 
+
+	El efecto secundario dentro de useEffect solo se ejecutará si activarEfecto es verdadero. 
+
+	Cuando hacemos clic en el botón "Activar Efecto", cambiamos el estado de activarEfecto, lo que a su vez controla si se ejecuta el efecto secundario.
+
+
+
+|| useEffect Dependency List
+
+	Es un array que contiene variables o propiedades que determinan cuándo se debe ejecutar el efecto secundario dentro de useEffect.
+
+	Solo ejecutará el efecto secundario cuando uno o más de estos valores cambien desde el último renderizado del componente. 
+
+	En otras palabras, el efecto se ejecutará cuando cualquiera de las dependencias en la lista haya cambiado.
+
+	```jsx
+
+	useEffect(() => {
+	  // Código del efecto secundario
+	}, [dependencia1, dependencia2, ...]);
+
+	```
+
+	Ejemplo: 
+
+	```jsx
+
+	import React, { useState, useEffect } from 'react';
+
+	function MiComponente() {
+	  const [valor, setValor] = useState(0);
+
+	  useEffect(() => {
+	    console.log('Efecto secundario ejecutado');
+	  }, [valor]);
+
+	  return (
+	    <div>
+	      <p>Valor: {valor}</p>
+	      <button onClick={() => setValor(valor + 1)}>Incrementar</button>
+	    </div>
+	  );
+	}
+
+	export default MiComponente;
+
+	```
+
+	[valor] como lista de dependencias en useEffect. 
+
+	Significa que el efecto secundario se ejecutará cada vez que el valor de valor cambie. 
+
+	Cuando hacemos clic en el botón "Incrementar", valor cambia y, como resultado, el efecto secundario se ejecuta y muestra un mensaje en la consola.
+
+
+
+|| useEffect Cleanup Function
+
+	La función de limpieza es una función que puedes devolver dentro de un efecto creado con useEffect.
+
+	Esta función de limpieza se ejecuta cuando el componente se desmonta o cuando las dependencias del efecto cambian y se debe ejecutar un nuevo efecto. 
+
+	La función de limpieza es opcional y se utiliza para realizar tareas de limpieza o desmontaje antes de que el componente deje de existir.
+
+	Se especifica como un valor de retorno dentro de la función del efecto en useEffect.
+
+
+	```jsx
+
+	import React, { useState, useEffect } from 'react';
+
+	function MiComponente() {
+	  const [mostrarMensaje, setMostrarMensaje] = useState(true);
+
+	  useEffect(() => {
+	    // Efecto secundario que se ejecuta al montar el componente
+	    console.log('El componente se ha montado');
+
+	    // Función de limpieza que se ejecuta al desmontar el componente
+	    return () => {
+	      console.log('El componente se ha desmontado');
+	    };
+	  }, []); // Lista de dependencias vacía, se ejecuta solo al montar
+
+	  return (
+	    <div>
+	      {mostrarMensaje && (
+	        <button onClick={() => setMostrarMensaje(false)}>Ocultar Mensaje</button>
+	      )}
+	    </div>
+	  );
+	}
+
+	export default MiComponente;
+
+	```
+
+	'MiComponente' que tiene un botón para ocultar un mensaje.
+	
+	Usamos 'useEffect' con una lista de dependencias vacía [], lo que significa que el efecto se ejecutará solo una vez, cuando el componente se monta inicialmente.
+
+	Dentro del efecto, imprimimos un mensaje en la consola cuando el componente se monta.
+	
+	También proporcionamos una función de limpieza que se ejecutará cuando el componente se desmonte.
+
+	Cuando haces clic en el botón "Ocultar Mensaje" y el estado mostrarMensaje cambia a false, el componente se desmonta y la función de limpieza se ejecuta, lo que imprime "El componente se ha desmontado" en la consola	
+
+
+	Son útiles para realizar tareas de limpieza, como cancelar suscripciones, detener temporizadores o liberar recursos cuando un componente se desmonta.
+
+	Son una parte importante de la gestión de efectos secundarios en React y ayudan a evitar problemas de memoria y comportamiento inesperado.
+
+
+
+|| useEffect Fetch Data
+
+	Se usa para realizar solicitudes de red y obtener datos de un servidor (por ejemplo, mediante una API REST) de manera asíncrona. 
+
+	El patrón común para hacer esto se denomina "useEffect Fetch Data" y es útil cuando deseas cargar datos externos y actualizar el estado de tu componente con esos datos una vez que estén disponibles
+
+	```jsx	
+
+	import React, { useState, useEffect } from 'react';
+
+	function MiComponente() {
+	  const [data, setData] = useState([]); // Estado para almacenar los datos
+	  const [loading, setLoading] = useState(true); // Estado para controlar la carga
+
+	  useEffect(() => {
+	    // Función para realizar la solicitud de datos
+	    async function fetchData() {
+	      try {
+	        const response = await fetch('https://api.ejemplo.com/data'); // Reemplaza la URL con tu API real
+	        const jsonData = await response.json();
+	        setData(jsonData);
+	        setLoading(false); // Cambia el estado de carga a falso
+	      } catch (error) {
+	        console.error('Error al cargar los datos:', error);
+	        setLoading(false); // Cambia el estado de carga a falso incluso en caso de error
+	      }
+	    }
+
+	    fetchData(); // Llama a la función de solicitud de datos al montar el componente
+	  }, []); // Lista de dependencias vacía, se ejecuta solo al montar
+
+	  return (
+	    <div>
+	      {loading ? (
+	        <p>Cargando datos...</p>
+	      ) : (
+	        <ul>
+	          {data.map((item) => (
+	            <li key={item.id}>{item.nombre}</li>
+	          ))}
+	        </ul>
+	      )}
+	    </div>
+	  );
+	}
+
+	export default MiComponente;
+
+	```	
+
+	Hemos declarado dos estados, 'data' y 'loading', para almacenar los datos obtenidos y controlar el estado de carga respectivamente.
+
+    Usamos 'useEffect' con una lista de dependencias vacía [], lo que significa que el efecto se ejecutará solo una vez, cuando el componente se monte inicialmente.
+
+    Dentro del efecto, definimos una función 'fetchData' asincrónica que realiza una solicitud a una API (debes reemplazar la URL con la de tu propia API). 
+
+    Cuando se completa la solicitud, actualizamos el estado 'data' con los datos obtenidos y cambiamos el estado 'loading' a 'false' para indicar que la carga ha finalizado.
+
+    Si se produce un error durante la solicitud, manejamos el error y también cambiamos el estado 'loading' a 'false'.
+
+	En el JSX, mostramos un mensaje de carga mientras 'loading' es true, y una lista de datos cuando 'loading' es 'false'. 	
+
+
+	Este patrón "useEffect Fetch Data" es comúnmente utilizado para cargar datos externos de manera asíncrona en componentes de React.
+
+
+
+|| Multiple Returns
+
+
+
+
+
+
+
+
