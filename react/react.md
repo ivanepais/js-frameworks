@@ -1287,10 +1287,850 @@
 		```
 
 
-|| Destruir props
+|| Desestructuración de props
 
+	Es una técnica comúnmente utilizada en React para simplificar el acceso a las props pasadas a un componente. 
+
+	La desestructuración de props permite extraer propiedades específicas de un objeto props en lugar de acceder a ellas a través del objeto directamente.
+
+	Hace que el código sea más limpio, al trabajar con muchas props.  
+
+	```
+	// Sin desestructuración de props
+	function EjemploComponente(props) {
+	  return (
+	    <div>
+	      <p>Nombre: {props.nombre}</p>
+	      <p>Edad: {props.edad}</p>
+	    </div>
+	  );
+	}
+
+	// Con desestructuración de props
+	function EjemploComponenteConDestructuring({ nombre, edad }) {
+	  return (
+	    <div>
+	      <p>Nombre: {nombre}</p>
+	      <p>Edad: {edad}</p>
+	    </div>
+	  );
+	}
+
+	```
+
+	Los dos componentes reciben las mismas props, 'nombre' y 'edad'. 
+
+	Sin embargo, el segundo componente utiliza la desestructuración de props para acceder a estas props de manera más concisa y legible.
+
+
+
+|| Props Children
+
+	Se utiliza para pasar componentes, elementos o contenido arbitrario como hijos a un componente React.
+
+	Permite que los componentes sean más flexibles y reutilizables, ya que pueden contener y renderizar contenido adicional proporcionado por el componente padre.
+	 
+	Se usa cuando deseas envolver contenido dentro de un componente personalizado y luego renderizar ese contenido dentro de la estructura del componente.
+
+
+	1. Uso de props.children: 
+
+		Por convensión escribimos 'children' dentro de la definicón del componente. 
+
+		```
+		function MiComponente({ children }) {
+		  return (
+		    <div className="contenedor">
+		      <p>Este es el contenido del componente:</p>
+		      {children}
+		    </div>
+		  );
+		}
+
+		```
+		Cualquier contenido que se pase como hijo a este componente se colocarán en la posición de 'children'.
+
+
+	2. Pasando contenido: 	
+
+		'props.children' puede contener múltiples elementos y componentes. 
+
+		No está limitado a un solo elemento
+
+		```
+		<MiComponente>
+		  <p>Primer párrafo</p>
+		  <p>Segundo párrafo</p>
+		</MiComponente>
+
+		```
+
+		ambos párrafos se renderizarán dentro del componente "MiComponente" como parte de "props.children
+
+
+
+|| Lista 
+
+	Se refiere a una lista de elementos que se renderizan en un componente. 
+
+	1. Definición y Almacenamiento de Datos: 
+
+		Debes definir los componente que describa lo que vas a hacer. 
+
+		Debes tener algún tipo de estructura de datos en tu estado de React para almacenar la lista de elementos que deseas mostrar. 
+
+		Esto podría ser un array en el estado de tu componente o datos obtenidos de una API o una base de datos.
+
+
+	2. Mapeo de Datos: 
+
+		Utiliza el método map() de JavaScript para recorrer la lista de elementos y crear dinámicamente un componente para cada uno. 
+
+		Por ejemplo, si tienes una matriz de tareas, puedes utilizar map() para crear un componente Tarea para cada tarea en la lista.
+
+		```jsx
+
+		const listaDeTareas = [
+		  { id: 1, texto: 'Hacer compras' },
+		  { id: 2, texto: 'Lavar el coche' },
+		  { id: 3, texto: 'Hacer ejercicio' },
+		];
+
+		const tareas = listaDeTareas.map((tarea) => (
+		  <Tarea key={tarea.id} texto={tarea.texto} />
+		));
+
+		```
+		Tenemos un grupo de elementos 'ListaDeTareas' que se mostrará invidualmente en 'tareas'
+
+
+	3. Renderizar grupo: 
+
+		Renderizar los componentes generados dentro de un contenedor en tu JSX.
+
+		```
+		return (
+		  <div>
+		    <h2>Lista de Tareas</h2>
+		    <ul>
+		      {tareas}
+		    </ul>
+		  </div>
+		);
+
+		```
+
+
+	4. Renderizar Componentes individuales: 
+
+		Asegúrate de que el componente individual (Tarea en este caso) reciba las propiedades necesarias (por ejemplo, el texto de la tarea) y las utilice para mostrar cada elemento de la lista
+
+		```
+		function Tarea({ texto }) {
+		  return <li>{texto}</li>;
+		}
+
+		```
+
+
+|| Manejo de grupo de elementos
+
+	Debemos tener una lista de elementos implementada correctamente siguiendo buenas prácticas. 
+
+	1. Usa una clave (key) única: 
+
+		Cuando renderizas elementos en una lista en React, cada elemento debe tener una prop key única. 
+		
+		La clave ayuda a React a identificar y rastrear los elementos de la lista de manera eficiente. 
+
+		Idealmente, la clave debería ser un identificador único asociado al elemento, como un ID de base de datos.
+
+		```
+		const listaDeTareas = [
+		  { id: 1, texto: 'Hacer compras' },
+		  { id: 2, texto: 'Lavar el coche' },
+		  { id: 3, texto: 'Hacer ejercicio' },
+		];
+
+		const tareas = listaDeTareas.map((tarea) => (
+		  <Tarea key={tarea.id} texto={tarea.texto} />
+		));
+
+		```
+
+
+	2. Evita mutar la lista original:
+
+		Al manipular una lista en React, evita modificar la lista original directamente. 
+
+		En su lugar, crea una nueva lista o copia la lista existente y luego realiza las operaciones necesarias. 
+
+		Esto ayuda a mantener la inmutabilidad de los datos, lo que es fundamental para el funcionamiento correcto de React.
+
+
+	3. Extrae componentes reutilizables: 
+
+		Si los elementos de la lista tienen una estructura y apariencia similares, considera extraer un componente reutilizable para representar cada elemento. 
+
+		Esto mejora la legibilidad y facilita la reutilización del código.
+
+
+	4. Usa el método map() para renderizar: 
+
+		El método map() de JavaScript es una forma eficiente de recorrer una lista y renderizar elementos dinámicamente en React. 
+
+		Crea una matriz de elementos JSX a partir de la lista y luego renderiza esa matriz.
+
+		
+	5. Considera la paginación o la carga dinámica: 
+
+		Si tu lista es muy larga, considera implementar la paginación o la carga dinámica para mejorar el rendimiento.
+
+		Esto implica mostrar solo una porción de la lista a la vez y cargar más elementos según sea necesario.
 
 	
+	6. Maneja eventos y acciones de lista: 
+
+		Si tu lista requiere acciones como eliminar elementos, marca como completados, etc., asegúrate de manejar estos eventos de manera adecuada y reflejar los cambios en el estado de la aplicación.
+
+	
+	7. Optimización de rendimiento: 
+
+		Si trabajas con listas muy grandes o complejas, puedes considerar técnicas de optimización de rendimiento en React, como el uso de 'React.memo', 'shouldComponentUpdate', o componentes de alto rendimiento como 'react-virtualized' para optimizar el rendimiento de la renderización.
 
 
 
+|| Key prop
+
+	Es un atributo especial que se utiliza para identificar de manera única elementos de una lista cuando se realizan operaciones de renderizado, como agregar, actualizar o eliminar elementos.
+
+	Cada elemento en una lista renderizada debe tener una key única para que React pueda realizar un seguimiento de ellos de manera eficiente y garantizar que las actualizaciones se apliquen correctamente.	
+
+
+	Uso en el Método map(): 
+
+		La prop key se suele asignar en el método map() cuando recorres una matriz o una lista para crear elementos JSX dinámicamente.
+
+		```
+		const elementos = datos.map((item) => (
+		  <MiComponente key={item.id} dato={item} />
+		));
+
+		```
+
+
+	Actualización de Elementos: 
+
+		Cuando actualizas elementos en una lista, es importante que la key siga siendo única para cada elemento. 
+
+		Si cambias la key de un elemento, React lo considerará como un elemento diferente y realizará una nueva renderización.	
+
+
+
+|| Eventos
+
+	Los eventos permiten que los componentes React respondan a las acciones del usuario, como hacer clic en un botón o escribir en un campo de entrada.
+
+
+	1. Elemento HTML:
+
+		En qué elemento HTML deseas agregar un evento. 
+
+		Puedes agregar eventos a elementos como botones, campos de entrada, elementos de lista, etc. 
+
+
+	2. Función Manejadora: 
+
+		Crea una función JavaScript que se ejecutará cuando ocurra el evento. 
+
+		Puedes definirla dentro del componente React en el que deseas agregar el evento.
+
+		```
+		function handleClick() {
+		  alert("Se hizo clic en el botón");
+		}
+
+		```
+
+
+	3. Agrega el Evento al Elemento JSX: 
+
+		Utiliza el JSX de React para agregar el evento al elemento HTML deseado.
+
+		Debes utilizar la sintaxis especial de React para asignar la función manejadora como un controlador de eventos. 
+
+		Por ejemplo, para un botón que ejecute la función handleClick cuando se hace clic:
+
+		```
+		<button onClick={handleClick}>Haz clic</button>
+
+		```
+
+		onClick es el nombre del evento, y handleClick es la función manejadora que se ejecutará cuando ocurra el evento.
+
+
+	4. Renderizar el componente: 
+
+		Asegúrate de que el componente en el que estás trabajando esté completo y renderizando adecuadamente.
+
+		```jsx
+
+		import React from "react";
+
+		function MiComponente() {
+		  function handleClick() {
+		    alert("Se hizo clic en el botón");
+		  }
+
+		  return (
+		    <div>
+		      <button onClick={handleClick}>Haz clic</button>
+		    </div>
+		  );
+		}
+
+		export default MiComponente;
+
+		```
+
+
+
+|| Operador de separación: 
+
+	Se utiliza comúnmente para pasar todas las propiedades de un objeto a un componente.
+
+	```
+	const objetoProps = { prop1: "valor1", prop2: "valor2" };
+
+	// Usando el operador de propagación para pasar todas las propiedades
+	<MiComponente {...objetoProps} />
+
+	```
+
+	Dentro del componente MiComponente, puedes acceder a prop1 y prop2 como props individuales.
+
+
+	Combinar objetos: 
+
+		Combinar dos objetos en uno solo. 
+
+		Es útil cuando deseas agregar propiedades adicionales a un objeto sin modificar el original.
+
+		```jsx
+
+		const objeto1 = { prop1: "valor1" };
+		const objeto2 = { prop2: "valor2" };
+
+		const objetoCombinado = { ...objeto1, ...objeto2 };
+
+		```
+
+		'objetoCombinado' contendrá ambas propiedades de objeto1 y objeto2.
+
+
+	Copiar Array: 
+
+		```	
+		const arrayOriginal = [1, 2, 3];
+		const copiaArray = [...arrayOriginal];
+
+		```
+
+		Cualquier cambio en copiaArray no afectará a arrayOriginal.
+
+
+	Nuevo elemento: 
+
+		```
+		const arrayOriginal = [1, 2, 3];
+		const nuevoElemento = 4;
+		const arrayActualizado = [...arrayOriginal, nuevoElemento];
+
+		```
+		contendrá los elementos de 'arrayOriginal' más el nuevo elemento.
+
+
+	Copiar el Estado en Componentes:
+
+		Dentro de componentes de clase en React, el operador de propagación se utiliza comúnmente para copiar el estado actual antes de realizar modificaciones en el estado.
+		
+		Esto es importante para garantizar que el estado no se mute directamente.
+
+		```
+		this.setState({ ...this.state, nuevaPropiedad: "valor" });
+
+		```
+		Al copiar el estado existente y luego agregar una nueva propiedad, te aseguras de que el estado original permanezca inmutable.
+
+
+	Puedes utilizarlo para crear copias de objetos, combinar objetos, copiar arrays y realizar otras operaciones de manejo de datos de manera eficiente y segura.
+
+
+
+|| useState
+
+	Permite a los componentes de función gestionar el estado local.
+
+	Puedes agregar estado a tus componentes de función sin necesidad de convertirlos en componentes de clase desde React 16.8. 
+
+
+	1. Importa useState: 
+
+		En la parte superior de tu archivo de componente, debes importar useState desde la librería React.
+
+		```
+		import React, { useState } from 'react';
+
+		```
+
+
+	2. Declara el Estado: 
+
+		Dentro del componente de función, puedes declarar una variable para almacenar el estado y una función para actualizar ese estado utilizando useState. 
+
+		La función useState toma un argumento inicial que es el valor inicial del estado.
+
+		```
+		function MiComponente() {
+		  // Declaración de estado
+		  const [estado, setEstado] = useState(valorInicial);
+		  
+		  // ...
+		}
+
+		```	
+
+		estado: 
+
+			Es la variable que almacena el valor del estado.
+
+    	setEstado: 
+
+    		Es la función que puedes utilizar para actualizar el valor del estado. 
+
+    		Debes llamar a esta función con el nuevo valor del estado cuando desees actualizarlo.
+
+
+	3. Accede y Actualiza el Estado:
+
+		Ahora puedes acceder al valor del estado (estado) en tu componente y usar la función setEstado para actualizarlo
+
+		```jsx
+
+		function MiComponente() {
+		  const [contador, setContador] = useState(0);
+
+		  const aumentarContador = () => {
+		    setContador(contador + 1);
+		  };
+
+		  return (
+		    <div>
+		      <p>Contador: {contador}</p>
+		      <button onClick={aumentarContador}>Aumentar</button>
+		    </div>
+		  );
+		}
+
+		```
+		Usamos 'useState' para mantener un estado llamado 'contador', que se inicializa en 0. 
+
+		Luego, tenemos una función 'aumentarContador' que llama a 'setContador' para actualizar el valor del estado cuando se hace clic en el botón.
+
+
+	4. Renderiza el Estado: 
+
+		Puedes renderizar el valor del estado en tu JSX utilizando las llaves {}. 
+
+		En el ejemplo anterior, estamos mostrando el valor de contador en el párrafo.
+
+
+	5. Actualización Inmutable: 
+
+		Es importante recordar que el estado en React debe actualizarse de forma inmutable. 
+
+		Esto significa que no debes modificar directamente el valor del estado, sino que debes crear una nueva versión del estado con el valor actualizado. 
+
+		useState se encarga de esto automáticamente cuando llamas a la función setEstado.
+
+
+
+|| Hooks Rules
+
+	Ayudan a garantizar un comportamiento predecible y consistente en tus componentes
+
+	1. Solo en Componentes de Función (Modern): 	
+
+		No se debe intentar usar Hooks en componentes de clase (legacy)
+
+
+	2. Hooks en el Nivel Superior: 
+
+		Solo deben llamarse en el nivel superior de un componente de función, es decir, no deben usarse dentro de condicionales, bucles o funciones anidadas		
+		Deben estar en el orden en el que se llaman y no deben cambiar de orden en re-renderizaciones diferentes.
+
+		```jsx	
+
+		function MiComponente() {
+		  const [estado, setEstado] = useState(0); // Correcto
+		  if (estado === 1) {
+		    const [otroEstado, setOtroEstado] = useState(''); // Incorrecto
+		  }
+		}
+
+		```
+
+	3. Hooks consistentes: 
+
+	 	Significa que no debes condicionar la llamada a un Hook basándote en alguna lógica. 
+
+	 	Siempre llama a los Hooks en el mismo orden.
+
+	 	```jsx
+
+	 	// Incorrecto - condicional
+		if (condicion) {
+		  useEffect(() => {
+		    // ...
+		  }, []);
+		}
+
+		// Correcto - siempre llama a useEffect
+		useEffect(() => {
+		  if (condicion) {
+		    // ...
+		  }
+		}, []);
+
+	 	```
+
+
+	4. No Llamar Hooks en Funciones Anidadas o Callbacks:
+
+		A menos que estas funciones sean declaradas dentro de tu componente y se ajusten a las reglas de Hooks.
+
+		```	
+		function MiComponente() {
+		  useEffect(() => {
+		    // Correcto: useEffect en función del componente
+		  }, []);
+
+		  const miFuncion = () => {
+		    useEffect(() => {
+		      // Incorrecto: useEffect dentro de una función anidada
+		    }, []);
+		  };
+		}
+
+		```
+
+
+	5. Usar Hooks en el Órden: 
+
+		Debes usar los Hooks en el mismo orden en cada re-renderización. 
+
+		Esto es importante para que React realice un seguimiento adecuado de los Hooks utilizados y sus estados.
+
+		```	
+		const [estado1, setEstado1] = useState('A');
+		const [estado2, setEstado2] = useState('B');
+
+		// Correcto
+		const [estado1, setEstado1] = useState('A');
+		const [estado2, setEstado2] = useState('B');
+
+		// Incorrecto - orden diferente
+		const [estado2, setEstado2] = useState('B');
+		const [estado1, setEstado1] = useState('A');
+
+		```		
+
+	6. Crear Hooks Personalizados con el Prefijo "use": 
+
+		Si creas tus propios Hooks personalizados, debes nombrarlos con el prefijo "use". 
+
+		Esto es una convención que ayuda a reconocer que es un Hook y seguir las reglas.
+
+		```
+		// Correcto - Hook personalizado nombrado con "use"
+		function useMiHook() {
+		  // ...
+		}
+
+		```
+
+
+|| useState Array
+
+
+	1. Importar 'useState': 
+
+		Desde React en el inicio del archivo del componente. 
+
+		```
+		import React, { useState } from 'react';
+
+		```
+
+
+	2. Declarar el estado inicial: 
+
+		Variable de estado inicial que contendrá el array. 
+
+		Esto se hace utilizando 'useState' y proporcionando un array vacío o un array con datos iniciales según tus necesidades.
+
+		```	
+		const [miArray, setMiArray] = useState([]);
+
+		```
+
+
+	3. Actualiza el Estado del Array:
+
+		Para agregar o modificar elementos en el array, utiliza la función 'setMiArray' proporcionada por useState. 
+
+		No debes modificar el array directamente, sino que debes crear una nueva copia del array que incluya los cambios que deseas realizar
+
+		```
+		// Para agregar un elemento al array
+		const agregarElemento = () => {
+		  const nuevoElemento = 'Nuevo elemento';
+		  setMiArray([...miArray, nuevoElemento]);
+		};
+
+		// Para actualizar un elemento en el array por su índice
+		const actualizarElemento = (indice) => {
+		  const nuevoValor = 'Nuevo valor';
+		  const nuevoArray = [...miArray];
+		  nuevoArray[indice] = nuevoValor;
+		  setMiArray(nuevoArray);
+		};
+
+		```
+
+		Estamos utilizando el operador de propagación (...) para crear una copia del array existente y luego agregando un nuevo elemento o actualizando un elemento existente.
+
+
+	4. Renderizar array: 
+
+		Renderizar los elementos del array en tu JSX utilizando un bucle (como map) para generar elementos de lista o cualquier otro método adecuado según tus necesidades.
+
+		```
+		return (
+		  <div>
+		    <ul>
+		      {miArray.map((elemento, indice) => (
+		        <li key={indice}>{elemento}</li>
+		      ))}
+		    </ul>
+		  </div>
+		);
+
+		```
+
+		Asegúrate de proporcionar una clave (key) única para cada elemento dentro del bucle para ayudar a React a identificar los elementos de la lista de manera eficiente.
+
+
+
+|| useState Object
+
+	1. Importar 'useState':
+
+		```
+		import React, { useState } from 'react';	
+
+		```
+
+	2.  Declara el Estado Inicial:
+
+
+		```
+		const [miObjeto, setMiObjeto] = useState({});
+
+		```
+
+	3. Actualiza el Estado del Objeto: 
+
+		Agregar o modificar propiedaes, se utilizar la función 'setMiObjeto' creando una copia que incluya los cambios. 
+
+		```
+		// Para agregar una nueva propiedad al objeto
+		const agregarPropiedad = () => {
+		  const nuevaPropiedad = 'nuevoValor';
+		  setMiObjeto({ ...miObjeto, nuevaPropiedad });
+		};
+
+		// Para actualizar una propiedad existente en el objeto
+		const actualizarPropiedad = () => {
+		  const nuevaValor = 'nuevoValor';
+		  setMiObjeto({ ...miObjeto, propiedadExistente: nuevaValor });
+		};
+
+		```
+
+	4. Renderizar Objeto: 
+
+		Renderizar las propiedades del objeto en tu JSX accediendo a ellas directamente desde miObjeto.
+
+		```
+		return (
+		  <div>
+		    <p>Propiedad 1: {miObjeto.propiedad1}</p>
+		    <p>Propiedad 2: {miObjeto.propiedad2}</p>
+		  </div>
+		);
+
+		```
+
+
+
+|| useState multiple state values
+
+	Para gestionar múltiples valores de estado dentro de un componente de función. 
+	
+	Cada llamada a useState crea una variable de estado independiente que puede mantener un valor específico. 
+
+	Esto te permite gestionar varios valores de estado en un solo componente.
+
+	```	
+	import React, { useState } from 'react';
+
+	function MiComponente() {
+	  // Declaración de múltiples estados
+	  const [valor1, setValor1] = useState(0);
+	  const [valor2, setValor2] = useState('');
+	  const [valor3, setValor3] = useState(false);
+
+	  // ...
+
+	  return (
+	    <div>
+	      <p>Valor 1: {valor1}</p>
+	      <p>Valor 2: {valor2}</p>
+	      <p>Valor 3: {valor3 ? 'Verdadero' : 'Falso'}</p>
+	      {/* Renderiza y actualiza cada valor de estado según sea necesario */}
+	    </div>
+	  );
+	}
+
+	export default MiComponente;
+
+	```
+
+	Utilizando useState tres veces para declarar tres variables de estado independientes: valor1, valor2 y valor3. 
+
+	Cada variable de estado tiene su propio valor inicial y su función correspondiente para actualizar ese valor (setValor1, setValor2 y setValor3).
+
+
+	Acceder y actualizar cada uno de estos valores de estado de manera individual. 
+
+	Por ejemplo, para actualizar valor1, puedes llamar a setValor1 con el nuevo valor deseado
+
+	```	
+	<button onClick={() => setValor1(valor1 + 1)}>Incrementar Valor 1</button>
+	
+	```
+
+
+
+|| Contador 
+
+	Usando 'useState', el contador aumentará y disminuirá, según los clicks en el botón. 
+
+	```jsx 
+
+	import React, { useState } from 'react';
+
+	function Contador() {
+	  // Declaración del estado inicial del contador
+	  const [contador, setContador] = useState(0);
+
+	  // Función para incrementar el contador
+	  const aumentarContador = () => {
+	    setContador(contador + 1);
+	  };
+
+	  // Función para decrementar el contador
+	  const disminuirContador = () => {
+	    setContador(contador - 1);
+	  };
+
+	  return (
+	    <div>
+	      <h1>Contador</h1>
+	      <p>Valor actual: {contador}</p>
+	      <button onClick={aumentarContador}>Incrementar</button>
+	      <button onClick={disminuirContador}>Decrementar</button>
+	    </div>
+	  );
+	}
+
+	export default Contador;
+
+
+	```
+	
+	Utilizamos 'useState' para declarar el estado inicial del contador, que se inicializa en 0.
+	
+	Creamos dos funciones, 'aumentarContador' y 'disminuirContador', que utilizamos para actualizar el estado del contador mediante setContador.
+
+
+
+
+|| Formulario
+
+	Usando 'useState', el formulario consta de un campo de entrada de texto y un botón para enviar el valor del campo de entrada.
+
+	```jsx
+
+	import React, { useState } from 'react';
+
+	function FormularioBasico() {
+	  // Declaración del estado para el valor del campo de entrada
+	  const [inputValue, setInputValue] = useState('');
+
+	  // Función para manejar el cambio en el campo de entrada
+	  const handleChange = (event) => {
+	    setInputValue(event.target.value);
+	  };
+
+	  // Función para manejar el envío del formulario
+	  const handleSubmit = (event) => {
+	    event.preventDefault(); // Evita que la página se recargue al enviar el formulario
+	    alert(`Valor del campo de entrada: ${inputValue}`);
+	  };
+
+	  return (
+	    <div>
+	      <h1>Formulario Básico</h1>
+	      <form onSubmit={handleSubmit}>
+	        <label>
+	          Ingresa un valor:
+	          <input
+	            type="text"
+	            value={inputValue}
+	            onChange={handleChange}
+	          />
+	        </label>
+	        <button type="submit">Enviar</button>
+	      </form>
+	    </div>
+	  );
+	}
+
+	export default FormularioBasico;
+
+
+	```
+
+	'useState' para declarar el estado inicial del valor del campo de entrada, que se inicializa como una cadena vacía.
+	
+	Creamos dos funciones, 'handleChange' y 'handleSubmit', para manejar los eventos de cambio en el campo de entrada y el envío del formulario, respectivamente.
+	
+	El campo de entrada (<input>) utiliza el valor de inputValue y llama a 'handleChange' cuando cambia.
+
+	El formulario (<form>) llama a 'handleSubmit' cuando se envía. Usamos event.preventDefault() para evitar que la página se recargue al enviar el formulario y, en su lugar, mostramos un mensaje de alerta con el valor del campo de entrada.
+
+
+
+|| useEffect
