@@ -2842,8 +2842,559 @@
 
 || Item and List
 
+	Agregar un nuevo elemento a una lista existente o a un conjunto de datos representados en tu aplicación. 
+
+	Esto es una operación común en aplicaciones web y se utiliza para permitir a los usuarios agregar datos, como tareas, mensajes, elementos de compra o cualquier otra cosa que deba registrarse en una lista.
 
 
+	1. Mantén una lista en el estado: 
+
+		Utiliza el estado de React para mantener y gestionar la lista de elementos. 
+
+		Esto puede hacerse utilizando el hook useState o el estado de un componente de clase.
+
+
+	2. Crea un formulario para ingresar nuevos elementos: 
+
+		Proporciona un formulario o un campo de entrada donde los usuarios puedan ingresar el nuevo elemento que desean agregar a la lista.
+
+
+	3. Maneja el evento de envío del formulario: 
+
+		Agrega un manejador de eventos al formulario para capturar cuando el usuario envía el formulario. 
+
+		Esto generalmente se hace mediante un evento "submit".
+
+	
+	4. Actualiza el estado para agregar el nuevo elemento: 
+
+		En el manejador de eventos de envío del formulario, actualiza el estado de React para agregar el nuevo elemento a la lista existente.
+
+
+	5. Renderiza la lista actualizada: 
+
+		Asegúrate de que tu componente React vuelva a renderizar con la lista actualizada. 
+
+		Esto mostrará el nuevo elemento en la interfaz de usuario.
+
+
+	```jsx
+
+	import React, { useState } from 'react';
+
+	function ListaDeTareas() {
+	  const [tareas, setTareas] = useState([]);
+	  const [nuevaTarea, setNuevaTarea] = useState('');
+
+	  const agregarTarea = () => {
+	    if (nuevaTarea.trim() !== '') {
+	      setTareas([...tareas, nuevaTarea]);
+	      setNuevaTarea('');
+	    }
+	  };
+
+	  return (
+	    <div>
+	      <h2>Lista de Tareas</h2>
+	      <ul>
+	        {tareas.map((tarea, index) => (
+	          <li key={index}>{tarea}</li>
+	        ))}
+	      </ul>
+	      <div>
+	        <input
+	          type="text"
+	          placeholder="Nueva Tarea"
+	          value={nuevaTarea}
+	          onChange={(e) => setNuevaTarea(e.target.value)}
+	        />
+	        <button onClick={agregarTarea}>Agregar</button>
+	      </div>
+	    </div>
+	  );
+	}
+
+	export default ListaDeTareas;
+
+	```
+
+	Utilizamos el estado de React ('tareas' y 'nuevaTarea') para mantener una lista de tareas y el valor de la nueva tarea que se ingresará.
+	
+	Cuando el usuario ingresa una tarea y hace clic en el botón "Agregar", llamamos a la función 'agregarTarea', que agrega la nueva tarea a la lista tareas y luego borra el campo de entrada.
+    
+    La lista de tareas se representa en la interfaz de usuario utilizando un elemento '<ul>' y se actualiza cada vez que se agrega una nueva tarea a través del mapeo de la matriz 'tareas'.
+
+
+
+|| Multiple Inputs
+
+
+    Estado de React: 
+
+    	Utiliza el estado de React para mantener y controlar los valores de los campos de entrada. 
+
+    	Puedes utilizar un objeto o varios estados separados, uno para cada campo.
+
+
+    Manejadores de eventos: 
+
+    	Asocia un manejador de eventos, como onChange, a cada campo de entrada. 
+
+    	Cuando un usuario interactúa con un campo y cambia su valor, el manejador de eventos se ejecuta y actualiza el estado de React con el nuevo valor.
+
+
+    Asociación de valores: 
+
+    	Asocia el valor de cada campo de entrada con su respectivo estado en React utilizando la propiedad value (o defaultValue para campos de entrada no controlados).
+
+
+    Validación y manejo de eventos: 
+
+    	En el manejador de eventos, puedes realizar validación, ejecutar lógica personalizada o realizar otras acciones en función de los valores de los campos de entrada.
+
+
+    ```jsx
+
+    import React, { useState } from 'react';
+
+	function Formulario() {
+	  const [formulario, setFormulario] = useState({
+	    nombre: '',
+	    correo: '',
+	    edad: '',
+	  });
+
+	  const handleChange = (event) => {
+	    const { name, value } = event.target;
+	    setFormulario({
+	      ...formulario,
+	      [name]: value,
+	    });
+	  };
+
+	  const handleSubmit = (event) => {
+	    event.preventDefault();
+	    // Realiza acciones con los valores del formulario
+	    console.log(formulario);
+	  };
+
+	  return (
+	    <form onSubmit={handleSubmit}>
+	      <div>
+	        <label>
+	          Nombre:
+	          <input
+	            type="text"
+	            name="nombre"
+	            value={formulario.nombre}
+	            onChange={handleChange}
+	          />
+	        </label>
+	      </div>
+	      <div>
+	        <label>
+	          Correo:
+	          <input
+	            type="email"
+	            name="correo"
+	            value={formulario.correo}
+	            onChange={handleChange}
+	          />
+	        </label>
+	      </div>
+	      <div>
+	        <label>
+	          Edad:
+	          <input
+	            type="number"
+	            name="edad"
+	            value={formulario.edad}
+	            onChange={handleChange}
+	          />
+	        </label>
+	      </div>
+	      <div>
+	        <button type="submit">Enviar</button>
+	      </div>
+	    </form>
+	  );
+	}
+
+	export default Formulario;
+
+
+    ```
+
+    Utilizamos un objeto 'formulario' en el estado de React para mantener los valores de los campos de entrada.
+    
+    Asociamos cada campo de entrada ('nombre', 'correo' y 'edad') con su respectivo estado utilizando la propiedad 'name' y la función 'handleChange' maneja los cambios en los campos de entrada y actualiza el estado correspondiente.
+    
+    En el manejador de eventos 'handleSubmit', puedes realizar acciones con los valores del formulario, como enviarlos al servidor o realizar validaciones.
+
+
+|| useRef
+
+	Proporciona una forma de acceder y manipular directamente el DOM (Document Object Model) o elementos de una interfaz de usuario en un componente de React.
+
+	A diferencia del estado, 'useRef' no causa una nueva representación o renderizado del componente cuando cambia, lo que lo hace útil para realizar tareas de manipulación del DOM y almacenar valores que no afectan la representación.
+
+
+	1. Acceso al DOM: 
+
+		Puedes utilizar useRef para acceder a elementos del DOM directamente.
+
+		Esto es útil para enfocar un campo de entrada, medir dimensiones, o realizar operaciones directamente en elementos HTML.
+
+
+	2. Almacenamiento de valores persistentes: 
+
+		Aunque useRef no causa una renderización cuando cambia, puedes usarlo para almacenar valores que persisten entre renderizaciones. 
+
+		Esto es útil para mantener valores o datos que no deben causar un nuevo renderizado del componente.
+
+		```jsx
+
+		import React, { useRef } from 'react';
+
+		function MiComponente() {
+		  const contadorRef = useRef(0);
+
+		  const incrementarContador = () => {
+		    contadorRef.current += 1;
+		    console.log(`Contador: ${contadorRef.current}`);
+		  };
+
+		  return (
+		    <div>
+		      <p>Contador: {contadorRef.current}</p>
+		      <button onClick={incrementarContador}>Incrementar</button>
+		    </div>
+		  );
+		}
+
+		export default MiComponente;
+
+		```		
+
+
+	3. Referencias a componentes funcionales: 
+
+		useRef también puede utilizarse para mantener referencias a componentes funcionales, lo que permite acceder a métodos o propiedades del componente hijo funcional desde el componente padre.
+
+		```jsx
+
+		import React, { useRef } from 'react';
+
+		function Hijo() {
+		  const mostrarMensaje = () => {
+		    alert('Mensaje desde el hijo');
+		  };
+
+		  return (
+		    <div>
+		      <button onClick={mostrarMensaje}>Mostrar Mensaje</button>
+		    </div>
+		  );
+		}
+
+		function Padre() {
+		  const hijoRef = useRef();
+
+		  const mostrarMensajeDelHijo = () => {
+		    hijoRef.current.mostrarMensaje();
+		  };
+
+		  return (
+		    <div>
+		      <button onClick={mostrarMensajeDelHijo}>Mostrar Mensaje del Hijo</button>
+		      <Hijo ref={hijoRef} />
+		    </div>
+		  );
+		}
+
+		export default Padre;
+
+
+		```
+
+
+	Cuando se usa 'useRef', el valor de 'ref.current' persiste entre renderizaciones, pero cambiar el valor de 'ref.current' directamente no provocará un nuevo renderizado del componente
+
+
+
+|| useReducer
+
+	Se utiliza para gestionar el estado de un componente cuando dicho estado es complejo o cuando las actualizaciones del estado dependen de acciones específicas. 
+
+	En esencia, 'useReducer' es una alternativa a 'useState' que te permite manejar el estado en función de acciones o eventos específicos en lugar de actualizaciones directas del estado.
+
+	Se basa en el concepto de "reducción" (o reducción de datos) que es común en la programación funcional. 
+
+	La reducción implica tomar una lista de valores y reducirla a un solo valor aplicando una función a cada elemento de la lista. 
+
+	En el contexto de React, useReducer permite que el estado del componente sea el resultado de aplicar una función reductora a una serie de acciones.	
+
+	```
+	const [state, dispatch] = useReducer(reducer, initialState);
+
+	```
+
+	state: 
+
+		Es el estado actual que se va a gestionar.
+
+    dispatch: 
+
+    	Es una función que se utiliza para enviar acciones al reductor (reducer).
+
+    reducer: 
+
+    	Es una función que especifica cómo se debe actualizar el estado en función de las acciones enviadas.
+
+    initialState: 
+
+    	Es el estado inicial del componente.
+
+
+    La función 'reducer' toma dos argumentos: 
+
+    	El estado actual y una acción, y devuelve un nuevo estado. 
+
+    	Las acciones son objetos que generalmente contienen un tipo que describe la acción y, opcionalmente, datos adicionales que pueden usarse para actualizar el estado.
+
+
+    ```
+    import React, { useReducer } from 'react';
+
+	// Reducer: Define cómo se actualiza el estado en función de las acciones
+	const contadorReducer = (state, action) => {
+	  switch (action.type) {
+	    case 'INCREMENT':
+	      return { count: state.count + 1 };
+	    case 'DECREMENT':
+	      return { count: state.count - 1 };
+	    default:
+	      return state;
+	  }
+	};
+
+	function Contador() {
+	  // Inicializa el estado y el reductor
+	  const [state, dispatch] = useReducer(contadorReducer, { count: 0 });
+
+	  return (
+	    <div>
+	      <p>Contador: {state.count}</p>
+	      <button onClick={() => dispatch({ type: 'INCREMENT' })}>Incrementar</button>
+	      <button onClick={() => dispatch({ type: 'DECREMENT' })}>Decrementar</button>
+	    </div>
+	  );
+	}
+
+	export default Contador;
+
+    ```
+
+    Hemos definido un reductor 'contadorReducer' que actualiza el estado en función de las acciones 'INCREMENT' y 'DECREMENT'.
+
+    Usamos 'useReducer' para inicializar el estado y el reductor en el componente 'Contador'.
+
+    Los botones llaman a 'dispatch' con diferentes acciones cuando se hacen clic, lo que desencadena la actualización del estado en función de las acciones y, a su vez, provoca un nuevo renderizado del componente.
+
+
+
+|| useReducer - Refactor
+
+	Reorganizar o mejorar un componente existente que utiliza el hook useReducer para gestionar el estado. 
+
+	El objetivo de este proceso de refactorización es mejorar la legibilidad, el rendimiento o la organización del código del componente sin cambiar su funcionalidad principal.
+
+
+	```jsx
+
+	import React, { useReducer } from 'react';
+
+	const initialState = { count: 0 };
+
+	const reducer = (state, action) => {
+	  switch (action.type) {
+	    case 'INCREMENT':
+	      return { count: state.count + 1 };
+	    case 'DECREMENT':
+	      return { count: state.count - 1 };
+	    default:
+	      return state;
+	  }
+	};
+
+	const Contador = () => {
+	  const [state, dispatch] = useReducer(reducer, initialState);
+
+	  const incrementar = () => {
+	    dispatch({ type: 'INCREMENT' });
+	  };
+
+	  const decrementar = () => {
+	    dispatch({ type: 'DECREMENT' });
+	  };
+
+	  return (
+	    <div>
+	      <p>Contador: {state.count}</p>
+	      <button onClick={incrementar}>Incrementar</button>
+	      <button onClick={decrementar}>Decrementar</button>
+	    </div>
+	  );
+	};
+
+	export default Contador;
+
+	```
+
+
+
+|| useReducer - Add Item
+
+	Agregar elementos a una lista o array en un componente. 
+
+	Esto es útil cuando deseas gestionar una lista dinámica de elementos y necesitas manejar las operaciones de agregar elementos de manera más controlada.
+
+
+	```jsx
+
+	import React, { useReducer, useState } from 'react';
+
+	// Reducer: Define cómo se actualiza el estado en función de las acciones
+	const listaReducer = (state, action) => {
+	  switch (action.type) {
+	    case 'AGREGAR_ITEM':
+	      return [...state, action.payload]; // Agregar el nuevo elemento al final de la lista
+	    default:
+	      return state;
+	  }
+	};
+
+	function Lista() {
+	  const [lista, dispatch] = useReducer(listaReducer, []);
+	  const [nuevoItem, setNuevoItem] = useState('');
+
+	  const agregarItem = () => {
+	    if (nuevoItem.trim() !== '') {
+	      dispatch({ type: 'AGREGAR_ITEM', payload: nuevoItem });
+	      setNuevoItem(''); // Limpiar el campo de entrada después de agregar el elemento
+	    }
+	  };
+
+	  return (
+	    <div>
+	      <h2>Lista de Elementos</h2>
+	      <ul>
+	        {lista.map((item, index) => (
+	          <li key={index}>{item}</li>
+	        ))}
+	      </ul>
+	      <div>
+	        <input
+	          type="text"
+	          placeholder="Nuevo Elemento"
+	          value={nuevoItem}
+	          onChange={(e) => setNuevoItem(e.target.value)}
+	        />
+	        <button onClick={agregarItem}>Agregar</button>
+	      </div>
+	    </div>
+	  );
+	}
+
+	export default Lista;
+
+
+	```
+
+	Se define el reductor 'listaReducer' que maneja la acción 'AGREGAR_ITEM' para agregar un nuevo elemento a la lista.
+
+	Usamos 'useReducer' para gestionar el estado de la lista y su reductor.
+	
+	El campo de entrada permite al usuario ingresar un nuevo elemento, y el botón "Agregar" llama a la función 'agregarItem' que envía una acción al reductor para agregar el elemento a la lista.
+
+	El estado del nuevo elemento se limpia después de agregarlo a la lista para permitir que el usuario agregue más elementos fácilmente.
+
+
+	Este patrón te permite administrar la lógica de agregar elementos de manera más controlada y escalable utilizando useReducer en React.
+
+	Puedes extender este ejemplo para manejar otras operaciones CRUD (Crear, Leer, Actualizar y Eliminar) en una lista de elementos si es necesario.
+
+
+
+|| useReducer - Remove Item
+	
+	```jsx
+
+	import React, { useReducer } from 'react';
+
+	// Reducer: Define cómo se actualiza el estado en función de las acciones
+	const listaReducer = (state, action) => {
+	  switch (action.type) {
+	    case 'AGREGAR_ITEM':
+	      return [...state, action.payload]; // Agregar el nuevo elemento al final de la lista
+	    case 'ELIMINAR_ITEM':
+	      return state.filter((item, index) => index !== action.payload); // Eliminar el elemento por índice
+	    default:
+	      return state;
+	  }
+	};
+
+	function Lista() {
+	  const [lista, dispatch] = useReducer(listaReducer, []);
+	  const [nuevoItem, setNuevoItem] = React.useState('');
+
+	  const agregarItem = () => {
+	    if (nuevoItem.trim() !== '') {
+	      dispatch({ type: 'AGREGAR_ITEM', payload: nuevoItem });
+	      setNuevoItem(''); // Limpiar el campo de entrada después de agregar el elemento
+	    }
+	  };
+
+	  const eliminarItem = (index) => {
+	    dispatch({ type: 'ELIMINAR_ITEM', payload: index });
+	  };
+
+	  return (
+	    <div>
+	      <h2>Lista de Elementos</h2>
+	      <ul>
+	        {lista.map((item, index) => (
+	          <li key={index}>
+	            {item} <button onClick={() => eliminarItem(index)}>Eliminar</button>
+	          </li>
+	        ))}
+	      </ul>
+	      <div>
+	        <input
+	          type="text"
+	          placeholder="Nuevo Elemento"
+	          value={nuevoItem}
+	          onChange={(e) => setNuevoItem(e.target.value)}
+	        />
+	        <button onClick={agregarItem}>Agregar</button>
+	      </div>
+	    </div>
+	  );
+	}
+
+	export default Lista;
+
+	```
+
+	Hemos extendido el reductor 'listaReducer' para manejar la acción 'ELIMINAR_ITEM', que elimina un elemento de la lista por su índice utilizando el método 'filter'.
+	
+	Se ha agregado un botón "Eliminar" junto a cada elemento de la lista, y al hacer clic en él, se llama a la función 'eliminarItem' con el índice del elemento a eliminar.
+
+	La función 'eliminarItem' envía la acción 'ELIMINAR_ITEM' al reductor, lo que provoca la eliminación del elemento correspondiente de la lista
+	
+
+
+|| Prop Drilling
 
 
 
