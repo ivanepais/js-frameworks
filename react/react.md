@@ -3396,10 +3396,450 @@
 
 || Prop Drilling
 
+	También conocido como "prop passing" o "prop threading" es una situación en la que los datos o propiedades (props) se pasan a través de múltiples niveles de componentes, desde un componente padre hacia uno o varios componentes hijos, incluso cuando algunos de los componentes intermedios no necesitan esos datos en absoluto. 
+
+	Esto puede hacer que el código sea menos limpio, más propenso a errores y menos eficiente.
+
+	El propósito de las props en React es pasar datos desde un componente padre a sus componentes hijos para que los hijos puedan renderizar y funcionar en función de esos datos.
+
+	Sin embargo, cuando tienes muchos componentes anidados y necesitas que los datos lleguen a un componente profundo en el árbol de componentes, a menudo se pasa el mismo conjunto de datos a través de varios componentes intermedios que no hacen uso de esos datos. 
+
+	Esto se llama prop drilling y puede llevar a problemas como:
+
+
+	1. Dificultad en el mantenimiento:
+
+		Si necesitas agregar o modificar datos en varios niveles del árbol de componentes, debes actualizar las props en todos los niveles, lo que puede ser propenso a errores y difícil de mantener.
+
+
+	2. Menos eficiencia: 
+
+		Pasar datos innecesarios a través de múltiples componentes puede afectar negativamente el rendimiento de tu aplicación, ya que aumenta la cantidad de re-renderizaciones que deben ocurrir cuando los datos cambian.
+
+
+	3. Menos legibilidad: 
+
+		El código puede volverse menos legible y más difícil de seguir si tienes que rastrear las props a través de múltiples niveles de componentes
+
+
+	Para abordar el problema del prop drilling, puedes utilizar otras técnicas de gestión de estado en React, como el uso de context (Context API) o la implementación de Redux (un contenedor de estado global). 
+
+	Estas técnicas permiten compartir datos de manera más eficiente entre componentes sin tener que pasar explícitamente las props a través de todos los niveles del árbol de componentes
 
 
 
+|| Context API
+
+	Es una característica que permite pasar datos a través del árbol de componentes de React sin tener que pasar explícitamente las propiedades a través de cada nivel del árbol. 
+
+	Es especialmente útil cuando deseas compartir datos, como el estado de la autenticación, preferencias del usuario o cualquier otro dato global, entre varios componentes en diferentes niveles de jerarquía.
+	
+
+	1. Provider (Proveedor): 
+
+		El componente que proporciona el contexto y los datos a los componentes secundarios. 
+
+		Debes envolver tus componentes con este componente para que puedan acceder al contexto.
+
+    
+    2. Consumer (Consumidor): 
+
+    	El componente que consume y accede a los datos del contexto. 
+
+    	Los componentes secundarios que necesitan acceder a los datos del contexto deben ser envueltos en un componente Consumer.
 
 
+    3. Context Object (Objeto de Contexto): 
+
+    	Un objeto que define el contexto y proporciona los datos que deseas compartir.
+
+    	Puedes crear un objeto de contexto utilizando la función React.createContext().
+
+
+    ```jsx
+
+    import React, { createContext, useContext, useState } from 'react';
+
+	// 1. Crear un objeto de contexto
+	const AuthContext = createContext();
+
+	// 2. Crear un componente Provider que proporciona los datos de contexto
+	const AuthProvider = ({ children }) => {
+	  const [usuario, setUsuario] = useState(null);
+
+	  const login = (usuario) => {
+	    setUsuario(usuario);
+	  };
+
+	  const logout = () => {
+	    setUsuario(null);
+	  };
+
+	  return (
+	    <AuthContext.Provider value={{ usuario, login, logout }}>
+	      {children}
+	    </AuthContext.Provider>
+	  );
+	};
+
+	// 3. Crear un componente Consumer que consume los datos de contexto
+	const UserProfile = () => {
+	  const { usuario, logout } = useContext(AuthContext);
+
+	  return (
+	    <div>
+	      {usuario ? (
+	        <div>
+	          <p>Usuario: {usuario}</p>
+	          <button onClick={logout}>Cerrar Sesión</button>
+	        </div>
+	      ) : (
+	        <p>Inicia sesión</p>
+	      )}
+	    </div>
+	  );
+	};
+
+	const App = () => {
+	  return (
+	    // 4. Envolver tus componentes con el Provider para que puedan acceder al contexto
+	    <AuthProvider>
+	      <UserProfile />
+	    </AuthProvider>
+	  );
+	};
+
+	export default App;
+
+    ```
+
+    Creamos un objeto de contexto 'AuthContext' utilizando 'React.createContext()'.
+    
+    Creamos un componente 'AuthProvider' que envuelve a 'UserProfile' con el 'AuthContext.Provider'. 
+
+    Este componente proporciona los datos de autenticación y las funciones de inicio de sesión y cierre de sesión a través del valor del contexto.
+
+    'UserProfile' consume los datos del contexto utilizando 'useContext(AuthContext)'.
+
+    El componente principal 'App' envuelve todos los componentes con 'AuthProvider' para que puedan acceder al contexto.
+
+
+	La Context API es una forma poderosa de gestionar el estado global y compartir datos entre componentes en React sin tener que utilizar prop drilling (pasar props a través de múltiples niveles de componentes).
+
+
+|| Custom Hooks - 
+
+	Técnica que te permite reutilizar la lógica de estado y efectos en tus componentes funcionales. 
+
+	Los Custom Hooks son funciones personalizadas que pueden contener lógica de React, como el uso de 'useState', 'useEffect', 'useContext', y otros hooks, y pueden ser compartidas y reutilizadas en diferentes componentes de tu aplicación.
+
+
+	```jsx
+
+	import { useState } from 'react';
+
+	// Definir un Custom Hook llamado useContador
+	function useContador() {
+	  const [count, setCount] = useState(0);
+
+	  const incrementar = () => {
+	    setCount(count + 1);
+	  };
+
+	  const decrementar = () => {
+	    setCount(count - 1);
+	  };
+
+	  return { count, incrementar, decrementar };
+	}
+
+	export default useContador;
+
+	```
+
+	Luego, puedes utilizar este Custom Hook en tus componentes de la siguiente manera:
+
+
+	```jsx
+
+	import React from 'react';
+	import useContador from './useContador';
+
+	function MiComponente() {
+	  // Utilizar el Custom Hook useContador
+	  const { count, incrementar, decrementar } = useContador();
+
+	  return (
+	    <div>
+	      <p>Contador: {count}</p>
+	      <button onClick={incrementar}>Incrementar</button>
+	      <button onClick={decrementar}>Decrementar</button>
+	    </div>
+	  );
+	}
+
+	```
+
+	Puedes reutilizar la lógica de gestión del contador en diferentes componentes sin tener que escribirla nuevamente en cada uno de ellos. 
+
+	Los Custom Hooks pueden ser compartidos en toda tu aplicación o incluso en proyectos diferentes, lo que los hace útiles para abstraer la lógica común y mejorar la modularidad y la mantenibilidad de tu código.
+
+
+	Al crear Custom Hooks, es importante seguir algunas convenciones:
+
+    	1. El nombre del Custom Hook debe comenzar con "use" para que React lo reconozca como un hook.
+
+    	2. Puedes utilizar cualquier combinación de hooks existentes dentro de tu Custom Hook, lo que te permite combinarlos y crear funciones personalizadas más avanzadas.
+
+
+
+|| Custom Hooks - useFetch
+
+	Hook personalizado para gestionar solicitudes de red y recuperación de datos en componentes funcionales. 
+
+	Un Custom Hook llamado "useFetch" es una práctica común que te permite encapsular la lógica de realizar solicitudes HTTP y gestionar el ciclo de vida de una solicitud en un hook reutilizable.
+
+
+	```jsx 
+
+	import { useState, useEffect } from 'react';
+
+	function useFetch(url) {
+	  const [data, setData] = useState(null);
+	  const [loading, setLoading] = useState(true);
+	  const [error, setError] = useState(null);
+
+	  useEffect(() => {
+	    // Función para realizar la solicitud y gestionar los resultados
+	    async function fetchData() {
+	      try {
+	        const response = await fetch(url);
+	        if (!response.ok) {
+	          throw new Error('La solicitud no fue exitosa');
+	        }
+	        const jsonData = await response.json();
+	        setData(jsonData);
+	        setLoading(false);
+	      } catch (error) {
+	        setError(error);
+	        setLoading(false);
+	      }
+	    }
+
+	    fetchData();
+	  }, [url]);
+
+	  return { data, loading, error };
+	}
+
+	export default useFetch;
+
+	```
+
+	Este Custom Hook "useFetch" toma una URL como argumento y utiliza 'useState' y 'useEffect' para gestionar el estado de la solicitud. 
+
+	Proporciona tres valores de retorno:
+
+    data: 
+
+    	Los datos recuperados de la solicitud.
+
+    loading: 
+
+    	Un indicador booleano que muestra si la solicitud está en curso.
+
+    error: 
+
+    	Cualquier error que ocurra durante la solicitud
+
+
+    Utilizar este Custom Hook "useFetch" en tus componentes funcionales para realizar solicitudes HTTP y gestionar la recuperación de datos de una manera más reutilizable y legible:
+
+
+    ```jsx
+
+    import React from 'react';
+	import useFetch from './useFetch';
+
+	function App() {
+	  const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/posts/1');
+
+	  if (loading) {
+	    return <p>Cargando...</p>;
+	  }
+
+	  if (error) {
+	    return <p>Error: {error.message}</p>;
+	  }
+
+	  return (
+	    <div>
+	      <h1>Título: {data?.title}</h1>
+	      <p>Cuerpo: {data?.body}</p>
+	    </div>
+	  );
+	}
+
+	export default App;
+
+    ```
+
+    El componente 'App' utiliza el Custom Hook "useFetch" para realizar una solicitud HTTP y muestra los resultados en función del estado de carga y los posibles errores.
+
+
+
+|| PropTypes
+
+	Se utiliza para definir y validar los tipos de propiedades (props) que se esperan en un componente de React. 
+
+	PropTypes proporciona una forma de documentar y asegurar que los componentes de tu aplicación reciban las props correctas y que sean del tipo adecuado.
+	
+	Documentación: 
+
+		Ayuda a documentar el propósito y los tipos de props que un componente espera recibir, lo que facilita que otros desarrolladores comprendan cómo deben usar el componente.
+
+
+	Validación: 
+
+		Proporciona una capa de validación en tiempo de ejecución para asegurarse de que las props pasadas a un componente sean del tipo correcto. 
+
+		Esto puede ayudar a detectar errores de forma temprana durante el desarrollo	
+
+
+	Para usarlo debes importar el paquete prop-types y definir un objeto propTypes como una propiedad estática del componente.
+
+	Luego, puedes declarar el tipo esperado de cada prop como una propiedad dentro de este objeto
+
+
+	```jsx
+
+	import React from 'react';
+	import PropTypes from 'prop-types';
+
+	function Saludo(props) {
+	  return <div>Hola, {props.nombre}!</div>;
+	}
+
+	// Definir propTypes para el componente
+	Saludo.propTypes = {
+	  nombre: PropTypes.string.isRequired, // Se espera una cadena y es requerida
+	};
+
+	export default Saludo;
+
+	```
+
+	Hemos definido PropTypes para el componente Saludo:
+
+    	'nombre' se espera que sea una cadena (string) y se marca como requerida (isRequired). 
+
+    	Esto significa que si no se proporciona nombre o si no es una cadena, React mostrará una advertencia en la consola durante el tiempo de desarrollo.
+
+	Puedes definir varios tipos de PropTypes, como string, number, boolean, array, object, func, node, element, instanceOf, enum, y más, según tus necesidades. 
+
+	También puedes utilizar PropTypes personalizados para validar propiedades de manera más compleja.
+
+	Es importante mencionar que a partir de React v15.5 en adelante, PropTypes se ha movido a un paquete independiente llamado prop-types. 
+
+	Por lo tanto, es necesario instalarlo y luego importarlo en tus componentes, como se muestra en el ejemplo anterior.	
+
+
+
+|| PropTypes - Images
+
+	Validar las propiedades (props) que se pasan a tus componentes, incluidas las propiedades que representan imágenes. 
+
+	Esto te permite documentar y garantizar que las imágenes se proporcionen de la manera correcta en tus componentes.
+
+	Supongamos que tienes un componente que muestra una imagen y deseas asegurarte de que la prop que representa la imagen sea válida y cumpla con ciertos criterios.
+
+
+	```jsx
+
+	import React from 'react';
+	import PropTypes from 'prop-types';
+
+	function Imagen(props) {
+	  return (
+	    <div>
+	      <img src={props.src} alt={props.alt} />
+	    </div>
+	  );
+	}
+
+	Imagen.propTypes = {
+	  src: PropTypes.string.isRequired, // Se espera una URL de imagen como cadena y es requerida.
+	  alt: PropTypes.string.isRequired, // Se espera un texto alternativo como cadena y es requerido.
+	};
+
+	export default Imagen;
+
+	```
+
+	hemos creado un componente llamado Imagen que toma dos props: 'src' y 'alt'. Luego, utilizamos PropTypes para definir los tipos esperados y requeridos para estas props:
+
+    src: 
+
+    	Se espera que sea una cadena ('string') que represente la URL de la imagen, y se marca como requerida ('isRequired'). 
+
+    	Esto garantiza que siempre se proporcione una URL de imagen válida.
+
+
+    alt: 
+
+    	Se espera que sea una cadena ('string') que represente el texto alternativo de la imagen, y también se marca como requerida ('isRequired'). 
+
+    	Esto asegura que se incluya un texto alternativo adecuado para la accesibilidad.
+
+
+	Cuando utilizas este componente en tu aplicación y proporcionas las props 'src' y 'alt', React verificará automáticamente si cumplen con las restricciones especificadas en PropTypes. 
+
+	Si no se proporciona una prop requerida o si el tipo de dato es incorrecto, React mostrará advertencias en la consola del navegador durante el desarrollo
+
+
+
+|| Protypes - Default Values
+
+	Definir valores predeterminados (default values) para las propiedades (props) de tus componentes. 
+
+	Esto te permite especificar un valor que se utilizará si no se proporciona una prop en el componente, lo que es útil para manejar casos en los que una prop es opcional pero debe tener un valor predeterminado en caso de que no se le asigne ninguno.
+
+	
+	```jsx
+
+	import React from 'react';
+	import PropTypes from 'prop-types';
+
+	function Saludo(props) {
+	  return <div>Hola, {props.nombre}!</div>;
+	}
+
+	// Definir propTypes para el componente
+	Saludo.propTypes = {
+	  nombre: PropTypes.string,
+	};
+
+	// Definir valores predeterminados para las props
+	Saludo.defaultProps = {
+	  nombre: 'Invitado', // Valor predeterminado si no se proporciona 'nombre'
+	};
+
+	export default Saludo;
+
+	```
+
+	Hemos definido un componente Saludo que toma una prop llamada 'nombre'.
+
+	Luego, utilizamos 'propTypes' para especificar que nombre es de tipo 'string'. 
+
+	Además, utilizamos 'defaultProps' para establecer un valor predeterminado de 'Invitado' para nombre. 
+
+	Esto significa que si no se proporciona una prop nombre al componente 'Saludo', se utilizará 'Invitado' como valor predeterminado.
+
+	Cuando utilizas el componente 'Saludo' en tu aplicación y no le proporcionas una prop 'nombre', se mostrará "Hola, Invitado!" en lugar de dejar nombre como indefinido o nulo.
+
+
+
+|| React Router
 
 
