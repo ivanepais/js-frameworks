@@ -3798,7 +3798,7 @@
 
 
 
-|| Protypes - Default Values
+|| Proptypes - Default Values
 
 	Definir valores predeterminados (default values) para las propiedades (props) de tus componentes. 
 
