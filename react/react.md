@@ -103,6 +103,7 @@
 
 
     Reconciliación y Virtual DOM: 	
+    	
     	React utiliza un Virtual DOM para optimizar las actualizaciones de la interfaz de usuario.
 
     	Cuando los datos cambian, React compara el Virtual DOM con el DOM real y actualiza solo las partes que han cambiado, en lugar de volver a renderizar toda la página.
@@ -341,7 +342,7 @@
 
 		Este Hook permite a los componentes funcionales gestionar el estado local.
 
-		Puedes utilizarlo para declarar y actualizar variables de estado en tus componentes funcionales
+		Puedes utilizarlo para declarar y actualizar variables de estado en tus componentes funcionales.
 
 		```
 		import React, { useState } from 'react';
@@ -1008,7 +1009,7 @@
 
 			3. ListaDeTareas: 
 
-				Muestra la lista de tareas y contiene elementos de tarea individuales				
+				Muestra la lista de tareas y contiene elementos de tarea individuales.				
 
 				4. Tarea: 
 
@@ -3841,5 +3842,667 @@
 
 
 || React Router
+
+
+	Biblioteca de enrutamiento diseñada específicamente para aplicaciones web de una sola página (SPA) creadas con React. 
+
+	Facilita la navegación y la gestión de las rutas de una aplicación React, permitiendo a los desarrolladores crear aplicaciones de una sola página que tengan diferentes vistas y URL sin necesidad de recargar la página.
+
+
+	Gestión de Rutas: 
+
+		React Router permite definir rutas para diferentes vistas o componentes dentro de tu aplicación. 
+
+		Cada ruta se asocia con una URL específica y un componente React correspondiente. 
+
+		Cuando un usuario navega a una URL en particular, React Router se encarga de mostrar el componente correcto sin necesidad de cargar una nueva página.
+
+
+    Navegación Declarativa: 
+
+    	En lugar de manejar la navegación mediante la manipulación directa del historial del navegador o la recarga de páginas, React Router utiliza una navegación declarativa. 
+
+    	Definir rutas y componentes es tan sencillo como configurar rutas en una tabla de rutas.
+
+
+    Navegación Anidada: 
+
+    	Puedes anidar rutas y componentes para construir una jerarquía de navegación en tu aplicación. 
+
+    	Esto permite que las vistas sean compuestas y modulares.
+
+
+    Manejo de Parámetros y Consultas:
+
+    	React Router permite la captura de parámetros dinámicos en las rutas, lo que facilita la construcción de rutas dinámicas. 
+
+    	También admite la gestión de parámetros de consulta (query parameters) que se pueden utilizar para filtrar y personalizar la visualización de datos.
+
+
+    Manejo del Historial: 
+
+    	React Router maneja automáticamente el historial del navegador, lo que significa que puedes utilizar los botones "Atrás" y "Adelante" del navegador para navegar entre las vistas de tu aplicación SPA sin problemas.
+
+
+    Protección de Rutas: 
+
+    	Puedes proteger rutas específicas de tu aplicación para garantizar que solo los usuarios autenticados o con ciertos permisos puedan acceder a ellas.
+
+
+    1. Instalar dependencia React Router: 
+
+    	```
+    	npm install react-router-dom
+
+    	```
+
+
+    2. Configuración básica: 
+
+    Configurar las rutas en tu aplicación utilizando componentes como BrowserRouter, Route, Link, y Switch proporcionados por React Router.
+
+    ```jsx
+
+    import React from 'react';
+	import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+
+	function Inicio() {
+	  return <h1>Página de Inicio</h1>;
+	}
+
+	function AcercaDe() {
+	  return <h1>Acerca de Nosotros</h1>;
+	}
+
+	function Contacto() {
+	  return <h1>Contacto</h1>;
+	}
+
+	function App() {
+	  return (
+	    <Router>
+	      <div>
+	        <nav>
+	          <ul>
+	            <li>
+	              <Link to="/">Inicio</Link>
+	            </li>
+	            <li>
+	              <Link to="/acerca">Acerca de</Link>
+	            </li>
+	            <li>
+	              <Link to="/contacto">Contacto</Link>
+	            </li>
+	          </ul>
+	        </nav>
+
+	        <Switch>
+	          <Route path="/acerca">
+	            <AcercaDe />
+	          </Route>
+	          <Route path="/contacto">
+	            <Contacto />
+	          </Route>
+	          <Route path="/">
+	            <Inicio />
+	          </Route>
+	        </Switch>
+	      </div>
+	    </Router>
+	  );
+	}
+
+	export default App;
+
+    ```
+
+    Hemos configurado tres rutas (/, /acerca, /contacto) y asignado componentes a cada una de ellas.
+
+    Cuando los usuarios navegan a una URL específica, React Router se encargará de mostrar el componente correspondiente en función de la ruta actual.
+
+
+
+|| React Router - Error And Switch Component
+
+	
+	Switch: 
+
+		Se utiliza para agrupar múltiples rutas y garantizar que solo una de ellas se represente a la vez. 
+
+		Cuando un usuario navega a una URL, React Router recorre todas las rutas dentro del componente Switch y muestra la primera coincidencia que encuentre.		
+	
+	Manejo de errores: 
+
+		Se logra a través del uso de una ruta especial que captura cualquier ruta que no coincida con ninguna de las rutas definidas. 
+
+		Esto se hace utilizando una ruta con un patrón de path="*".	
+
+		La ruta <Route path="*"> se coloca al final del componente Switch y se encarga de capturar cualquier URL que no haya coincidido con ninguna ruta previamente definida. 
+
+		Esto permite mostrar una página de "No Encontrado" o cualquier otra lógica de manejo de errores que desees implementar.
+
+
+		```jsx
+
+		function App() {
+		  return (
+		    <Router>
+		      <div>
+		        <Switch>
+		          <Route path="/acerca">
+		            <AcercaDe />
+		          </Route>
+		          <Route path="/contacto">
+		            <Contacto />
+		          </Route>
+		          <Route path="/" exact>
+		            <Inicio />
+		          </Route>
+		          <Route path="*">
+		            <NoEncontrado />
+		          </Route>
+		        </Switch>
+		      </div>
+		    </Router>
+		  );
+		}
+
+		export default App;
+
+		```
+
+
+
+|| React Router - Links
+
+	
+	Los enlaces son componentes que se utilizan para navegar entre diferentes vistas o páginas en una aplicación de una sola página (SPA) sin tener que recargar toda la página. 
+
+	El componente 'Link' que se utiliza para crear enlaces dentro de tu aplicación React. 
+
+	Los enlaces funcionan de manera similar a los elementos <a> en HTML, pero en lugar de cargar una página completamente nueva, React Router cambia dinámicamente la URL y renderiza el componente correspondiente asociado con la nueva URL.
+
+
+	```jsx
+
+	import React from 'react';
+	import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+
+	function Inicio() {
+	  return <h1>Página de Inicio</h1>;
+	}
+
+	function AcercaDe() {
+	  return <h1>Acerca de Nosotros</h1>;
+	}
+
+	function Contacto() {
+	  return <h1>Contacto</h1>;
+	}
+
+	function App() {
+	  return (
+	    <Router>
+	      <div>
+	        <nav>
+	          {/* Utilizar el componente Link para crear enlaces */}
+	          <ul>
+	            <li>
+	              <Link to="/">Inicio</Link>
+	            </li>
+	            <li>
+	              <Link to="/acerca">Acerca de</Link>
+	            </li>
+	            <li>
+	              <Link to="/contacto">Contacto</Link>
+	            </li>
+	          </ul>
+	        </nav>
+
+	        {/* Configurar rutas */}
+	        <Route path="/" exact component={Inicio} />
+	        <Route path="/acerca" component={AcercaDe} />
+	        <Route path="/contacto" component={Contacto} />
+	      </div>
+	    </Router>
+	  );
+	}
+
+	export default App;
+
+	```	
+
+	Cada enlace (<Link>) está vinculado a una ruta específica definida en las rutas (<Route>) de React Router. 
+
+	Cuando un usuario hace clic en uno de los enlaces, React Router se encargará de actualizar la URL y representar el componente correspondiente asociado con esa URL.
+
+	La propiedad 'to' especifica la URL de destino a la que se debe navegar.
+
+
+
+
+|| React Router - URL Params And Placeholder
+
+	Son técnicas que te permiten capturar valores variables en la URL y utilizarlos en tus componentes. 
+
+	Esto es útil cuando deseas crear rutas dinámicas que respondan a valores específicos en la URL, como identificadores de usuario, nombres de producto u otros datos variables.
+
+
+	URL Params:  
+
+		Se definen en las rutas utilizando dos puntos : seguidos del nombre del parámetro en la ruta
+
+
+	```
+	import React from 'react';
+	import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+	function Usuario(props) {
+	  const { match } = props;
+	  const { id } = match.params; // Capturar el valor del parámetro 'id' de la URL
+
+	  return <h1>Usuario #{id}</h1>;
+	}
+
+	function App() {
+	  return (
+	    <Router>
+	      <div>
+	        {/* Definir una ruta con un parámetro de URL */}
+	        <Route path="/usuario/:id" component={Usuario} />
+	      </div>
+	    </Router>
+	  );
+	}
+
+	export default App;
+
+	```
+
+	Hemos definido una ruta que contiene un parámetro de URL llamado id. 
+
+	Cuando un usuario navega a una URL como /usuario/123, React Router captura el valor 123 y lo pasa al componente Usuario a través de las props. 
+
+	Luego, podemos acceder a ese valor utilizando match.params.id.
+
+
+	Placeholders: 
+
+		Son parte de la URL que actúan como marcadores de posición para valores variables. 
+
+		Estos marcadores de posición se utilizan en la definición de rutas y pueden capturarse dinámicamente como URL Params.
+
+
+	```
+	import React from 'react';
+	import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+	function Producto(props) {
+	  const { match } = props;
+	  const { nombre } = match.params; // Capturar el valor del marcador de posición ':nombre'
+
+	  return <h1>Producto: {nombre}</h1>;
+	}
+
+	function App() {
+	  return (
+	    <Router>
+	      <div>
+	        {/* Definir una ruta con un marcador de posición */}
+	        <Route path="/producto/:nombre" component={Producto} />
+	      </div>
+	    </Router>
+	  );
+	}
+
+	export default App;
+
+	```
+
+	Hemos definido una ruta con un marcador de posición ':nombre'.
+
+	Cuando un usuario navega a una URL como /producto/zapatos, React Router captura el valor zapatos y lo pasa al componente Producto como un URL Param. 
+
+	Luego, podemos acceder a ese valor utilizando 'match.params.nombre'
+
+
+
+|| React Optimization Warning
+
+	Advertencia que puede aparecer en la consola del navegador durante el desarrollo de una aplicación React.
+
+	Esta advertencia generalmente se presenta cuando React detecta ciertos patrones de uso que pueden llevar a un rendimiento subóptimo o ineficiente en tu aplicación
+	
+
+	Se relaciones con situaciones: 
+
+
+	1. Actualizaciones innecesarias:
+
+		React detecta que un componente se está volviendo a renderizar incluso cuando no ha habido cambios en sus props o estado.
+
+		Esto puede deberse a una configuración ineficiente o a la utilización incorrecta de ciertas características de React, como el uso inadecuado de 'shouldComponentUpdate' o 'React.memo'.
+
+    2. Creación innecesaria de objetos:
+
+    	React nota que se están creando nuevos objetos en cada renderizado de un componente cuando podrían reutilizarse objetos existentes. 
+
+    	Esto puede ocurrir, por ejemplo, al crear funciones anónimas dentro del renderizado de un componente en lugar de definirlas fuera del componente.
+
+
+    3. Actualizaciones de estado redundantes: 
+
+    	React detecta actualizaciones de estado innecesarias que no cambian el resultado visual del componente. 
+
+    	Esto puede suceder cuando se llama a 'setState' sin un cambio real en el estado.
+
+
+    4. Otras situaciones de ineficiencia: 
+
+    	Pueden haber otras situaciones en las que React detecta prácticas que pueden llevar a problemas de rendimiento o uso ineficiente de recursos.
+
+
+    Abordar las advertencias: 
+
+
+    1. Analizar la advertencia: 
+
+    	Lee detenidamente la advertencia para comprender la causa del problema. 
+
+    	La advertencia suele proporcionar información sobre qué componente o parte del código está causando el problema.
+
+
+    2. Revisar el código: 
+
+    	Vuelve a revisar el código relacionado con la advertencia y busca patrones de uso ineficiente o actualizaciones innecesarias.
+
+    
+    3. Optimizar el código: 
+
+    	Realiza los cambios necesarios en tu código para abordar la advertencia. 
+
+    	Esto puede incluir ajustar el uso de 'shouldComponentUpdate', 'React.memo', evitar la creación innecesaria de objetos o mejorar la gestión del estado.
+
+
+    3. Usar herramientas de rendimiento: 
+
+    	Utiliza herramientas de rendimiento como React DevTools o herramientas de perfilado para identificar y resolver problemas de rendimiento en tu aplicación.
+
+
+    4. Pruebas y benchmarking: 
+
+    	Realiza pruebas y benchmarking para asegurarte de que los cambios que realizas para abordar la advertencia no tengan un impacto negativo en el rendimiento de la aplicación.
+
+
+
+|| React.memo
+
+	Es una función de React que se utiliza para memoizar (fijar en la memoria) componentes funcionales. 
+
+	La memoización es una técnica de optimización que ayuda a evitar renderizaciones innecesarias de componentes funcionales. 
+
+	Cuando un componente está memoizado con 'React.memo', React lo volverá a renderizar solo si las props que recibe han cambiado en comparación con su última renderización
+
+
+	```jsx
+
+	import React from 'react';
+
+	// Componente funcional sin memoización
+	function MiComponente(props) {
+	  return <div>{props.valor}</div>;
+	}
+
+	// Componente funcional memoizado
+	const MiComponenteMemoizado = React.memo(MiComponente);
+
+	function App() {
+	  const valor = 42;
+
+	  return (
+	    <div>
+	      <MiComponente valor={valor} />
+	      <MiComponenteMemoizado valor={valor} />
+	    </div>
+	  );
+	}
+
+	export default App;
+
+	```
+
+	Tenemos 'MiComponente' y su versión memoizada 'MiComponenteMemoizado'.
+
+	Ambos componentes reciben la misma prop 'valor'. 
+
+	Sin embargo, solo 'MiComponenteMemoizado' está memoizado.
+
+	Cuando 'valor' cambia en el componente 'App', React memoiza 'MiComponenteMemoizado', lo que significa que solo se volverá a renderizar si valor cambia. 
+
+	Por otro lado, 'MiComponente' no está memoizado y se volverá a renderizar cada vez que se invoque 'App', independientemente de si valor cambia o no.
+
+
+	Es útil cuando tienes componentes que reciben props costosas de calcular o cuando deseas evitar renderizaciones innecesarias en componentes que no dependen de props cambiantes.
+
+	'React.memo' solo compara las props de un componente para determinar si debe memoizarlo o no. 
+
+	Si un componente utiliza el estado interno, 'React.memo' no lo protegerá contra actualizaciones innecesarias. 
+
+	En ese caso, puedes utilizar 'useMemo' o 'useCallback' para optimizar aún más el componente.	
+
+
+
+
+|| useCallback
+
+	Hook de React que se utiliza para memoizar funciones en componentes funcionales. 
+
+	Al igual que React.memo para componentes, useCallback ayuda a optimizar el rendimiento al evitar la creación de nuevas instancias de funciones en cada renderizado del componente. 
+
+	En lugar de crear una nueva función en cada renderizado, useCallback garantiza que la misma función se reutilice a menos que las dependencias especificadas cambien.
+
+
+	```
+	const memoizedCallback = useCallback(
+	  () => {
+	    // Lógica de la función
+	  },
+	  [dependencias]
+	);
+
+	```
+
+	El primer arguento es la función que debes memoizar. 
+
+	El segundo argumento es un array de dependencias. 
+
+	Si alguna de estas dependencias cambia entre renderizaciones, useCallback generará una nueva versión de la función. 
+
+	Si las dependencias no cambian, se reutiliza la función existente.
+
+
+	```jsx
+
+	import React, { useState, useCallback } from 'react';
+
+	function Boton({ onClick }) {
+	  return <button onClick={onClick}>Haz clic</button>;
+	}
+
+	function App() {
+	  const [contador, setContador] = useState(0);
+
+	  // Utilizar useCallback para memoizar la función de incremento
+	  const incrementar = useCallback(() => {
+	    setContador(contador + 1);
+	  }, [contador]);
+
+	  return (
+	    <div>
+	      <p>Contador: {contador}</p>
+	      <Boton onClick={incrementar} />
+	    </div>
+	  );
+	}
+
+	export default App;
+
+	```
+
+	Hemos definido un componente 'Boton' que recibe una función 'onClick'.
+
+	Luego, en el componente 'App', hemos utilizado 'useCallback' para memoizar la función 'incrementar' que se pasa como 'onClick' al componente 'Boton'.
+
+	Hemos especificado '[contador]'' como dependencia, lo que significa que incrementar se recreará solo cuando contador cambie.
+
+	La memoización de 'incrementar' garantiza que la misma función se reutilice en cada renderizado de 'App', lo que es beneficioso en términos de rendimiento, especialmente en componentes más grandes o en situaciones en las que se pasan funciones como props a componentes anidados.
+
+
+	'useCallback' es especialmente útil cuando se utiliza con 'React.memo' para evitar renderizaciones innecesarias de componentes y funciones en una aplicación React.
+
+
+
+|| useMemo 
+
+	Hook que se utiliza para memoizar valores computados en componentes funcionales. 
+
+	Este hook permite optimizar el rendimiento al evitar el cálculo repetido de un valor a menos que las dependencias especificadas cambien. 
+
+	En otras palabras, useMemo almacena en caché el resultado de una función y solo lo recalcula cuando es necesario debido a cambios en las dependencias.
+
+
+	```
+	const memoizedValue = useMemo(() => {
+	  // Cálculos para obtener el valor
+	  return valorCalculado;
+	}, [dependencias]);
+
+	```
+
+	El primer argumento de useMemo es una función que realiza cálculos para obtener el valor que deseas memoizar.
+    
+    El segundo argumento es un array de dependencias. 
+
+    Si alguna de estas dependencias cambia entre renderizaciones, useMemo volverá a calcular el valor. 
+
+    Si las dependencias no cambian, se reutiliza el valor previamente calculado.
+
+
+    ```jsx
+
+    import React, { useState, useMemo } from 'react';
+
+	function App() {
+	  const [numero, setNumero] = useState(5);
+	  const [multiplicador, setMultiplicador] = useState(2);
+
+	  // Utilizar useMemo para memoizar el resultado del cálculo
+	  const resultado = useMemo(() => {
+	    console.log('Calculando...');
+	    return numero * multiplicador;
+	  }, [numero, multiplicador]);
+
+	  return (
+	    <div>
+	      <p>Número: {numero}</p>
+	      <p>Multiplicador: {multiplicador}</p>
+	      <p>Resultado: {resultado}</p>
+	      <button onClick={() => setNumero(numero + 1)}>Incrementar Número</button>
+	      <button onClick={() => setMultiplicador(multiplicador + 1)}>Incrementar Multiplicador</button>
+	    </div>
+	  );
+	}
+
+	export default App;
+
+    ```
+
+    Hemos definido un componente 'App' que tiene dos estados, 'numero' y 'multiplicador'. 
+
+    Hemos utilizado 'useMemo' para memoizar el resultado del cálculo 'numero * multiplicador'. 
+
+    Hemos especificado '[numero, multiplicador]' como dependencias, lo que significa que resultado se recalcula solo cuando uno de estos dos valores cambia.
+
+	La función proporcionada a 'useMemo' se ejecutará solo cuando numero o multiplicador cambien. 
+
+	Esto evita que se realicen cálculos innecesarios cuando no hay cambios en las dependencias.
+
+
+	useMemo es especialmente útil cuando necesitas realizar cálculos costosos en componentes funcionales y deseas evitar que estos cálculos se repitan en cada renderizado.
+
+	También es útil para evitar renderizaciones innecesarias en componentes que dependen de valores computados.
+
+
+
+|| useCallback - Fetch
+
+	'useCallback' se utiliza para memoizar funciones y en el contexto de una solicitud de red, puedes utilizar useCallback para memoizar una función que realiza la solicitud de red y luego pasar esa función como prop a un componente hijo.	
+
+
+	```jsx
+
+	import React, { useState, useEffect, useCallback } from 'react';
+
+	function ListaDeUsuarios({ cargarUsuarios }) {
+	  const [usuarios, setUsuarios] = useState([]);
+
+	  useEffect(() => {
+	    cargarUsuarios()
+	      .then((data) => setUsuarios(data))
+	      .catch((error) => console.error('Error al cargar usuarios', error));
+	  }, [cargarUsuarios]);
+
+	  return (
+	    <ul>
+	      {usuarios.map((usuario) => (
+	        <li key={usuario.id}>{usuario.name}</li>
+	      ))}
+	    </ul>
+	  );
+	}
+
+	function App() {
+	  const [contador, setContador] = useState(0);
+
+	  // Definir una función que realiza la solicitud de red
+	  const cargarUsuarios = useCallback(() => {
+	    return fetch('https://jsonplaceholder.typicode.com/users')
+	      .then((response) => {
+	        if (!response.ok) {
+	          throw new Error('Error al cargar usuarios');
+	        }
+	        return response.json();
+	      });
+	  }, []);
+
+	  return (
+	    <div>
+	      <h1>Lista de Usuarios</h1>
+	      <ListaDeUsuarios cargarUsuarios={cargarUsuarios} />
+	      <p>Contador: {contador}</p>
+	      <button onClick={() => setContador(contador + 1)}>Incrementar Contador</button>
+	    </div>
+	  );
+	}
+
+	export default App;
+
+	```
+
+	El componente 'ListaDeUsuarios' muestra una lista de usuarios recuperados de una solicitud de red. 
+
+	Hemos definido una función 'cargarUsuarios' utilizando 'useCallback' para memoizarla. 
+
+	Luego, pasamos esta función como prop al componente 'ListaDeUsuarios'.
+
+	El beneficio de memoizar 'cargarUsuarios' es que no se creará una nueva función en cada renderizado de 'App'. 
+
+	En su lugar, la misma función memoizada se reutiliza, lo que puede mejorar el rendimiento y evitar solicitudes de red innecesarias.
+
+	'useCallback' se utiliza aquí para evitar problemas de rendimiento y asegurarse de que la función 'cargarUsuarios' se mantenga constante a menos que cambien sus dependencias. 
+
+	En este caso, no hemos especificado ninguna dependencia en el segundo argumento de 'useCallback' porque la función no depende de ningún valor del componente. 
+
+	Si tu función depende de ciertas variables, debes incluirlas en el array de dependencias para que useCallback reaccione a los cambios en esas variables.
 
 
