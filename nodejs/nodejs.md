@@ -833,6 +833,742 @@
 
 
 
+|| REPL
+
+	
+	Read-Eval-Print Loop (REPL) es un entorno de programación interactivo que te permite ingresar comandos de JavaScript y ver los resultados de inmediato. 
+
+	Es una herramienta útil para probar rápidamente código, experimentar con funciones y probar ideas en tiempo real. 
 
 
+	Funciones: 
+
+		Read (Leer): 
+
+			Lee la entrada del usuario, ya sea una expresión, declaración o función de JavaScript.
+
+
+		Eval (Evaluar): 
+
+			Evalúa la entrada del usuario y ejecuta el código de JavaScript proporcionado.
+
+
+		Print (Imprimir): Imprime el resultado de la evaluación en la consola.
+
+
+		Loop (Bucle): 
+
+			Repite el proceso, permitiendo al usuario ingresar más comandos y recibir resultados en tiempo real.
+
+
+	Ejecutar REPL: 
+
+
+
+|| CLI Node.js
+
+	node : 
+
+		Para ejecutar archivos de script de Node.js.
+
+    npm : 
+
+    	Para instalar paquetes y administrar dependencias en proyectos de Node.js.
+
+    npx : 
+
+    	Para ejecutar paquetes de Node.js directamente desde el registro npm.
+
+    node -v : 
+
+    	Para verificar la versión actual de Node.js instalada en tu sistema.
+
+    npm init : 
+
+    	Para inicializar un nuevo proyecto de Node.js y crear un archivo package.json.
+
+    npm install <nombre_del_paquete> : 	
+
+    	Para instalar un paquete específico de npm en tu proyecto.
+
+    npm run <nombre_del_script> : 
+
+    	Para ejecutar scripts personalizados definidos en el archivo package.json.
+
+
+
+|| Globals
+
+	Objetos o funciones que están disponibles globalmente en todos los módulos de Node.js. 
+
+	A diferencia del navegador, donde el objeto global es window, en Node.js, el objeto global se conoce como global. 
+
+	Los objetos y funciones globales en Node.js proporcionan funcionalidades útiles que pueden ser utilizadas en cualquier parte de una aplicación Node.js sin necesidad de importar o requerir módulos adicionales
+
+
+	global: 
+
+		El objeto global en Node.js que contiene todas las variables y funciones globales.
+
+	__dirname: 
+
+		Una cadena que representa el directorio en el que se encuentra el script actual.
+
+	__filename: 
+
+		Una cadena que representa la ruta completa del archivo actual.
+
+	setTimeout y clearTimeout: 
+
+		Funciones para ejecutar un bloque de código después de un cierto período de tiempo o para detener la ejecución de un temporizador.
+
+	setInterval y clearInterval:
+
+		Funciones para ejecutar un bloque de código de forma repetida a intervalos específicos o para detener la ejecución de un intervalo.
+
+	console: 
+
+		Un objeto que proporciona métodos para imprimir mensajes en la consola, como console.log, console.error y console.warn
+
+
+	EJemplo: 
+
+	```
+	// Ejemplo de uso de objetos y funciones globales en Node.js
+
+	// Imprimir el directorio actual
+	console.log("__dirname:", __dirname);
+
+	// Imprimir la ruta del archivo actual
+	console.log("__filename:", __filename);
+
+	// Ejecutar una función después de un cierto tiempo
+	setTimeout(() => {
+	    console.log("¡Esto se ejecuta después de 2 segundos!");
+	}, 2000);
+
+	// Ejecutar una función repetidamente a intervalos regulares
+	let contador = 0;
+	const intervalo = setInterval(() => {
+	    contador++;
+	    console.log("Contador:", contador);
+	    if (contador === 5) {
+	        clearInterval(intervalo);
+	        console.log("Intervalo detenido.");
+	    }
+	}, 1000);
+
+	```	
+
+	Ejecutar este script de Node.js desde la terminal con el comando node nombre_del_archivo.js. 
+
+	Verás cómo el script imprime el directorio actual, la ruta del archivo actual y luego ejecuta una función después de un cierto tiempo y repite otra función a intervalos regulares.
+
+
+
+|| Módulos
+
+	Unidades independientes de funcionalidad que se pueden reutilizar en una aplicación. 
+
+	Los módulos en Node.js ayudan a organizar y estructurar el código, lo que facilita el mantenimiento y la reutilización.
+
+	Cada archivo en Node.js se considera un módulo y puede exportar ciertas partes de su código para que otros módulos lo utilicen.	
+
+
+	require: 
+	
+	    Una función global en Node.js que se utiliza para importar módulos y archivos en otros archivos de Node.js.
+
+
+    module.exports: 
+
+    	Un objeto especial que se utiliza para exportar funciones, variables y objetos desde un módulo de Node.js para que estén disponibles para otros módulos.
+
+
+    exports: 
+
+    	Una abreviatura de module.exports que se puede utilizar para exportar elementos desde un módulo de Node.js.
+
+
+    Módulos integrados:
+
+    	Módulos predefinidos en Node.js que se pueden utilizar directamente en cualquier aplicación Node.js sin necesidad de instalar nada adicional.
+
+
+    Módulos de terceros: 
+
+    	Módulos que no forman parte de Node.js en sí, pero que se pueden instalar utilizando npm y que proporcionan funcionalidades adicionales para las aplicaciones Node.js.
+
+
+    Módulos personalizados: 
+
+    	Módulos creados por los propios desarrolladores para encapsular lógica de negocio específica y funcionalidades reutilizables en sus aplicaciones.
+
+
+
+    Ejemplo: 
+
+    	1. Módulo a exportar: 
+
+    	```
+    	// saludos.js
+		const saludar = nombre => {
+		    console.log(`¡Hola, ${nombre}!`);
+		};
+
+		module.exports = saludar;
+
+    	```
+
+
+    	2. Módulo a importar:
+
+    	```
+    	// app.js
+		const saludar = require('./saludos');
+
+		saludar('Juan');
+		saludar('María');
+	
+    	```
+
+    	3. Ejecutar app: 
+
+    	```
+    	node app.js
+
+    	```
+
+
+
+|| Alternative Sintax
+
+	Enfoque alternativo que los desarrolladores pueden adoptar para escribir código de manera más concisa y expresiva.
+
+
+	Funciones de flecha (Arrow Functions): 
+
+		Una forma más concisa de escribir funciones anónimas en JavaScript que evita la necesidad de la palabra clave function y utiliza una sintaxis de flecha (=>) para definir funciones.
+
+
+	Template Literals: 
+
+		Una sintaxis que permite la interpolación de variables y expresiones en cadenas de texto utilizando la sintaxis ${}.
+
+		Esto facilita la concatenación de cadenas de texto largas y la mejora de la legibilidad del código.
+
+
+	Destructuring Assignment: 
+
+		Una sintaxis que permite extraer valores de objetos y matrices y asignarlos a variables individuales de forma más concisa. 
+
+		Esto facilita la manipulación de datos y la asignación de valores en el código.
+
+
+	Promesas (Promises) y Async/Await:
+
+		Una forma de manejar la asincronía en Node.js de una manera más legible y manejable en comparación con las devoluciones de llamada anidadas. 
+
+		Las promesas y el uso de la palabra clave async con await permiten un código más limpio y una mejor gestión de errores en operaciones asíncronas
+
+
+	Ejemplo: 
+
+	```js
+
+	// Ejemplo de uso de Alternative Syntax en Node.js
+
+	// Funciones de flecha (Arrow Functions)
+	const sumar = (a, b) => a + b;
+	console.log("La suma de 4 y 6 es:", sumar(4, 6));
+
+	// Template Literals
+	const nombre = "Ana";
+	const edad = 30;
+	console.log(`Mi nombre es ${nombre} y tengo ${edad} años.`);
+
+	// Destructuring Assignment
+	const persona = { nombre: 'Juan', edad: 25, ciudad: 'Madrid' };
+	const { nombre: nombrePersona, edad: edadPersona } = persona;
+	console.log(`La persona se llama ${nombrePersona} y tiene ${edadPersona} años.`);
+
+	// Promesas (Promises) y Async/Await
+	const esperar = (ms) => {
+	  return new Promise(resolve => {
+	    setTimeout(resolve, ms);
+	  });
+	};
+
+	const hacerAlgo = async () => {
+	  console.log('Haciendo algo...');
+	  await esperar(2000);
+	  console.log('Terminado.');
+	};
+
+	hacerAlgo();
+
+	```
+
+
+|| Built-in Modules
+
+	Vienen incorporados de forma predeterminada con la instalación de Node.js. 
+
+	Estos módulos proporcionan una variedad de funcionalidades listas para usar que abarcan desde operaciones básicas de entrada/salida hasta capacidades avanzadas de red y criptografía.
+
+
+	http: 
+
+		Un módulo que proporciona funcionalidades para crear aplicaciones del lado del servidor y cliente HTTP.
+
+
+	fs (File System): 
+
+		Un módulo que proporciona funcionalidades para trabajar con el sistema de archivos, permitiendo la lectura y escritura de archivos.
+
+
+	path: 
+
+		Un módulo que proporciona utilidades para trabajar con rutas de archivos y directorios.
+
+
+	util: 
+
+		Un módulo que proporciona funciones de utilidad para ayudar con la depuración y la visualización de datos.
+
+
+	crypto: 
+
+		Un módulo que proporciona funcionalidades criptográficas, como la generación de hashes y la encriptación de datos
+
+
+
+|| OS Module
+
+	Proporciona una serie de métodos y propiedades para interactuar con el sistema operativo en el que se está ejecutando Node.js. 
+
+	Este módulo proporciona información útil sobre el sistema operativo subyacente, como la arquitectura de la CPU, la memoria, la información de red y más
+
+
+	os.arch(): 
+
+		Devuelve la arquitectura de la CPU del sistema.
+
+	os.platform(): 
+
+		Devuelve el sistema operativo de la plataforma.
+
+	os.cpus(): 
+
+		Devuelve un array de objetos que describen cada núcleo lógico de la CPU.
+
+	os.totalmem(): 
+
+		Devuelve la cantidad total de memoria del sistema en bytes.
+
+	os.freemem(): 
+
+		Devuelve la cantidad de memoria libre del sistema en bytes.
+
+	os.hostname(): 
+
+		Devuelve el nombre de host de la máquina.
+
+	os.networkInterfaces(): 
+
+		Devuelve un objeto que contiene información de red, como direcciones IP y interfaces de red
+
+	Ejemplo:
+
+	```js
+
+	const os = require('os');
+
+	// Mostrar la arquitectura de la CPU del sistema
+	console.log('Arquitectura de la CPU:', os.arch());
+
+	// Mostrar el sistema operativo de la plataforma
+	console.log('Plataforma del Sistema Operativo:', os.platform());
+
+	// Mostrar información de la CPU
+	console.log('Información de la CPU:', os.cpus());
+
+	// Mostrar la cantidad total de memoria del sistema
+	console.log('Memoria total del sistema:', os.totalmem(), 'bytes');
+
+	// Mostrar la cantidad de memoria libre del sistema
+	console.log('Memoria libre del sistema:', os.freemem(), 'bytes');
+
+	// Mostrar el nombre del host de la máquina
+	console.log('Nombre del host de la máquina:', os.hostname());
+
+	// Mostrar información de red
+	console.log('Información de red:', os.networkInterfaces());
+
+	```
+
+	Al ejecutar este script de Node.js, verás la información relacionada con el sistema operativo, como la arquitectura de la CPU, la cantidad total y libre de memoria del sistema, el nombre del host de la máquina y la información de red.
+
+
+
+|| Path Module
+	
+	Este módulo es útil para manipular y construir rutas de archivos de manera segura y coherente en diferentes entornos y sistemas operativos.
+
+
+	path.join(): 
+
+		Une segmentos de ruta en una sola ruta.
+    
+    path.resolve(): 
+
+    	Resuelve una secuencia de segmentos de ruta en una ruta absoluta.
+    
+    path.basename(): 
+
+    	Devuelve el último componente de una ruta.
+    
+    path.dirname(): 
+
+    	Devuelve el directorio de una ruta.
+    
+    path.extname(): 
+
+    	Devuelve la extensión de archivo de una ruta.
+    
+    path.parse(): 
+
+    	Devuelve un objeto que representa la ruta proporcionada.
+    
+    path.normalize(): 
+
+    	Normaliza una ruta, resolviendo ".." y "." segmentos.
+
+
+    Ejemplo: 
+
+    ```js
+
+    const path = require('path');
+
+	// Unir segmentos de ruta en una sola ruta
+	const rutaUnida = path.join('/directorio', 'subdirectorio', 'archivo.txt');
+	console.log('Ruta unida:', rutaUnida);
+
+	// Resolver una secuencia de segmentos de ruta en una ruta absoluta
+	const rutaResuelta = path.resolve('archivo.txt');
+	console.log('Ruta resuelta:', rutaResuelta);
+
+	// Obtener el último componente de una ruta
+	const nombreArchivo = path.basename('/directorio/subdirectorio/archivo.txt');
+	console.log('Nombre del archivo:', nombreArchivo);
+
+	// Obtener el directorio de una ruta
+	const directorio = path.dirname('/directorio/subdirectorio/archivo.txt');
+	console.log('Directorio:', directorio);
+
+	// Obtener la extensión de archivo de una ruta
+	const extensionArchivo = path.extname('/directorio/subdirectorio/archivo.txt');
+	console.log('Extensión del archivo:', extensionArchivo);
+
+	// Parsear una ruta en sus componentes
+	const infoRuta = path.parse('/directorio/subdirectorio/archivo.txt');
+	console.log('Información de la ruta:', infoRuta);
+
+	// Normalizar una ruta
+	const rutaNormalizada = path.normalize('/directorio//subdirectorio/otro/../archivo.txt');
+	console.log('Ruta normalizada:', rutaNormalizada);
+
+    ```
+
+
+
+|| Fs Module (Sync)
+
+
+	El módulo fs (Sistema de Archivos) proporciona un conjunto de funciones para trabajar con archivos de manera síncrona y asíncrona. 
+
+	El módulo fs síncrono, a diferencia de su contraparte asíncrona, bloquea la ejecución del programa hasta que la operación de archivo se complete, lo que significa que el código se ejecuta secuencialmente.
+
+
+	fs.readFileSync(): 
+
+		Lee un archivo de forma síncrona y devuelve su contenido.
+
+    fs.writeFileSync(): 
+
+    	Escribe datos en un archivo de forma síncrona.
+
+    fs.existsSync(): 
+
+    	Verifica si un archivo o directorio existe de forma síncrona.
+
+    fs.readdirSync(): 
+
+    	Lee los contenidos de un directorio de forma síncrona.
+
+    fs.statSync(): 
+
+    	Obtiene información del estado de un archivo de forma síncrona.
+
+	
+    Las operaciones síncronas pueden ser útiles en ciertos contextos, es importante tener en cuenta que pueden bloquear la ejecución del programa, lo que puede resultar en una mala experiencia de usuario en aplicaciones que requieren un alto rendimiento y capacidad de respuesta. 
+
+    En general, se prefiere el uso de operaciones de archivos asíncronas en Node.js para mantener la capacidad de respuesta de la aplicación
+
+
+    Ejemplo: 
+
+    ```
+    const fs = require('fs');
+
+	// Leer un archivo de forma síncrona
+	try {
+	    const data = fs.readFileSync('archivo.txt', 'utf8');
+	    console.log('Contenido del archivo:', data);
+	} catch (err) {
+	    console.error('Error al leer el archivo:', err);
+	}
+
+	// Escribir en un archivo de forma síncrona
+	try {
+	    fs.writeFileSync('nuevoArchivo.txt', 'Contenido de prueba');
+	    console.log('Archivo escrito de forma síncrona.');
+	} catch (err) {
+	    console.error('Error al escribir en el archivo:', err);
+	}
+
+	// Verificar si un archivo o directorio existe de forma síncrona
+	const existeArchivo = fs.existsSync('archivo.txt');
+	console.log('¿El archivo existe?', existeArchivo);
+
+	// Leer los contenidos de un directorio de forma síncrona
+	try {
+	    const archivos = fs.readdirSync('./');
+	    console.log('Archivos en el directorio:', archivos);
+	} catch (err) {
+	    console.error('Error al leer el directorio:', err);
+	}
+
+	// Obtener información del estado de un archivo de forma síncrona
+	try {
+	    const estado = fs.statSync('archivo.txt');
+	    console.log('Información del estado del archivo:', estado);
+	} catch (err) {
+	    console.error('Error al obtener información del estado del archivo:', err);
+	}
+
+    ```
+
+
+
+|| Fs Module (Async)
+
+	El módulo fs (Sistema de Archivos) también proporciona un conjunto de funciones para trabajar con archivos de manera asíncrona. 
+
+	A diferencia de las funciones síncronas, las operaciones asíncronas no bloquean la ejecución del programa, lo que permite que otras operaciones continúen mientras se realiza una operación de E/S de archivo.
+
+
+	fs.readFile(): 
+
+		Lee un archivo de forma asíncrona y devuelve su contenido.
+    
+    fs.writeFile(): 
+
+    	Escribe datos en un archivo de forma asíncrona.
+    
+    fs.exists() (obsoleto): 
+
+    	Verifica si un archivo o directorio existe de forma asíncrona.
+    
+    fs.readdir(): 
+
+    	Lee los contenidos de un directorio de forma asíncrona.
+    
+    fs.stat(): 
+
+    	Obtiene información del estado de un archivo de forma asíncrona.
+
+
+   	Ejemplo: 
+
+   	```js
+
+   	const fs = require('fs');
+
+	// Leer un archivo de forma asíncrona
+	fs.readFile('archivo.txt', 'utf8', (err, data) => {
+	    if (err) {
+	        console.error('Error al leer el archivo:', err);
+	    } else {
+	        console.log('Contenido del archivo:', data);
+	    }
+	});
+
+	// Escribir en un archivo de forma asíncrona
+	fs.writeFile('nuevoArchivo.txt', 'Contenido de prueba', (err) => {
+	    if (err) {
+	        console.error('Error al escribir en el archivo:', err);
+	    } else {
+	        console.log('Archivo escrito de forma asíncrona.');
+	    }
+	});
+
+	// Verificar si un archivo o directorio existe de forma asíncrona
+	fs.access('archivo.txt', (err) => {
+	    if (err) {
+	        console.error('El archivo no existe.');
+	    } else {
+	        console.log('El archivo existe.');
+	    }
+	});
+
+	// Leer los contenidos de un directorio de forma asíncrona
+	fs.readdir('./', (err, files) => {
+	    if (err) {
+	        console.error('Error al leer el directorio:', err);
+	    } else {
+	        console.log('Archivos en el directorio:', files);
+	    }
+	});
+
+	// Obtener información del estado de un archivo de forma asíncrona
+	fs.stat('archivo.txt', (err, stats) => {
+	    if (err) {
+	        console.error('Error al obtener información del estado del archivo:', err);
+	    } else {
+	        console.log('Información del estado del archivo:', stats);
+	    }
+	});
+
+   	```
+   
+   	En general, se recomienda utilizar operaciones asíncronas en Node.js, especialmente para tareas que implican operaciones de E/S, como la lectura y escritura de archivos, el acceso a bases de datos y las solicitudes de red. 
+
+   	El uso de operaciones asíncronas ayuda a garantizar que la aplicación sea más receptiva y eficiente, lo que mejora la experiencia del usuario y la escalabilidad del sistema.
+
+   	Se recomienda utilizar operaciones asíncronas siempre que sea posible para garantizar un rendimiento óptimo y una mejor capacidad de respuesta del sistema.
+
+
+
+|| Operaciones asíncronas
+
+	las operaciones asíncronas son fundamentales en Node.js debido a la naturaleza de un entorno de E/S no bloqueante y orientado a eventos.
+
+
+	Operaciones de E/S de archivos y redes: 
+
+		Las operaciones de lectura y escritura de archivos, así como las operaciones de red, son comunes en Node.js. 
+
+		Al utilizar operaciones asíncronas, la aplicación puede continuar respondiendo a eventos y realizar otras tareas mientras se realizan estas operaciones.
+
+
+	Acceso a bases de datos: 
+
+		Las operaciones de acceso a bases de datos suelen ser operaciones lentas y costosas en términos de tiempo. 
+
+		Al utilizar operaciones asíncronas, la aplicación puede mantener la capacidad de respuesta y permitir que otras operaciones continúen mientras se lleva a cabo la consulta a la base de datos.
+
+
+	Solicitudes HTTP y API: 
+
+		Las solicitudes a servidores externos a través de HTTP y el consumo de APIs también pueden ser procesos que consumen tiempo. 
+
+		Al realizar estas operaciones de forma asíncrona, la aplicación puede continuar ejecutando otras tareas y manejar múltiples solicitudes simultáneamente.
+
+
+	Operaciones de sistema: 
+
+		Tareas como la gestión de eventos, la manipulación de archivos y la ejecución de comandos del sistema pueden beneficiarse de operaciones asíncronas para mantener una alta capacidad de respuesta y un rendimiento óptimo del sistema.
+
+
+
+|| HTTP
+
+	Módulo incorporado que proporciona funcionalidades para crear servidores HTTP y realizar solicitudes HTTP. 
+
+	Con este módulo, puedes crear un servidor web o realizar solicitudes a otros servidores web
+
+
+	1. Creación de servidores HTTP utilizando 
+
+		http.createServer().
+
+    2. Escucha de eventos de solicitud y respuesta en el servidor.
+
+    3. Envío de respuestas HTTP utilizando 
+
+    	response.writeHead() y response.end().
+
+    4. Realización de solicitudes HTTP a otros servidores utilizando 
+
+    	http.request().
+
+
+    Permite interactuar con el protocolo HTTP para manejar solicitudes y respuestas de manera eficiente.
+
+
+    Servidor básico:
+
+    ```js
+
+    const http = require('http');
+
+	const server = http.createServer((req, res) => {
+	  res.writeHead(200, {'Content-Type': 'text/plain'});
+	  res.end('¡Hola, mundo!\n');
+	});
+
+	const PORT = 3000;
+	server.listen(PORT, () => {
+	  console.log(`Servidor en funcionamiento en http://localhost:${PORT}/`);
+	});
+
+    ```
+
+    Crea un servidor HTTP que escucha en el puerto 3000. 
+
+    Cada vez que se recibe una solicitud, el servidor responde con un mensaje de texto plano "¡Hola, mundo!" y devuelve un código de estado HTTP 200 (OK).
+
+    Este es un ejemplo básico de cómo puedes usar el módulo http en Node.js para crear un servidor web sencillo.
+
+
+    Solicitud a otros servidores: 
+
+    ```js
+
+    const http = require('http');
+
+	const options = {
+	  hostname: 'api.example.com',
+	  port: 80,
+	  path: '/data',
+	  method: 'GET'
+	};
+
+	const req = http.request(options, (res) => {
+	  console.log(`Código de estado: ${res.statusCode}`);
+
+	  res.on('data', (chunk) => {
+	    console.log(`Datos recibidos: ${chunk}`);
+	  });
+
+	  res.on('end', () => {
+	    console.log('Respuesta completa');
+	  });
+	});
+
+	req.on('error', (e) => {
+	  console.error(`Error con la solicitud: ${e.message}`);
+	});
+
+	req.end();
+
+    ```
+
+    Realiza una solicitud GET al servidor en api.example.com y muestra el código de estado y los datos recibidos en la consola
+
+
+
+|| npm
 
