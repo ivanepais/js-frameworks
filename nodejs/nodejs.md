@@ -1572,3 +1572,393 @@
 
 || npm
 
+	Es el sistema de gestión de paquetes por defecto para Node.js.
+
+	Permite a los desarrolladores instalar, compartir y gestionar paquetes de código reutilizables (llamados módulos) para sus proyectos.
+
+
+	npm info:
+
+		Muestra detalles sobre el paquete, incluida su última versión, descripción, autor, dependencias y otros metadatos relacionado.
+
+	```	
+	npm info nombre-del-paquete
+
+	```		
+
+	Comandos: 
+
+		npm install: 
+
+			Instala los paquetes especificados en el proyecto.
+
+		npm uninstall: 
+
+			Elimina los paquetes especificados del proyecto.
+
+		npm init: 
+
+			Inicia un nuevo proyecto de Node.js e inicializa un archivo "package.json".
+
+		npm publish: 
+
+			Publica un paquete en el registro público de "NPM" para que otros lo puedan utilizar.
+
+		npm search: 
+
+			Busca paquetes en el registro público de "NPM" según los términos de búsqueda especificados.
+
+		npm run: 
+
+			Ejecuta scripts definidos en el archivo "package.json".
+
+		npm update: 
+
+			Actualiza los paquetes instalados a las versiones más recientes, de acuerdo con las restricciones especificadas en el archivo "package.json".
+
+		npm version: 
+
+			Actualiza la versión de un paquete de acuerdo con las reglas de versionado semántico
+	
+
+
+|| Nodemon
+
+	Herramienta de desarrollo que ayuda a automatizar el proceso de reinicio del servidor cada vez que se detectan cambios en los archivos del proyecto.
+
+	Elimina la necesidad de reiniciar manualmente el servidor cada vez que se realizan cambios en el código. 
+
+	Nodemon supervisa los archivos en el directorio del proyecto y reinicia automáticamente la aplicación cuando se detectan cambios.
+
+
+	Instalar y ejecutar: 
+
+		Instalarlo globalmente o localmente en tu proyecto, y luego ejecutar tu archivo de entrada (como app.js o index.js) con Nodemon en lugar de Node. 
+
+		```
+		nodemon app.js
+
+		```
+
+		Supervisará los archivos en el directorio y reiniciará automáticamente la aplicación cada vez que se realicen cambios, lo que te permite ver los resultados actualizados en tiempo real durante el desarrollo de tu aplicación Node.js.
+
+
+
+|| Global install
+	
+	Instalación de paquetes de Node.js de forma global en tu sistema, lo que permite acceder a estos paquetes desde cualquier lugar en la línea de comandos
+
+	```
+	npm install -g nombre-del-paquete
+
+	```
+
+	Paquetes que a menudo se instalan globalmente en Node.js incluyen herramientas de desarrollo como Nodemon, Gulp, Grunt y otras utilidades que se utilizan a nivel del sistema. 
+
+	La instalación global es útil cuando necesitas utilizar una herramienta específica en múltiples proyectos o cuando la herramienta en sí misma proporciona utilidades de línea de comandos que deseas utilizar de forma global en tu sistema.
+
+
+
+|| package-lock.json
+
+	Archivo que se crea automáticamente en los proyectos de Node.js cuando se instalan las dependencias del proyecto. 
+
+	Sirve como un registro detallado de las versiones exactas de cada módulo de dependencia que se instala, asegurando así que las instalaciones posteriores de las dependencias se realicen de manera consistente en diferentes entornos.
+
+	Evita problemas de versiones conflictivas y garantiza que se instalen las mismas versiones de las dependencias en diferentes máquinas.
+
+	No se debe modificar manualmente, ya que se actualiza automáticamente cada vez que se realiza una instalación o desinstalación de dependencias en el proyecto. 
+
+	Al trabajar en equipo o al distribuir un proyecto a otros desarrolladores, el package-lock.json asegura que todos estén utilizando las mismas versiones de las dependencias, lo que ayuda a mantener la consistencia y la estabilidad del proyecto.
+
+
+	Dependencias: 
+
+		Producción: 
+
+			Necesarias para que la aplicación se ejecute en un entorno de producción.
+
+
+		Desarrollo:  
+
+			Necesarias para el desarrollo y la depuración de la aplicación, como herramientas de pruebas unitarias, herramientas de construcción y otras utilidades que ayudan en el proceso de desarrollo, pero no son necesarias para que la aplicación se ejecute en producción.
+
+
+
+|| Event Loop
+
+	El bucle de eventos se encarga de manejar las operaciones asíncronas y de eventos en Node.js. 
+
+	Permite que Node.js realice operaciones no bloqueantes al delegar tareas costosas en tiempo a otros subprocesos y procesar rápidamente las operaciones livianas.
+
+
+	Por supuesto, el "Event Loop" (bucle de eventos) es un concepto fundamental en Node.js y otros entornos de ejecución basados en JavaScript. Es esencialmente un bucle que se encarga de manejar las operaciones asíncronas y de eventos en Node.js. Permite que Node.js realice operaciones no bloqueantes al delegar tareas costosas en tiempo a otros subprocesos y procesar rápidamente las operaciones livianas.
+
+
+    Call Stack (Pila de Llamadas): 
+
+    	Es donde se rastrean las llamadas de funciones en ejecución. 
+
+    	Cuando se invoca una función, se agrega a la pila. Cuando la función se completa, se elimina de la pila.
+
+
+    Callback Queue (Cola de Devoluciones de Llamada): 
+
+    	Aquí se encolan las devoluciones de llamada y otros eventos. 
+
+    	Cuando el Call Stack está vacío, el Event Loop toma devoluciones de llamada de la cola y las coloca en el Call Stack para su ejecución.
+
+
+    Event Table (Tabla de Eventos): 
+
+    	Mantiene una lista de eventos asincrónicos y sus devoluciones de llamada asociadas.
+
+
+    Heap (Montón): 
+
+    	Es donde se almacenan objetos y variables.
+
+
+
+|| Async Patterns
+
+	Enfoques comunes y estructuras de diseño utilizadas para gestionar tareas asíncronas y eventos en aplicaciones.
+
+	Diseñados para manejar operaciones no bloqueantes de manera eficiente y para garantizar que el código se ejecute de manera ordenada y predecible, incluso cuando hay múltiples operaciones asíncronas en curso.
+
+
+	Callbacks (Devoluciones de Llamada): 
+
+		Utilizados para manejar tareas asíncronas al pasar una función como argumento a otra función, que se llama una vez que se completa la operación.
+
+
+	Promises (Promesas): 
+
+		Proporcionan una forma más estructurada y legible de manejar operaciones asíncronas al representar un valor que puede estar disponible ahora, en el futuro, o nunca.
+
+
+	Async/Await: 
+
+		Una forma más moderna y legible de escribir código asincrónico que utiliza las palabras clave "async" y "await" para manejar las promesas de manera más secuencial y sincrónica.
+
+
+	Event Emitters (Emisores de Eventos): 
+
+		Permiten la comunicación entre objetos en Node.js mediante la emisión y escucha de eventos, lo que es útil para gestionar eventos y notificaciones en aplicaciones de servidor y en tiempo real.
+
+
+
+|| Promises
+
+	Representa un valor que puede estar disponible ahora, en el futuro, o nunca, y se utiliza para manejar operaciones asíncronas y controlar su flujo.
+
+	
+	Estados posibles: 
+
+	1. Pending (Pendiente): 
+
+		El estado inicial de una promesa antes de que se resuelva o se rechace.
+	
+
+	2. Fulfilled (Cumplida): 
+
+		Cuando la promesa se resuelve satisfactoriamente y se obtiene un valor.
+	
+
+	3. Rejected (Rechazada): 
+
+		Cuando la promesa no se puede cumplir y se produce un error.
+
+
+	```js
+
+	const myPromise = new Promise((resolve, reject) => {
+	  // Simulación de una operación asincrónica que se resuelve después de 2 segundos
+	  setTimeout(() => {
+	    const success = true;
+	    if (success) {
+	      resolve('¡La operación se completó con éxito!');
+	    } else {
+	      reject(new Error('La operación ha fallado.'));
+	    }
+	  }, 2000);
+	});
+
+	myPromise.then((message) => {
+	  console.log(message);
+	}).catch((error) => {
+	  console.error(error);
+	});
+
+	```
+
+
+
+|| Callback
+
+	Son funciones que se pasan como argumentos a otras funciones y que se llaman una vez que se completa una operación asíncrona o de E/S.
+
+	Un patrón común de devolución de llamada en Node.js implica proporcionar una función de devolución de llamada como argumento a una función asíncrona.
+
+
+	```js
+
+	// Ejemplo de función asincrónica con un callback
+	function realizarOperacionAsincrona(x, y, callback) {
+	  setTimeout(() => {
+	    const resultado = x + y;
+	    callback(resultado);
+	  }, 2000);
+	}
+
+	// Uso de la función asincrónica con un callback
+	realizarOperacionAsincrona(3, 5, (resultado) => {
+	  console.log(`El resultado de la operación es: ${resultado}`);
+	});
+
+	```
+
+	Simula una operación asíncrona que se resuelve después de 2 segundos.
+
+	Toma dos argumentos numéricos y una función de devolución de llamada.
+	
+	Después de 2 segundos, la función de devolución de llamada se llama con el resultado de la operación.
+
+
+
+|| async/await
+
+	Las funciones asíncronas son una herramienta útil cuando tienes múltiples acciones asíncronas (implementadas como promesas) que dependen unas de otras.
+
+	Puedes usar convenientemente la palabra clave await para recibir primero los datos en la promesa 1, y luego pasar estos datos como argumento a la promesa 2.
+
+	Por ejemplo, cuando tu segunda promesa necesita datos que tu primera promesa proporcionará.
+
+	la función async puede, mediante la palabra clave await, hacer que la programación asíncrona se comporte como la síncrona. 
+
+	Como consecuencia sus aplicaciones son más fáciles de entender.
+
+	Esta es una gran alternativa a las clásicas callbacks de JavaScript.
+
+
+	Uso de async/await: 
+
+	1. Puedes usar await con cualquier función que devuelva una promesa.
+
+	La función que esperas no tiene que ser necesariamente asíncrona.
+	
+	2. Debes usar funciones asíncronas cuando quieras usar la palabra clave await dentro de esa función.
+
+	Si no vas a usar la palabra clave await dentro de una función entonces no necesitas hacer esa función async.
+	
+	3. Las funciones async por defecto devuelven una promesa. 
+
+	Esa es la razón por la que puedes esperar funciones asíncronas.
+
+
+	Ejemplo: 
+
+	La palabra clave 'async' convierte una declaración de función JS normal en una declaración de función asíncrona:
+
+	```js
+
+	function syncFunc {// dostuff}
+	async function asyncFunc {// dostuff} // la palabra clave async se coloca antes de la palabra clave function
+
+	```
+
+	Una función asíncrona devuelve una Promise:
+
+		1. Cuando la función async devuelve un valor, la Promise se resolverá con el valor devuelto.
+
+		2. Cuando la función async lanza una excepción o algún valor, la Promise será rechazada con el valor lanzado.
+
+		Dentro de una función asíncrona puedes usar la palabra clave await. 
+
+		await colocada antes de una promesa hace que la función asíncrona haga una pausa hasta que la promesa se resuelva (ya sea rechazada o cumplida).
+
+		3. Cuando la promesa se cumple El valor de la expresión await es el valor de la promesa cumplida.
+		
+		4. Cuando la promesa es rechazada la expresión await lanza el valor rechazado.
+	
+
+	```
+	function makePromise(x) { 
+	    return new Promise(resolve => {
+	      setTimeout(() => {
+	        resolve(x);
+	      }, 1000);
+	    });
+	  }
+	  
+	  async function asyncFunc() {
+	    var x = await makePromise(1); // la función se detiene aquí hasta que se cumpla la promesa
+	    console.log(x); // logs 1
+	    return x;
+	  }
+	  
+	  const returnedProm = asyncFunc(); // la función asíncrona devuelve una promesa
+
+	  returnedProm.then((x) => console.log(x));
+	  // Esta promesa se cumple con el valor de retorno de la función asíncrona, por lo que se registra 1
+
+	```
+
+
+|| Events
+
+	Es una parte integral del sistema que permite la implementación de un patrón de diseño conocido como "Observer" (Observador). 
+
+	Este patrón permite la comunicación entre objetos mediante la emisión y escucha de eventos. 
+
+	El módulo "Events" proporciona una clase EventEmitter que se puede utilizar para crear objetos que emiten eventos y registrar manipuladores para esos eventos.
+
+	Es crucial para construir aplicaciones reactivas y manejadoras de eventos, como servidores web y aplicaciones en tiempo real, ya que permite la comunicación eficiente entre diferentes partes de la aplicación.
+
+
+	1. Emitter (Emisor): 
+
+		Es un objeto que emite eventos y permite que otros objetos se suscriban a esos eventos.
+
+
+	2. Event (Evento): 
+
+		Es una señal de que algo ha sucedido, como un clic de ratón, una solicitud HTTP o la finalización de una tarea asincrónica
+
+	3. Listener (Oyente): 
+
+		Es una función que se asocia con un evento y que se activa cuando se emite ese evento.
+
+
+	```
+	const EventEmitter = require('events');
+
+	// Crear un emisor de eventos
+	const miEmitter = new EventEmitter();
+
+	// Registrar un oyente para el evento 'saludo'
+	miEmitter.on('saludo', () => {
+	  console.log('Hola, ¿cómo estás?');
+	});
+
+	// Emitir el evento 'saludo'
+	miEmitter.emit('saludo');
+
+	```
+
+	Creamos un emisor de eventos con EventEmitter y registramos un oyente para el evento 'saludo'. 
+
+	Luego, emitimos el evento 'saludo', lo que activa la función del oyente y produce la salida 'Hola, ¿cómo estás?'.
+
+
+
+|| HTTP Module
+
+
+
+
+
+
+
+
+
