@@ -1993,11 +1993,243 @@
 
 
 
-
-
 || HTTP Module
 
+	Módulo incorporado que permite crear aplicaciones del lado del servidor y realizar operaciones de red utilizando el protocolo HTTP.
 
+	Proporciona funcionalidades para crear servidores HTTP, realizar solicitudes HTTP, y manejar eventos relacionados con el protocolo HTTP, como solicitudes y respuestas.
+
+	```
+	const http = require('http');
+
+	// Crear un servidor HTTP simple
+	const server = http.createServer((req, res) => {
+	  res.writeHead(200, { 'Content-Type': 'text/plain' });
+	  res.end('¡Hola desde el servidor HTTP de Node.js!\n');
+	});
+
+	// Escuchar en el puerto 8080
+	server.listen(8080, '127.0.0.1', () => {
+	  console.log('Servidor en funcionamiento en http://127.0.0.1:8080/');
+	});
+
+
+	```
+
+	Utilizamos el módulo HTTP para crear un servidor HTTP simple que responde con un mensaje de saludo cuando se recibe una solicitud. 
+
+	El servidor utiliza eventos para manejar las solicitudes entrantes y enviar respuestas al cliente
+
+
+
+|| Streams
+	
+	Permite leer y escribir datos de manera eficiente en pedazos (o fragmentos) en lugar de manejar todo el conjunto de datos a la vez. 
+
+	Los streams se utilizan para trabajar con datos que se pueden procesar de manera incremental y en tiempo real, lo que resulta especialmente útil para manipular archivos grandes o datos de red.
+
+
+	Existen 4 tipos de streams: 
+
+	1. Readable Streams (Flujos de Lectura): 
+
+		Permiten la lectura de datos de una fuente, como un archivo, una solicitud HTTP o la salida de otro proceso.
+	
+
+	2. Writable Streams (Flujos de 
+	Escritura): 
+
+		Permiten escribir datos en un destino, como un archivo o una solicitud HTTP.
+	
+
+	3. Duplex Streams (Flujos Dúplex): 	
+
+		Son flujos que pueden ser tanto de lectura como de escritura.
+	
+
+	4. Transform Streams (Flujos de Transformación): 
+
+		Son un tipo especial de dúplex streams que permiten la manipulación de datos mientras se están transfiriendo de una fuente a un destino.
+
+
+	```
+	const fs = require('fs');
+
+	// Crear un stream de lectura desde el archivo de origen
+	const readableStream = fs.createReadStream('archivo-origen.txt');
+
+	// Crear un stream de escritura hacia el archivo de destino
+	const writableStream = fs.createWriteStream('archivo-destino.txt');
+
+	// Piping (conducción) de los datos del stream de lectura al stream de escritura
+	readableStream.pipe(writableStream);
+
+	console.log('Copia de datos completada.');
+
+	```
+
+	Utilizamos streams para copiar datos de un archivo de origen a un archivo de destino de manera eficiente y sin bloqueos. 
+
+	El método pipe() se utiliza para conectar el stream de lectura con el stream de escritura y transferir los datos de manera incremental.
+
+
+
+|| Read File - Streams
+
+	Implica la lectura de datos desde un archivo. 
+
+	Una forma común de leer un archivo es utilizando streams, lo que permite leer y procesar el contenido del archivo en fragmentos en lugar de cargar todo el contenido en la memoria al mismo tiempo, lo que puede ser especialmente útil para archivos grandes
+
+	El módulo 'fs' (sistema de archivos) integrado, que proporciona funcionalidades para interactuar con el sistema de archivos. P
+
+	Puedes crear un stream de lectura utilizando el método 'createReadStream()' y luego manejar los eventos y los datos emitidos por el stream de lectura. 
+
+
+	```
+	const fs = require('fs');
+
+	// Crear un stream de lectura desde el archivo
+	const readableStream = fs.createReadStream('archivo.txt', 'utf8');
+
+	// Manejar eventos y datos emitidos por el stream de lectura
+	readableStream.on('data', (chunk) => {
+	  console.log(`Recibidos ${chunk.length} bytes de datos.`);
+	  console.log(chunk);
+	});
+
+	readableStream.on('end', () => {
+	  console.log('Lectura del archivo completada.');
+	});
+
+	readableStream.on('error', (error) => {
+	  console.error(`Se ha producido un error en la lectura del archivo: ${error}`);
+	});
+
+	```
+
+	Creamos un stream de lectura desde un archivo de texto y manejamos los eventos 'data', 'end' y 'error' emitidos por el stream de lectura.
+
+	Cada vez que se leen fragmentos de datos del archivo, se dispara el evento 'data', y al final de la lectura, se dispara el evento 'end'. 
+
+	Si ocurre algún error durante la lectura, se dispara el evento 'error' y se maneja el error correspondiente.
+
+
+
+|| HTTP Request/Response Cycle
+	
+	Proceso fundamental que subyace a la comunicación entre un cliente y un servidor en el contexto del protocolo HTTP. 
+
+	Este ciclo describe la interacción entre un cliente, que envía una solicitud a un servidor, y el servidor, que procesa la solicitud y envía una respuesta de vuelta al cliente. 
+
+
+	El ciclo típico de solicitud y respuesta HTTP sigue los siguientes pasos:
+
+	1. Cliente envía una solicitud HTTP al servidor: 
+
+		El cliente, generalmente un navegador web o una aplicación que realiza solicitudes HTTP, envía una solicitud al servidor para solicitar recursos como páginas web, archivos, o datos.
+
+
+    2. Servidor recibe y procesa la solicitud: 
+
+    	El servidor recibe la solicitud del cliente y la procesa, determinando cómo manejarla y qué respuesta enviar de vuelta al cliente.
+
+
+    3. Servidor genera y envía una respuesta al cliente: 
+
+    	El servidor genera una respuesta basada en la solicitud recibida y envía la respuesta de vuelta al cliente a través de Internet.
+
+    
+    4. Cliente recibe y procesa la respuesta: 
+
+    	El cliente recibe la respuesta del servidor y la procesa, lo que puede implicar mostrar contenido en el navegador, realizar acciones específicas en función de la respuesta, o procesar datos recibidos.
+	
+
+
+|| HTTP Menssages
+
+	Se utilizan para la comunicación entre el cliente y el servidor a través del protocolo HTTP. 
+
+	Estos mensajes consisten en solicitudes y respuestas que contienen encabezados y, en el caso de las respuestas, un cuerpo opcional que puede contener datos o contenido.
+
+	Los mensajes HTTP se utilizan para representar solicitudes entrantes y respuestas salientes en el servidor.
+
+	transmiten información entre el cliente y el servidor, lo que permite que los datos y el contenido se envíen y reciban de manera eficiente y estructurada.
+
+
+	```
+	const http = require('http');
+
+	// Crear un servidor HTTP simple
+	const server = http.createServer((req, res) => {
+	  // Manejar la solicitud entrante
+	  // ... (código para manejar la solicitud)
+
+	  // Escribir una respuesta con un mensaje de saludo
+	  res.writeHead(200, { 'Content-Type': 'text/plain' });
+	  res.write('¡Hola desde el servidor HTTP de Node.js!');
+	  res.end();
+	});
+
+	// Escuchar en un puerto específico
+	server.listen(8080, '127.0.0.1', () => {
+	  console.log('Servidor en funcionamiento en http://127.0.0.1:8080/');
+	});
+
+	```
+
+	El módulo "http" para crear un servidor HTTP simple que responde con un mensaje de saludo. 
+
+	Manejamos la solicitud entrante y luego escribimos una respuesta utilizando el método 'writeHead()' para establecer los encabezados de la respuesta y 'write()' para enviar el contenido de la respuesta. 
+
+	Finalmente, utilizamos el método 'end()' para finalizar la respuesta y enviarla al cliente.
+
+
+
+|| Conceptos HTTP
+
+	
+	Protocolo de Transferencia de Hipertexto (HTTP): 
+
+		HTTP es un protocolo de aplicación utilizado para la transferencia de información en la World Wide Web. 
+
+		Se utiliza para la comunicación entre un cliente, como un navegador web, y un servidor que aloja recursos, como páginas web, imágenes y archivos.
+
+
+    Cliente y Servidor: 
+
+    	En el contexto de HTTP, el cliente es generalmente un navegador web o una aplicación que realiza solicitudes de recursos, y el servidor es una máquina remota que aloja y sirve esos recursos en respuesta a las solicitudes del cliente.
+
+
+    Métodos HTTP: 
+
+    	Los métodos HTTP son acciones que se utilizan para indicar la acción deseada a realizar en un recurso determinado. 
+
+    	Algunos de los métodos HTTP más comunes son GET (para obtener recursos), POST (para enviar datos al servidor), PUT (para actualizar recursos) y DELETE (para eliminar recursos).
+
+
+    Códigos de Estado HTTP: 
+
+    	Los códigos de estado son códigos numéricos que indican el estado de una solicitud HTTP realizada por el cliente.
+
+    	Algunos de los códigos de estado HTTP más comunes incluyen 200 (OK), 404 (No Encontrado), y 500 (Error del Servidor Interno).
+
+
+    Encabezados HTTP: 
+
+    	Los encabezados son componentes de los mensajes HTTP que transmiten información adicional sobre la solicitud o respuesta. 
+
+    	Los encabezados pueden incluir información sobre el tipo de contenido, la longitud del contenido, la fecha y hora de la solicitud o respuesta, entre otros detalles.
+
+
+    URL (Localizador Uniforme de Recursos): 
+
+    	Una URL es una cadena de caracteres que proporciona la dirección de un recurso en la web. 
+
+    	Las URL se utilizan para identificar y localizar recursos, como páginas web, imágenes y archivos, a través de Internet.
+
+
+
+|| HTTP Headers
 
 
 
