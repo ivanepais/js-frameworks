@@ -1747,6 +1747,12 @@
 		Permiten la comunicación entre objetos en Node.js mediante la emisión y escucha de eventos, lo que es útil para gestionar eventos y notificaciones en aplicaciones de servidor y en tiempo real.
 
 
+	Primero debes comprender cómo funcionan los callback, luego estudiar Promises (como una herramienta para hacer callbacks más fácil) y luego async/await (como una sintaxis para hacer que las Promises sean bonitas). 
+
+	Pero tenga en cuenta que el sistema subyacente es el mismo: funciones que llaman a funciones que se manejan (funciones que eventualmente se llamarán en el futuro). 
+
+
+
 
 || Promises
 
@@ -1791,6 +1797,10 @@
 	});
 
 	```
+
+	Una promesa es una "cosa" que representa los resultados "eventuales" de una operación, por así decirlo. 
+
+	El punto a tener en cuenta aquí es que abstrae los detalles de cuándo sucede algo y le permite concentrarse en lo que debería suceder después de que algo suceda. Esto dará como resultado un código limpio y fácil de mantener donde, en lugar de tener una devolución de llamada dentro de una devolución de llamada dentro de una devolución de llamada. 
 
 
 
@@ -1905,6 +1915,32 @@
 	```
 
 
+	Ejemplo: 
+
+	```	
+	// Ejemplo de una función asincrónica utilizando async/await
+	function esperar(ms) {
+	  return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+	async function ejecutarOperacionAsincrona() {
+	  console.log('Iniciando operación asincrónica...');
+	  await esperar(2000);
+	  console.log('La operación asincrónica ha finalizado.');
+	}
+
+	// Llamada a la función asincrónica
+	ejecutarOperacionAsincrona();
+
+	```
+
+	La función 'esperar' devuelve una promesa que se resuelve después de un cierto tiempo (en milisegundos).
+
+	La función 'ejecutarOperacionAsincrona' utiliza la palabra clave 'async' para indicar que es una función asincrónica y la palabra clave 'await' para esperar a que la promesa se resuelva antes de continuar con la ejecución.
+
+
+
+
 || Events
 
 	Es una parte integral del sistema que permite la implementación de un patrón de diseño conocido como "Observer" (Observador). 
@@ -1912,8 +1948,6 @@
 	Este patrón permite la comunicación entre objetos mediante la emisión y escucha de eventos. 
 
 	El módulo "Events" proporciona una clase EventEmitter que se puede utilizar para crear objetos que emiten eventos y registrar manipuladores para esos eventos.
-
-	Es crucial para construir aplicaciones reactivas y manejadoras de eventos, como servidores web y aplicaciones en tiempo real, ya que permite la comunicación eficiente entre diferentes partes de la aplicación.
 
 
 	1. Emitter (Emisor): 
@@ -1924,6 +1958,7 @@
 	2. Event (Evento): 
 
 		Es una señal de que algo ha sucedido, como un clic de ratón, una solicitud HTTP o la finalización de una tarea asincrónica
+
 
 	3. Listener (Oyente): 
 
@@ -1945,10 +1980,18 @@
 	miEmitter.emit('saludo');
 
 	```
-
+	
 	Creamos un emisor de eventos con EventEmitter y registramos un oyente para el evento 'saludo'. 
 
 	Luego, emitimos el evento 'saludo', lo que activa la función del oyente y produce la salida 'Hola, ¿cómo estás?'.
+
+
+	El principal beneficio es el desacoplamiento de su código, puede registrar callbacks en un emisor de eventos sin que este sepa qué hacen exactamente esas callbacks.
+
+
+	En nodejs, el bucle de eventos es de un solo subproceso y selecciona un evento a la vez y los trata de forma independiente.
+
+
 
 
 
