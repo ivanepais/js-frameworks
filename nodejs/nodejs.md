@@ -2231,9 +2231,764 @@
 
 || HTTP Headers
 
+	Componentes clave de los mensajes HTTP que se utilizan para transmitir información adicional sobre una solicitud o una respuesta. 
+
+	Los encabezados HTTP se utilizan para proporcionar metadatos importantes que ayudan a especificar cómo se debe procesar una solicitud o una respuesta, qué tipo de contenido se está enviando o recibiendo, y otra información relevante para la comunicación entre el cliente y el servidor.
+
+	Se utiliza el módulo HTTP incorporado para manejar los encabezados HTTP en solicitudes entrantes y respuestas salientes.
+
+	Al manipular los encabezados HTTP, puedes establecer metadatos como el tipo de contenido, la longitud del contenido, la codificación, la fecha y hora, y otros detalles importantes relacionados con la comunicación HTTP.
+
+	Utilizamos el método 'writeHead()' para establecer el encabezado de contenido en la respuesta con el código de estado 200 y el tipo de contenido 'text/plain'. 
+
+	Esto indica que el servidor está respondiendo con un texto plano. Además, utilizamos el método 'write()' para escribir datos en la respuesta y el método 'end()' para finalizar la respuesta y enviarla al cliente.
 
 
 
 
+|| HTTP Request Object
+
+	El objeto de solicitud HTTP se refiere al objeto que representa una solicitud entrante a un servidor HTTP. 
+
+	Este objeto contiene información sobre la solicitud realizada por el cliente, incluidos detalles como la URL solicitada, los encabezados de la solicitud, los parámetros de la consulta, el método HTTP utilizado y otros metadatos relacionados con la solicitud.
+
+	Al utilizar el módulo HTTP incorporado en Node.js, puedes acceder al objeto de solicitud HTTP y utilizar sus propiedades y métodos para leer y procesar los detalles de la solicitud entrante.
+
+	Puedes acceder a propiedades como 'url', 'method', 'headers' y 'httpVersion' para obtener información sobre la solicitud y tomar decisiones sobre cómo manejarla.
+
+	```
+	const http = require('http');
+
+	// Crear un servidor HTTP simple
+	const server = http.createServer((req, res) => {
+	  // Acceder a propiedades del objeto de solicitud
+	  const { url, method, headers } = req;
+	  console.log('URL solicitada:', url);
+	  console.log('Método de solicitud:', method);
+	  console.log('Encabezados de la solicitud:', headers);
+
+	  // Escribir una respuesta con un mensaje de saludo
+	  res.writeHead(200, { 'Content-Type': 'text/plain' });
+	  res.write('¡Hola desde el servidor HTTP de Node.js!');
+	  res.end();
+	});
+
+	// Escuchar en un puerto específico
+	server.listen(8080, '127.0.0.1', () => {
+	  console.log('Servidor en funcionamiento en http://127.0.0.1:8080/');
+	});
+
+	```
+	Accedemos a las propiedades 'url', 'method' y 'headers' del objeto de solicitud 'req' y las imprimimos en la consola para mostrar detalles sobre la solicitud entrante.
 
 
+
+|| HTTP - HTML File
+
+	Utilizar módulos como http y fs para servir archivos HTML estáticos desde un servidor. 
+
+	Los archivos HTML son archivos de texto plano que contienen código HTML y se utilizan para representar contenido y estructura en una página web.
+
+	Primero leer el contenido del archivo HTML utilizando el módulo 'fs' y luego enviar el contenido como respuesta a una solicitud HTTP entrante utilizando el módulo 'http'.	
+	
+
+	Ejemplo: 
+
+		Servir un archivo HTML estático
+
+	```
+	const http = require('http');
+	const fs = require('fs');
+
+	http.createServer((req, res) => {
+	  // Leer el contenido del archivo HTML
+	  fs.readFile('archivo.html', (err, data) => {
+	    if (err) {
+	      res.writeHead(404, { 'Content-Type': 'text/plain' });
+	      res.write('Archivo no encontrado');
+	      res.end();
+	    } else {
+	      // Escribir la respuesta con el contenido del archivo HTML
+	      res.writeHead(200, { 'Content-Type': 'text/html' });
+	      res.write(data);
+	      res.end();
+	    }
+	  });
+	}).listen(8080);
+
+	console.log('Servidor en funcionamiento en http://127.0.0.1:8080/');
+
+	```
+
+	Lee el contenido de un archivo HTML llamado archivo.html y luego envía ese contenido como respuesta a cualquier solicitud HTTP entrante.
+
+	Dependiendo de si se encuentra el archivo o no, el servidor envía una respuesta con un código de estado 404 (No Encontrado) o 200 (OK).
+
+
+
+|| Express.js - All Static
+
+	Técnica de servir archivos estáticos, como archivos HTML, CSS, JavaScript, imágenes y otros recursos estáticos, directamente desde el servidor sin procesamiento adicional. 
+
+	En Express.js, puedes utilizar el middleware express.static para servir archivos estáticos de un directorio específico.
+
+	Al utilizar la función express.static en Express.js, puedes especificar un directorio que contiene recursos estáticos, y Express configurará automáticamente las rutas para servir estos archivos estáticos en el servidor.
+
+
+	```
+	const express = require('express');
+	const path = require('path');
+
+	const app = express();
+
+	// Servir archivos estáticos desde el directorio 'public'
+	app.use(express.static(path.join(__dirname, 'public')));
+
+	// Iniciar el servidor en un puerto específico
+	const PORT = 3000;
+	app.listen(PORT, () => {
+	  console.log(`Servidor Express en funcionamiento en el puerto ${PORT}`);
+	});
+
+	```
+
+	'express.static' se utiliza para servir archivos estáticos desde el directorio "public". 
+
+	Todos los archivos presentes en el directorio "public" (como archivos HTML, CSS, imágenes, etc.) serán accesibles desde el servidor Express. 
+
+	Puedes acceder a los archivos en el navegador utilizando rutas relativas a la raíz del directorio "public".
+
+
+
+|| CSR, SPA, SSR y API 
+
+	CSR: 
+
+		Client-Side Rendering enfoque utilizado en el desarrollo web donde la mayor parte del procesamiento y renderización de la interfaz de usuario se realiza en el navegador del cliente en lugar de en el servidor. 
+
+		En este modelo, el servidor envía datos en bruto al cliente, generalmente en formato JSON u otro formato de datos, y luego el cliente utiliza estos datos para generar y renderizar la interfaz de usuario de manera dinámica en el navegador.
+
+		El navegador es responsable de tomar los datos proporcionados por el servidor y convertirlos en una representación visual que el usuario puede interactuar. 
+
+		Esto se hace típicamente utilizando JavaScript y bibliotecas de front-end como React, Vue.js, Angular u otras.
+
+		Interactividad rápida: 
+
+			La renderización en el lado del cliente permite una experiencia de usuario más fluida y receptiva, ya que las interacciones del usuario se pueden manejar de forma instantánea en el navegador sin necesidad de comunicarse constantemente con el servidor.
+
+    	Menor carga en el servidor: 
+
+    		Al transferir la mayor parte del trabajo de renderización al cliente, el servidor puede concentrarse en servir datos en bruto y otras tareas relacionadas con la lógica del negocio, lo que puede ayudar a reducir la carga del servidor y mejorar el rendimiento general del sitio web.
+
+    	Separación de preocupaciones:
+
+    		El Client-Side Rendering facilita la separación de la lógica del negocio en el servidor y la presentación en el cliente, lo que puede hacer que el código sea más modular y mantenible.
+
+
+   	SPA: 
+
+   		Single Page Application es un tipo de aplicación web que carga una sola página HTML y luego actualiza dinámicamente esa página mientras el usuario interactúa con la aplicación, en lugar de cargar páginas completamente nuevas desde el servidor.
+
+		En una SPA, la mayor parte del procesamiento ocurre en el navegador del cliente utilizando JavaScript y bibliotecas de front-end como React, Angular, Vue.js, o similares. 
+
+		La navegación entre diferentes secciones o vistas de la aplicación se realiza cambiando dinámicamente el contenido de la página, a menudo utilizando enlaces internos o el historial del navegador para mantener el estado de la aplicación.
+
+
+	SSR: 
+
+		Server-Side Rendering es una técnica utilizada en el desarrollo web para renderizar y enviar páginas web completas al cliente desde el servidor, en lugar de renderizarlas en el navegador del cliente. 
+
+		Esto implica que el servidor genera el HTML final basado en el estado de la aplicación y lo envía al cliente como una página completa, lista para mostrarse en el navegador
+
+		Al enviar una versión pre-renderizada de la página al cliente, se puede mejorar la velocidad de carga inicial y la legibilidad de la página para los motores de búsqueda.
+
+		Puede ser más costoso en términos de uso de recursos del servidor en comparación con el Renderizado del Lado del Cliente (Client-Side Rendering), ya que el servidor debe generar y enviar el HTML completo en cada solicitud.
+
+		Además, en comparación con las aplicaciones de una sola página (Single Page Applications) que utilizan CSR, las aplicaciones que utilizan SSR pueden requerir una comunicación más frecuente entre el cliente y el servidor, lo que puede afectar la experiencia del usuario en términos de interactividad y dinamismo.
+
+		Es útil para mejorar el rendimiento inicial y la SEO (optimización para motores de búsqueda) de una aplicación web, aunque puede requerir más recursos del servidor y potencialmente limitar la interactividad y dinamismo en comparación con las aplicaciones de una sola página que utilizan CSR.
+
+
+	API: 
+
+	Application Programming Interface es un conjunto de reglas y protocolos que permiten que distintos programas se comuniquen entre sí. 
+
+	Proporciona un conjunto de comandos, protocolos y herramientas para construir software y aplicaciones. 
+
+	Las API permiten que distintos componentes de software interactúen entre sí de manera estandarizada.
+
+	Pueden tomar varias formas, incluidas las API web, que permiten la comunicación entre aplicaciones a través de Internet. 
+	
+	Estas son particularmente comunes en el contexto de servicios web y aplicaciones en la nube. 
+
+	Las API también pueden ser utilizadas por sistemas operativos, bibliotecas de software, y diversas aplicaciones de software para definir cómo deben interactuar diferentes componentes de software.
+
+	Por ejemplo, las API web son utilizadas para permitir la integración de distintos servicios y aplicaciones. 
+
+	Esto puede incluir la integración de servicios de terceros, como redes sociales o servicios de pago, en una aplicación web o móvil. 
+
+	Las API también permiten a los desarrolladores acceder a funcionalidades y datos específicos de servicios externos, como datos de clima, geolocalización, o información de productos en una tienda en línea.
+
+
+
+|| JSON
+
+	Es un formato ligero de intercambio de datos. 
+
+	Es fácil de leer y escribir para los humanos, y fácil de generar y analizar para las máquinas. 
+
+	Está basado en un subconjunto del lenguaje de programación JavaScript, pero es independiente de cualquier lenguaje de programación.
+
+
+	Sintaxis: 
+
+		JSON utiliza una sintaxis sencilla y fácil de entender que consiste en pares de clave-valor. 
+
+		Los datos se representan en forma de objetos (objetos anidados o anidamiento de objetos) y matrices (listas de valores) en JSON.
+
+		Claves son cadenas de texto y los valores pueden ser cadenas de texto, números, booleanos, arrays, objetos o null. 
+
+		Los pares clave-valor se separan por comas y se encierran entre llaves {} para objetos y corchetes [] para arrays.
+
+		```
+		{
+		  "nombre": "Juan",
+		  "edad": 30,
+		  "casado": false,
+		  "hobbies": ["leer", "correr", "viajar"],
+		  "direccion": {
+		    "calle": "Calle Principal",
+		    "ciudad": "Ciudad Ejemplo",
+		    "codigo_postal": "12345"
+		  }
+		}
+
+		```
+
+
+	Tipos de datos admitidos: 
+
+		JSON admite tipos de datos simples como cadenas de texto, números, booleanos y valores nulos, así como tipos de datos compuestos como objetos y matrices. 
+
+		Esto lo hace adecuado para representar una amplia variedad de datos.
+
+
+	Formato de intercambio de datos:
+
+		JSON se utiliza comúnmente como un formato de intercambio de datos entre aplicaciones y servicios web. 
+
+		Es particularmente útil en el contexto de la comunicación entre el servidor y el cliente, donde los datos se envían y reciben en formato JSON.
+
+
+	Serialización y deserialización: 
+
+		La serialización se refiere al proceso de convertir datos en un formato compatible con JSON, mientras que el análisis se refiere al proceso inverso de convertir datos JSON en un formato legible para un programa.
+
+
+	Uso en la web: 
+
+		JSON se utiliza ampliamente en el desarrollo web para el intercambio de datos entre el cliente y el servidor. 
+
+		Se utiliza en APIs web y servicios web para transmitir datos estructurados de manera eficiente
+
+
+
+|| Params - Express.js
+
+	Valores variables que forman parte de la URL de una solicitud. 
+
+	Estos parámetros son utilizados para capturar valores específicos de la URL y utilizarlos en el procesamiento de una solicitud en el servidor. 
+
+	Los parámetros de ruta se definen en las rutas de Express y se utilizan para capturar valores dinámicos proporcionados en la URL.
+
+	```
+	app.get('/users/:userId', (req, res) => {
+	  const userId = req.params.userId;
+	  // Resto del código para manejar la solicitud
+	});
+
+	```
+
+	':userId' es un parámetro de ruta que captura un valor variable en la URL. 
+
+	Cuando se recibe una solicitud en esta ruta, Express capturará el valor proporcionado en el lugar de ':userId' y lo hará disponible a través del objeto 'req.params' en el controlador de la ruta. 
+
+	Puedes acceder a este valor capturado utilizando 'req.params.userId'.
+
+	Son útiles para crear rutas dinámicas que pueden manejar diferentes valores de identificación u otros parámetros en una sola ruta.
+
+
+
+|| Query String
+
+	Parte de una URL que se utiliza para pasar datos a través de parámetros de consulta. 
+
+	La cadena de consulta es una serie de pares clave-valor separados por el símbolo '&' y se coloca al final de una URL después del signo de interrogación ('?'). 
+
+	Estos parámetros de consulta permiten la transferencia de datos adicionales entre el cliente y el servidor, lo que facilita la personalización y filtrado de los datos solicitados.
+
+	```
+	http://ejemplo.com/ruta?nombre=Juan&edad=30
+
+	```
+
+	La cadena de consulta es ?nombre=Juan&edad=30, donde nombre y edad son claves, y Juan y 30 son los valores correspondientes. 
+
+	En Express.js, puedes acceder a estos parámetros de consulta a través del objeto req.query en el controlador de la ruta correspondiente
+
+
+	Acceder a los parámetros de consulta en Express.js:
+
+	```
+	app.get('/ruta', (req, res) => {
+	  const nombre = req.query.nombre;
+	  const edad = req.query.edad;
+	  // Resto del código para manejar la solicitud con los parámetros de consulta
+	});
+
+	```
+
+	Utilizando la propiedad req.query, puedes acceder a los valores proporcionados en la cadena de consulta y utilizarlos en la lógica de manejo de rutas para procesar y responder a la solicitud de manera adecuada. 
+
+	Esto es útil para realizar búsquedas, filtrar datos y personalizar la respuesta del servidor en función de los parámetros proporcionados en la URL.	
+
+
+|| Funciones, Middleware y app.use
+
+	Se refiere a funciones que tienen acceso al objeto de solicitud (req), al objeto de respuesta (res) y a la siguiente función de middleware en el ciclo de solicitud-respuesta de la aplicación. 
+
+	El middleware puede realizar tareas como realizar modificaciones en la solicitud y la respuesta, terminar el ciclo de solicitud-respuesta, llamar a la siguiente función de middleware en la pila o incluso finalizar la solicitud.
+
+	Se utiliza para realizar tareas comunes, como el registro, la autenticación, el manejo de errores, el análisis del cuerpo de la solicitud, entre otras. 
+
+	El middleware se puede montar a nivel de aplicación, a nivel de enrutador o a nivel de ruta, lo que permite un alto grado de flexibilidad en la manipulación del flujo de solicitud y respuesta.
+
+	```js
+
+	// Ejemplo de middleware a nivel de aplicación
+	app.use((req, res, next) => {
+	  console.log('Time:', Date.now());
+	  next();
+	});
+
+	// Ejemplo de middleware a nivel de ruta
+	app.get('/', (req, res, next) => {
+	  // Middleware específico para la ruta raíz
+	  next();
+	});
+
+	// Ejemplo de manejo de rutas
+	app.get('/', (req, res) => {
+	  res.send('Hola Mundo!'); // Responde con 'Hola Mundo!' al realizar una solicitud GET a '/'
+	});
+
+	```
+
+	'app.use' se utiliza para montar el middleware a nivel de aplicación, lo que significa que se aplicará a todas las solicitudes que lleguen a la aplicación. 
+
+	También puedes aplicar middleware a nivel de ruta utilizando funciones de middleware específicas en la definición de la ruta. 
+
+	El middleware puede realizar tareas específicas y luego pasar el control a la siguiente función de middleware en la pila llamando a 'next()'.
+
+
+
+|| Multiple Middleware Functions
+
+	Es posible definir múltiples funciones de middleware para una ruta específica. 
+
+	Esto permite encadenar varias funciones de middleware para manejar una solicitud en una secuencia específica. 
+
+	Cada función de middleware tiene acceso a los objetos de solicitud (req), respuesta (res) y a la siguiente función de middleware en la pila.
+
+	Para definir múltiples funciones de middleware para una ruta en Express.js, puedes pasar una serie de funciones de middleware como argumentos en la definición de la ruta. 
+
+	Cada función de middleware se ejecutará en orden y, si se llama a 'next()', pasará el control a la siguiente función de middleware en la pila.
+
+	```
+	// Ejemplo de múltiples funciones de middleware para una ruta
+	app.get('/ejemplo', 
+	  function middleware1(req, res, next) {
+	    console.log('Middleware 1');
+	    next();
+	  },
+	  function middleware2(req, res, next) {
+	    console.log('Middleware 2');
+	    next();
+	  },
+	  function middleware3(req, res) {
+	    console.log('Middleware 3');
+	    res.send('Respuesta final');
+	  }
+	);
+
+	```
+
+	se definen tres funciones de middleware diferentes para la ruta '/ejemplo'. 
+
+	Cada función de middleware realiza una tarea específica y luego llama a 'next()' para pasar el control a la siguiente función de middleware en la pila. 
+
+	La última función de middleware responde directamente a la solicitud utilizando el método 'res.send()'. 
+
+	Mediante el encadenamiento de múltiples funciones de middleware, puedes controlar y manipular el flujo de una solicitud de manera más detallada y secuencial.
+
+
+
+|| Methods - Express.js
+
+	Se refieren a los distintos verbos HTTP que se utilizan para indicar la acción que se debe realizar en un recurso específico. 
+
+	Estos métodos o verbos son utilizados para especificar la intención de una solicitud HTTP y ayudan a determinar la operación que se debe realizar en el servidor. 
+
+	Algunos de los métodos comunes en Express.js incluyen GET, POST, PUT, DELETE, entre otros.
+
+	GET: 
+
+		Se utiliza para solicitar datos de un recurso específico del servidor. 
+		Por ejemplo, obtener información de un usuario específico.
+
+
+    POST: 
+
+    	Se utiliza para enviar datos al servidor para crear un nuevo recurso.
+    	Por ejemplo, enviar datos de un formulario para crear una nueva entrada en una base de datos.
+
+
+    PUT: 
+
+    	Se utiliza para actualizar o reemplazar datos de un recurso específico en el servidor. 
+		Por ejemplo, actualizar la información de un usuario existente.
+
+
+    DELETE: 
+
+    	Se utiliza para eliminar un recurso específico en el servidor. Por ejemplo, eliminar un usuario de una base de datos.
+
+
+	Son utilizados por Express.js para manejar diferentes tipos de solicitudes HTTP y realizar operaciones específicas en función del verbo HTTP proporcionado en la solicitud. 
+
+	Puedes definir rutas específicas en Express.js que respondan a diferentes métodos HTTP para manejar diversas operaciones de manera eficaz
+	
+
+
+|| GET - Express.js
+
+	```
+	const express = require('express');
+	const app = express();
+	const PORT = 3000;
+
+	// Definir una ruta con el método GET
+	app.get('/', function(req, res) {
+	  res.send('¡Hola desde Express!');
+	});
+
+	// Iniciar el servidor en el puerto especificado
+	app.listen(PORT, function() {
+	  console.log(`Servidor Express en funcionamiento en el puerto ${PORT}`);
+	});
+
+	```
+
+	Se define una ruta utilizando app.get('/', function(req, res) {...}). 
+
+	La función de devolución de llamada toma dos argumentos, req y res, que representan el objeto de solicitud y el objeto de respuesta respectivamente. 
+
+	Dentro de la función de devolución de llamada, se utiliza el método res.send() para enviar una respuesta al cliente cuando se realiza una solicitud GET a la ruta especificada, en este caso, la ruta raíz '/'.
+
+	Cuando se inicia el servidor con 'app.listen()', el servidor Express estará en funcionamiento en el puerto especificado, y la ruta definida responderá a las solicitudes GET con el mensaje "¡Hola desde Express!" en el navegador o en la herramienta de prueba de API que estés utilizando.
+
+
+
+|| POST - Express.js 
+
+	```
+	const express = require('express');
+	const app = express();
+	const PORT = 3000;
+
+	// Configurar el middleware para analizar el cuerpo de la solicitud
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: true }));
+
+	// Definir una ruta con el método POST
+	app.post('/login', function(req, res) {
+	  const { username, password } = req.body;
+	  // Verificar las credenciales aquí (esto es solo un ejemplo)
+	  if (username === 'usuario' && password === 'contraseña') {
+	    res.send('Inicio de sesión exitoso');
+	  } else {
+	    res.status(401).send('Credenciales incorrectas');
+	  }
+	});
+
+	// Iniciar el servidor en el puerto especificado
+	app.listen(PORT, function() {
+	  console.log(`Servidor Express en funcionamiento en el puerto ${PORT}`);
+	});
+
+	```
+
+	Se define una ruta utilizando app.post('/login', function(req, res) {...}). 
+
+	La función de devolución de llamada toma dos argumentos, req y res, que representan el objeto de solicitud y el objeto de respuesta, respectivamente. 
+
+	Dentro de la función de devolución de llamada, se accede a los datos enviados en el cuerpo de la solicitud a través de req.body.
+
+	En este caso, se asume que se reciben las credenciales de inicio de sesión en el cuerpo de la solicitud. 
+
+	Se verifica si las credenciales son válidas y se envía una respuesta en consecuencia. 
+
+	Si las credenciales son válidas, se envía el mensaje "Inicio de sesión exitoso". 
+
+	Si las credenciales no son válidas, se envía un estado 401 con el mensaje "Credenciales incorrectas".
+
+
+
+|| Form - Express.js
+
+
+	```html
+
+	<!DOCTYPE html>
+	<html>
+	<body>
+
+	<h2>Formulario de ejemplo</h2>
+
+	<form action="http://localhost:3000/formulario" method="post">
+	  <label for="nombre">Nombre:</label><br>
+	  <input type="text" id="nombre" name="nombre"><br>
+	  <label for="apellido">Apellido:</label><br>
+	  <input type="text" id="apellido" name="apellido"><br><br>
+	  <input type="submit" value="Enviar">
+	</form>
+
+	</body>
+	</html>
+
+	```
+
+	Se envían dos campos, "nombre" y "apellido", utilizando el método POST a la ruta /formulario en el servidor Express.js. 
+
+	Asegúrate de que el servidor Express esté en funcionamiento en el puerto 3000 y de que tenga una ruta configurada para manejar la solicitud POST en la ruta /formulario.
+
+	```js
+
+	const express = require('express');
+	const app = express();
+	const PORT = 3000;
+
+	// Configurar el middleware para analizar el cuerpo de la solicitud
+	app.use(express.urlencoded({ extended: true }));
+
+	// Manejar la solicitud POST desde el formulario
+	app.post('/formulario', function(req, res) {
+	  const { nombre, apellido } = req.body;
+	  res.send(`¡Hola ${nombre} ${apellido}!`);
+	});
+
+	// Iniciar el servidor en el puerto especificado
+	app.listen(PORT, function() {
+	  console.log(`Servidor Express en funcionamiento en el puerto ${PORT}`);
+	});
+
+	```
+
+	Configura el middleware para analizar los datos del formulario mediante express.urlencoded(). 
+
+	La solicitud POST a la ruta /formulario se maneja para extraer los datos del cuerpo de la solicitud y enviar un saludo personalizado en función de los datos proporcionados en el formulario.
+
+
+
+|| PUT - Express.js
+
+	
+	```js
+
+	const express = require('express');
+	const app = express();
+	const PORT = 3000;
+
+	// Configurar el middleware para analizar el cuerpo de la solicitud
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: true }));
+
+	// Datos de ejemplo para simular una base de datos
+	let usuarios = [
+	  { id: 1, nombre: 'Ejemplo1' },
+	  { id: 2, nombre: 'Ejemplo2' }
+	];
+
+	// Ruta para actualizar un usuario mediante el método PUT
+	app.put('/usuarios/:id', function(req, res) {
+	  const userId = req.params.id;
+	  const nuevoNombre = req.body.nombre;
+	  usuarios.forEach(usuario => {
+	    if (usuario.id === Number(userId)) {
+	      usuario.nombre = nuevoNombre;
+	    }
+	  });
+	  res.send('Usuario actualizado correctamente');
+	});
+
+	// Iniciar el servidor en el puerto especificado
+	app.listen(PORT, function() {
+	  console.log(`Servidor Express en funcionamiento en el puerto ${PORT}`);
+	});
+
+
+	```
+
+	Se define una ruta utilizando app.put('/usuarios/:id', function(req, res) {...}) para actualizar un usuario específico en la "base de datos" simulada. 
+
+	El parámetro ':id' en la ruta se utiliza para identificar al usuario que se va a actualizar. 
+
+	La función de devolución de llamada toma los datos del cuerpo de la solicitud y busca al usuario correspondiente en el array 'usuarios'. 
+
+	Una vez encontrado, actualiza el nombre del usuario con el nuevo nombre proporcionado en el cuerpo de la solicitud.
+
+	Al realizar una solicitud 'PUT' a la ruta '/usuarios/:id' con un nuevo nombre en el cuerpo de la solicitud, el servidor responderá con el mensaje "Usuario actualizado correctamente". 
+
+
+
+|| DELETE - Express.js
+
+	```js
+
+	const express = require('express');
+	const app = express();
+	const PORT = 3000;
+
+	// Datos de ejemplo para simular una base de datos
+	let usuarios = [
+	  { id: 1, nombre: 'Ejemplo1' },
+	  { id: 2, nombre: 'Ejemplo2' }
+	];
+
+	// Ruta para eliminar un usuario mediante el método DELETE
+	app.delete('/usuarios/:id', function(req, res) {
+	  const userId = req.params.id;
+	  usuarios = usuarios.filter(usuario => usuario.id !== Number(userId));
+	  res.send('Usuario eliminado correctamente');
+	});
+
+	// Iniciar el servidor en el puerto especificado
+	app.listen(PORT, function() {
+	  console.log(`Servidor Express en funcionamiento en el puerto ${PORT}`);
+	});
+
+
+	```
+
+	Define una ruta utilizando app.delete('/usuarios/:id', function(req, res) {...}) para eliminar un usuario específico en la "base de datos" simulada. 
+
+	El parámetro ':id' en la ruta se utiliza para identificar al usuario que se va a eliminar. 
+
+	La función de devolución de llamada filtra el array 'usuarios' para mantener solo aquellos usuarios cuyo ID no coincide con el ID proporcionado en la solicitud.
+
+	Al realizar una solicitud 'DELETE' a la ruta /usuarios/:id, el servidor responderá con el mensaje "Usuario eliminado correctamente" después de eliminar el usuario correspondiente. 
+	
+
+
+|| Router - Express.js	
+
+	Función constructora que se utiliza para crear manejadores de rutas montables y modulares. 
+
+	Permite dividir tu aplicación en subaplicaciones y grupos de rutas más pequeñas y manejables. 
+
+	Con el enrutador, puedes definir rutas, aplicar middleware y manejar solicitudes HTTP para rutas específicas de manera modular y organizada.
+
+	Al utilizar Router en Express.js, puedes definir grupos de rutas con funcionalidades relacionadas y luego montar estos grupos de rutas en la aplicación principal. 
+
+	Esto facilita la organización y el mantenimiento de aplicaciones más grandes al dividirlas en componentes más pequeños y fáciles de administrar. 
+
+	```
+	const express = require('express');
+	const app = express();
+	const router = express.Router();
+
+	// Definir una ruta utilizando el enrutador
+	router.get('/', function(req, res) {
+	  res.send('¡Hola desde el enrutador!');
+	});
+
+	// Montar el enrutador en la aplicación principal
+	app.use('/ruta', router);
+
+	// Iniciar el servidor en el puerto especificado
+	app.listen(3000, function() {
+	  console.log('Servidor Express en funcionamiento en el puerto 3000');
+	});
+
+	```
+
+	define un enrutador utilizando express.Router() y se le agrega una ruta utilizando router.get('/' ...). 
+
+	Luego, el enrutador se monta en la aplicación principal utilizando app.use('/ruta', router). 
+
+	Esto significa que todas las rutas definidas en el enrutador se precederán con '/ruta' en la aplicación principal. 
+
+	Esto te permite mantener tus rutas organizadas y modularizar tu aplicación en función de la lógica y la funcionalidad.
+
+
+
+|| Router Controllers - Express.js
+
+	funciones que se utilizan como controladores para manejar la lógica de las rutas definidas en un enrutador. 
+
+	Estos controladores se encargan de procesar las solicitudes entrantes, realizar operaciones específicas y enviar respuestas adecuadas al cliente.
+
+	El uso de controladores en un enrutador permite separar la lógica de manejo de rutas de la definición de las rutas mismas. 
+
+	Esto promueve una mejor organización del código y facilita la reutilización de la lógica en diferentes rutas o incluso en diferentes aplicaciones.
+
+
+	```JS
+
+	// usersController.js
+
+	// Controlador para manejar la lógica de la ruta de usuarios
+	exports.getUser = function(req, res) {
+	  res.send('Obteniendo información del usuario');
+	};
+
+	exports.createUser = function(req, res) {
+	  res.send('Creando un nuevo usuario');
+	};
+
+	```
+
+	```
+	// routes.js
+
+	const express = require('express');
+	const router = express.Router();
+	const usersController = require('./usersController');
+
+	// Definir las rutas y usar los controladores correspondientes
+	router.get('/users', usersController.getUser);
+	router.post('/users', usersController.createUser);
+
+	module.exports = router;
+
+	```
+
+	En este ejemplo, usersController.js contiene funciones de controlador para manejar las operaciones relacionadas con los usuarios, como obtener información del usuario y crear un nuevo usuario. 
+
+	Estos controladores se exportan y se utilizan en el archivo routes.js, donde se definen las rutas utilizando router.get() y router.post(). 
+
+	De esta manera, la lógica de manejo de las rutas se mantiene separada de la definición de las rutas mismas, lo que facilita el mantenimiento y la organización del código.	
+
+
+
+|| Postman
+
+	Plataforma de colaboración para el desarrollo de API que permite a los desarrolladores diseñar, probar, documentar, monitorear y compartir fácilmente API. 
+
+	Tiene su origen en 2012, cuando Abhinav Asthana creó Postman como una extensión de Chrome para simplificar la construcción y el manejo de solicitudes de API. 
+
+	Desde entonces, se ha convertido en una herramienta fundamental para desarrolladores de API en todo el mundo
+
+	Probar diferentes rutas y métodos, y ver las respuestas para asegurarse de que las API funcionen correctamente. 
+
+	Postman también ofrece características avanzadas como la creación de entornos, pruebas automatizadas, generación de documentación y colaboración entre equipos, lo que hace que el proceso de desarrollo de API sea más eficiente y productivo.
