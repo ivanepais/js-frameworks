@@ -841,11 +841,376 @@
 
 
 
-|| Objetos
+|| Objetos e Interface
+	
+	Colección de pares de clave y valor, similar a los objetos en JavaScript.
+
+	Los objetos en TypeScript pueden contener propiedades con nombres y valores asociados, lo que les permite representar entidades y estructuras de datos complejas.
 
 
+	```ts
+
+	let persona: {
+    nombre: string;
+    edad: number;
+    esEstudiante: boolean;
+	};
+
+	persona = {
+	    nombre: "Juan",
+	    edad: 25,
+	    esEstudiante: true,
+	};
+
+	```
+
+	'persona' tiene tres propiedades: 'nombre', 'edad' y 'esEstudiante', cada una con un tipo de dato específico
+
+
+	Interface: 
+
+		Permite la definición de tipos de objetos personalizados.
+
+		Permiten definir la estructura y los tipos de datos que se esperan para un objeto en particular.
+
+	
+	```ts
+
+	interface Persona {
+    nombre: string;
+    edad: number;
+    esEstudiante: boolean;
+	}
+
+	let individuo: Persona = {
+	    nombre: "María",
+	    edad: 30,
+	    esEstudiante: false,
+	};
+
+	```	
+
+	Puedes definir estructuras de datos más complejas y detalladas, lo que te permite trabajar de manera más eficiente con entidades y datos en tus programas.
 
 
 
 || Type Aliases
+	
+	Característica que te permite crear un nombre alternativo para un tipo existente. 
+
+	Esto puede ser útil para simplificar la definición y reutilización de tipos más complejos y largos en tu código. 
+
+	Puedes pensar en los "Type Aliases" como un apodo para tipos existentes.
+
+
+	```ts
+
+	type Coordenadas = [number, number];
+
+	let punto: Coordenadas = [10, 20];
+
+	```
+
+	'Coordenadas' que representa un array de dos elementos, ambos de tipo number. 
+
+	Luego, usamos este "Type Alias" para definir el tipo de la variable punto
+	
+
+	También se pueden utilizar para definir tipos más complejos, como objetos o combinaciones de tipos. 
+
+	```ts
+
+	type Persona = {
+    nombre: string;
+    edad: number;
+	};
+
+	type Empleado = {
+	    id: number;
+	    cargo: string;
+	} & Persona;
+
+	let empleado: Empleado = {
+	    id: 1,
+	    nombre: "Juan",
+	    edad: 30,
+	    cargo: "Desarrollador",
+	};
+
+	```
+
+	Simplifica la escritura de tipos complejos y mejorar la legibilidad de tu código, especialmente cuando trabajas con tipos de datos complicados o estructuras de datos extensas.
+
+
+	Capacidades: 
+
+	1. Refactorización y mantenimiento del código: 
+
+		Al definir "Type Aliases" para estructuras de datos complejas y reutilizables, puedes facilitar la refactorización y el mantenimiento del código a largo plazo, ya que proporcionan una descripción clara de la forma de los datos.
+
+
+	2. Abstracción de tipos comunes: 
+
+		Al utilizar "Type Aliases", puedes abstraer tipos comunes que se utilizan en múltiples partes de tu código, lo que reduce la duplicación y mejora la consistencia del código.
+
+
+	3. Documentación y legibilidad del código: 
+
+		Al asignar nombres descriptivos a los "Type Aliases", puedes mejorar la documentación y la comprensión del código, lo que facilita la colaboración y el mantenimiento del código en proyectos más grandes.
+
+
+	4. Tipos de unión y tipos de intersección: 
+
+		Los "Type Aliases" son útiles para crear tipos de unión y tipos de intersección que representan combinaciones de otros tipos, lo que facilita la creación de estructuras de datos complejas y flexibles en tu código.
+
+
+
+|| Type vs Interface
+
+	'Type' aliases actúa como una colección de tipos para los objetos e 'Interface' actúa como un contrato de propiedades y valores que deben cumplir. 
+
+
+	Diferencias: 
+
+	Extensibilidad: 
+
+		Las interfaces pueden extenderse para combinar múltiples interfaces en una sola, lo que permite crear interfaces más grandes y complejas a partir de partes más pequeñas. 
+
+		Los "Type Aliases" no tienen esta capacidad de extensión directa.
+
+
+	Compatibilidad con objetos:
+
+	    Las interfaces pueden ser implementadas por clases y objetos, lo que permite definir contratos y asegurar que los objetos cumplan con ciertas estructuras y comportamientos.
+
+
+	Capacidad de generar nombre: 
+
+	    Las interfaces generan un nombre en el informe de errores de TypeScript cuando no se cumple su estructura, lo que facilita la identificación de problemas en el código. 
+
+	    Los "Type Aliases" no generan nombres en el informe de errores y pueden ser más difíciles de identificar en ciertos contextos de errores.
+
+
+    Uso de tipos de unión y tipos de intersección: 
+
+    	Los "Type Aliases" son más adecuados para crear tipos de unión y tipos de intersección, lo que los hace más flexibles en ciertos contextos donde se necesitan combinaciones de tipos.
+
+
+	En general, las interfaces son más adecuadas para definir contratos y estructuras de datos que deben ser implementados por objetos, mientras que los "Type Aliases" son más útiles para crear alias de tipos y definir tipos más complejos y flexibles
+
+
+
+|| Enum
+
+	Forma de añadir un conjunto de nombres más descriptivos a un conjunto de valores. 
+
+	Permiten definir un conjunto de constantes con nombre que se pueden utilizar en lugar de números o cadenas.
+
+	Esto facilita la legibilidad del código y hace que sea más fácil trabajar con conjuntos predefinidos de valores.
+
+
+	```ts
+
+	enum DiaSemana {
+	    Lunes,
+	    Martes,
+	    Miércoles,
+	    Jueves,
+	    Viernes,
+	    Sábado,
+	    Domingo,
+	}
+
+	let dia: DiaSemana = DiaSemana.Martes;
+
+	```
+
+	'DiaSemana' que enumera los días de la semana. 
+
+	Cada elemento del enum recibe automáticamente un valor numérico secuencial empezando desde 0, a menos que se especifiquen valores específicos.
+
+
+	son útiles cuando se trabaja con conjuntos de valores predefinidos que se utilizan de manera repetitiva en el código.
+
+	Proporcionan una forma legible de referirse a estos valores y ayudan a evitar el uso de valores mágicos directamente en el código. 
+
+	Sin embargo, es importante tener en cuenta que los enum son números en tiempo de ejecución y no proporcionan una protección de tipo adicional en comparación con los valores literales.
+
+
+
+
+|| readonly
+
+	Se utiliza para marcar propiedades de un objeto como inmutables una vez que se han asignado en su creación. 
+
+	Esto significa que una vez que se asigna un valor a una propiedad de solo lectura, no se puede modificar más adelante. 
+
+	Esta característica es útil cuando se desea garantizar que ciertas propiedades de un objeto no se cambien después de su inicialización.
+
+	Garantiza la integridad de los datos evitando cambios no deseados en propiedades críticas de un objeto.
+
+
+	```ts
+
+	class Persona {
+	    readonly nombre: string;
+	    readonly edad: number;
+
+	    constructor(nombre: string, edad: number) {
+	        this.nombre = nombre;
+	        this.edad = edad;
+	    }
+	}
+
+	let persona = new Persona("Juan", 30);
+	// persona.nombre = "Pedro"; // Esto generaría un error en tiempo de compilación
+
+	```
+
+	La propiedad 'nombre' y 'edad' de la clase Persona se marcan como readonly, lo que significa que no se pueden modificar una vez que se han asignado en el constructor de la clase.
+
+	Intentar cambiar el valor de estas propiedades después de su inicialización provocaría un error en tiempo de compilación.
+
+
+
+|| Modificador 'optional'
+
+	El modificador '?' se utiliza para marcar un parámetro o una propiedad como opcional. 
+
+	Significa que el parámetro o la propiedad pueden estar presentes o no en una instancia de objeto o en una llamada de función. 
+
+
+	```ts
+
+	interface Persona {
+	    nombre: string;
+	    edad?: number;
+	}
+
+	function imprimirDetalles(persona: Persona): void {
+	    console.log(`Nombre: ${persona.nombre}`);
+	    if (persona.edad) {
+	        console.log(`Edad: ${persona.edad}`);
+	    }
+	}
+
+	let persona1 = { nombre: "Juan" };
+	let persona2 = { nombre: "María", edad: 30 };
+
+	imprimirDetalles(persona1); // Salida: Nombre: Juan
+	imprimirDetalles(persona2); // Salida: Nombre: María, Edad: 30
+
+	```
+	
+
+
+|| Array
+	
+	Representa matrices o listas de elementos del mismo tipo o de tipos diferentes. 
+
+	Las matrices son estructuras de datos importantes que te permiten almacenar y manipular múltiples valores bajo un solo nombre. 
+
+	TypeScript proporciona varias formas de definir y trabajar con matrices.
+
+
+	1. Matriz de un solo tipo:
+
+		```ts
+
+		let numeros: number[] = [1, 2, 3, 4, 5];
+
+		```
+
+
+	2. Matriz de tipo mixto utilizando uniones:
+
+		```ts
+
+		let mixto: (string | number)[] = ["Hola", 2, "Mundo", 4, 6];
+
+		```
+
+
+	3. Matriz utilizando el constructor Array:
+
+		```ts
+
+		let frutas: Array<string> = ["Manzana", "Plátano", "Cereza"];
+
+		```
+
+
+	4. Acceso al array: 
+
+		```ts
+
+		let frutas: string[] = ["Manzana", "Plátano", "Cereza"];
+		console.log(frutas[0]); // Salida: Manzana
+
+		```
+
+		Además de acceder a elementos individuales, también puedes realizar operaciones como agregar elementos, eliminar elementos y recorrer una matriz utilizando bucles como 'for' o 'forEach'.
+
+
+
+|| Union Types
+
+	Permiten especificar que una variable o parámetro puede contener valores de varios tipos diferentes. 
+
+	Una variable con un tipo de unión puede contener valores de cualquiera de los tipos especificados en la unión. 
+
+
+	```ts
+
+	let resultado: string | number;
+
+	resultado = "Hola TypeScript";
+	console.log("El resultado es una cadena: " + resultado);
+
+	resultado = 42;
+	console.log("Ahora el resultado es un número: " + resultado);
+
+	```
+
+	La variable 'resultado' se declara con un "Union Type" que incluye tanto 'string' como 'number'. 
+
+	Puede contener valores de cualquiera de estos dos tipos.
+
+
+
+|| Tupla
+
+	Permiten expresar un arreglo con un número fijo de elementos, donde cada elemento puede ser de un tipo de dato diferente. 
+
+	A diferencia de los arrays regulares, las "Tuples" te permiten especificar tipos de datos específicos para cada posición dentro del arreglo.
+
+
+	```ts
+
+	let pareja: [string, number] = ["Juan", 30];
+
+	```
+
+	```ts 
+
+	let tupla: [string, number, boolean];
+	tupla = ["Hola", 10, true];
+
+	// Acceder a elementos individuales de la tupla
+	console.log(tupla[0]); // Salida: "Hola"
+	console.log(tupla[1]); // Salida: 10
+	console.log(tupla[2]); // Salida: true
+
+	```
+
+	Puede contener una cadena, un número y un valor booleano, en ese orden específico. 
+
+	Puedes acceder a los elementos individuales de la "Tuple" utilizando índices como en un array normal.
+
+
+
+|| Classes
+
+
+
 
