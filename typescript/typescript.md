@@ -1211,6 +1211,300 @@
 
 || Classes
 
+	Permiten definir objetos y crear instancias de esos objetos. 
 
+	Las clases proporcionan un mecanismo para definir propiedades y métodos que representan el estado y el comportamiento de un tipo de objeto específico. 
+
+	Las clases en TypeScript pueden utilizar la herencia y la implementación de interfaces para modelar relaciones entre diferentes tipos de objetos.
+
+
+	```ts
+
+	class Persona {
+	    nombre: string;
+	    edad: number;
+
+	    constructor(nombre: string, edad: number) {
+	        this.nombre = nombre;
+	        this.edad = edad;
+	    }
+
+	    saludar() {
+	        console.log(`Hola, mi nombre es ${this.nombre} y tengo ${this.edad} años.`);
+	    }
+	}
+
+	let individuo = new Persona("Juan", 30);
+	individuo.saludar(); // Salida: Hola, mi nombre es Juan y tengo 30 años.
+
+	```
+
+	'Persona' con propiedades 'nombre' y 'edad', y un método 'saludar' que imprime un mensaje de saludo en la consola. 
+
+	Luego, creamos una instancia de la clase 'Persona' llamada 'individuo' y llamamos al método saludar en la instancia.
+
+
+
+|| Inheritance
+
+	Permite crear nuevas clases basadas en clases existentes.
+
+	La clase existente se conoce como clase base o superclase, y la nueva clase que se deriva de ella se conoce como clase derivada o subclase. 
+
+	La herencia permite a la subclase heredar propiedades y métodos de la superclase, lo que facilita la reutilización de código y la extensión de la funcionalidad.
+
+
+	```js
+
+	class Animal {
+	    nombre: string;
+
+	    constructor(nombre: string) {
+	        this.nombre = nombre;
+	    }
+
+	    moverse(distancia: number = 0) {
+	        console.log(`${this.nombre} se movió ${distancia} metros.`);
+	    }
+	}
+
+	class Perro extends Animal {
+	    ladrar() {
+	        console.log("¡Guau!");
+	    }
+	}
+
+	let miPerro = new Perro("Fido");
+	miPerro.moverse(10); // Salida: Fido se movió 10 metros.
+	miPerro.ladrar(); // Salida: ¡Guau!
+
+	```
+
+	La clase 'Perro' hereda de la clase 'Animal'. 
+
+	La clase Perro hereda la propiedad nombre y el método moverse de la clase Animal y también tiene su propio método ladrar.
+
+
+	Es útil cuando necesitas crear clases que compartan ciertas características comunes, pero que también tengan su propio comportamiento específico. 
+
+	Te permite crear una jerarquía de clases en la que las clases derivadas heredan comportamientos y características de las clases base, lo que facilita la reutilización de código y la organización de la estructura de tu código.	
+
+
+
+|| Polimorfismo
+
+	Es la capacidad de objetos de diferentes clases de responder al mismo mensaje de manera diferente. 
+
+	Esto significa que un método puede tener diferentes comportamientos en diferentes clases, pero se invoca utilizando el mismo nombre. 
+
+	El polimorfismo permite que diferentes tipos de objetos respondan a un mismo conjunto de mensajes o métodos de acuerdo con su propia implementación específica.
+
+	
+	```ts
+
+	class Animal {
+	    moverse() {
+	        console.log("El animal se está moviendo.");
+	    }
+	}
+
+	class Perro extends Animal {
+	    moverse() {
+	        console.log("El perro está corriendo.");
+	    }
+	}
+
+	class Gato extends Animal {
+	    moverse() {
+	        console.log("El gato está saltando.");
+	    }
+	}
+
+	let miPerro: Animal = new Perro();
+	let miGato: Animal = new Gato();
+
+	miPerro.moverse(); // Salida: El perro está corriendo.
+	miGato.moverse(); // Salida: El gato está saltando.
+
+	```
+
+
+
+|| Public, Private y Protected
+
+	Son modificadores de acceso que controlan la visibilidad de los miembros de una clase como las propiedades y los métodos.
+
+	Determinan desde dónde se puede acceder a los miembros de una clase.
+
+
+    Public: 
+
+    	Los miembros públicos son accesibles desde cualquier lugar, tanto desde dentro de la clase como desde instancias de la clase.
+
+
+    Private: 
+
+    	Los miembros privados solo son accesibles desde dentro de la clase donde se declaran. 
+
+    	No se puede acceder a ellos desde instancias de la clase ni desde clases derivadas.
+
+
+    Protected: 
+
+    	Los miembros protegidos son similares a los miembros privados, pero también son accesibles en clases derivadas.
+
+
+    Permiten controlar la exposición de los miembros de una clase y ayudan a garantizar la encapsulación y la seguridad de los datos al restringir el acceso a ciertos miembros de la clase.
+
+
+    ```ts
+
+    class Persona {
+    	public nombre: string;
+	    private edad: number;
+	    protected identificacion: number;
+
+	    constructor(nombre: string, edad: number, identificacion: number) {
+	        this.nombre = nombre;
+	        this.edad = edad;
+	        this.identificacion = identificacion;
+	    }
+
+	    detalles() {
+	        console.log(`Nombre: ${this.nombre}, Edad: ${this.edad}, Identificación: ${this.identificacion}`);
+	    }
+	}
+
+	let persona = new Persona("Juan", 30, 12345);
+	console.log(persona.nombre); // Acceso permitido
+	// console.log(persona.edad); // Acceso denegado, ya que 'edad' es privado
+	// console.log(persona.identificacion); // Acceso denegado, ya que 'identificacion' es protegido
+	persona.detalles(); // Salida: Nombre: Juan, Edad: 30, Identificación: 12345
+
+    ```
+
+
+
+|| Getters, Setters
+
+	Son métodos especiales que te permiten definir la lógica personalizada para obtener y establecer el valor de propiedades privadas en una clase. 
+
+	Los getters se utilizan para obtener el valor de una propiedad privada, mientras que los setters se utilizan para establecer el valor de una propiedad privada con lógica adicional si es necesario. 
+
+	Esto permite un mayor control sobre el acceso y la modificación de propiedades privadas de una clase.
+	
+
+	```ts
+
+	class Persona {
+	    private _edad: number = 0;
+
+	    get edad(): number {
+	        return this._edad;
+	    }
+
+	    set edad(nuevaEdad: number) {
+	        if (nuevaEdad > 0) {
+	            this._edad = nuevaEdad;
+	        } else {
+	            console.log("La edad debe ser un número positivo.");
+	        }
+	    }
+	}
+
+	let individuo = new Persona();
+	individuo.edad = 30;
+	console.log(individuo.edad); // Salida: 30
+
+	individuo.edad = -5; // Se muestra un mensaje de advertencia en la consola
+	console.log(individuo.edad); // Salida: 30 (la edad no cambia)
+
+			
+	```
+		
+	El getter 'edad' devuelve el valor de la propiedad privada '_edad', mientras que el setter 'edad' establece el valor de '_edad' solo si la nueva edad es un número positivo. 
+
+	Si se intenta establecer un valor no válido, se muestra un mensaje de advertencia en la consola.
+	
+		
+
+|| Abstract Class
+
+	Es una clase que no se puede instanciar directamente y se utiliza como una clase base para otras clases. 
+
+	Puede contener métodos implementados y métodos abstractos que deben ser implementados por las clases derivadas. 
+
+	Las clases abstractas sirven como plantillas para otras clases y proporcionan una estructura común para compartir funcionalidades entre clases relacionadas.
+
+	Son útiles cuando se desea definir una estructura común y obligar a las clases derivadas a proporcionar implementaciones específicas de ciertos métodos.
+
+
+	```ts
+
+	abstract class Figura {
+    	abstract calcularArea(): number;
+
+	    mostrarTipo(): void {
+	        console.log("Soy una figura geométrica.");
+	    }
+	}
+
+	class Cuadrado extends Figura {
+	    private lado: number;
+
+	    constructor(lado: number) {
+	        super();
+	        this.lado = lado;
+	    }
+
+	    calcularArea(): number {
+	        return this.lado * this.lado;
+	    }
+	}
+
+	let miCuadrado: Cuadrado = new Cuadrado(5);
+	miCuadrado.mostrarTipo(); // Salida: Soy una figura geométrica.
+	console.log("Área del cuadrado:", miCuadrado.calcularArea()); // Salida: Área del cuadrado: 25
+	
+	```
+
+	La clase 'Figura' es una clase abstracta que define un método abstracto 'calcularArea()' y un método implementado 'mostrarTipo()'. 
+
+	La clase 'Cuadrado' extiende la clase Figura e implementa el método abstracto 'calcularArea()'. 
+
+	Al crear una instancia de la clase 'Cuadrado', podemos llamar a los métodos definidos en la clase abstracta y proporcionar una implementación específica para el cálculo del área del cuadrado.
+
+
+	Usos de Clase Abstracta: 
+
+		Situaciones en las que se desea proporcionar una implementación base común para un conjunto de clases relacionadas, al mismo tiempo que se obliga a las clases derivadas a implementar ciertos métodos específicos.
+
+
+	1. Definición de una estructura común: 
+
+		Las clases abstractas se utilizan para definir una estructura común para un grupo de clases relacionadas. 
+
+		Por ejemplo, en un programa que maneja diferentes tipos de formas geométricas, una clase abstracta 'Forma' podría definir métodos genéricos como 'calcularArea' y 'calcularPerimetro' que deben ser implementados por las formas específicas.
+
+
+	2. Forzar la implementación de métodos específicos: 
+
+		Las clases abstractas pueden contener métodos abstractos que deben ser implementados por las clases derivadas. 
+
+		Por ejemplo, una clase abstracta 'Vehiculo' podría definir un método abstracto 'acelerar' que debe ser implementado por las clases que representan tipos específicos de vehículos, como 'Automovil', 'Motocicleta' y 'Camión'.
+
+
+	3. Compartir funcionalidad común:
+
+		Las clases abstractas permiten compartir código común entre clases relacionadas. 
+
+		Por ejemplo, una clase abstracta 'Empleado' podría contener métodos y propiedades comunes a diferentes tipos de empleados, como 'obtenerSalario' y 'calcularVacaciones', que pueden ser heredados por clases derivadas como 'Gerente' y 'Asistente'.
+
+
+	4. Establecer una plantilla para clases derivadas: 
+
+		Las clases abstractas proporcionan una plantilla para clases derivadas, lo que garantiza que ciertos métodos esenciales estén presentes en todas las implementaciones derivadas.
+
+		Esto ayuda a mantener la coherencia y la estructura en el diseño de clases relacionadas.
 
 
