@@ -1508,3 +1508,424 @@
 		Esto ayuda a mantener la coherencia y la estructura en el diseño de clases relacionadas.
 
 
+
+|| Generics
+
+	Son una característica que te permite crear componentes reutilizables que funcionan con una variedad de tipos en lugar de un solo tipo. 
+
+	Los genéricos proporcionan una forma de crear funciones, clases y tipos de datos que son independientes del tipo específico y pueden funcionar con cualquier tipo de dato.
+
+	Esto aumenta la reutilización del código y permite escribir componentes más flexibles y ampliamente aplicables.
+
+
+	El propósito de los componentes reutilizables es adaptarse a trabajar con datos de hoy y de mañana lo que les da flexibilidad para construir gran software escalable y mantenible. 
+
+	C# y Java tienen componentes genericos y reutilizables. 
+
+
+	Tipos de funciones: 
+
+	1. Con tipo especifico: 
+
+		```ts
+
+		function identity (arg: number): number {
+
+			return arg;
+		}
+
+		```
+
+
+
+	2. Tipo Any: 
+
+		```ts
+
+		function identity (arg: any): any {
+
+			return arg;
+		}
+
+		```
+
+
+	3. Tipo Generico <Type> (Type variable): 
+
+		```ts
+
+		function identity<Type>(arg: Type): Type {
+			return arg;
+		}
+
+		```
+
+		Podemos llamarla de dos maneras: 
+
+		1. Explicitando Type
+
+		```ts
+
+		let output = identity<string>("myString");
+
+		```
+
+		2. Inferencia de Type
+
+		```ts
+
+		let output = identity("myString");
+
+		```
+
+
+	4. Error método incorrecto para el argumento: 
+
+		```ts
+
+		function logginIdentity<Type>(arg: Type): Type {
+
+			console.log(arg.length);
+			
+			return arg;
+		}
+
+		```
+
+		```ts
+
+		function logginIdentity<Type>(arg: Type[]): Type[] {
+
+			console.log(arg.length);
+
+			return arg;
+		}
+
+		```	
+
+
+		Forma Alternativa: 
+
+		```ts
+
+		function loggingIdentity<Type>(arg: Array<Type>): Array<Type> {
+
+		  console.log(arg.length); 
+
+		  return arg;
+		}
+
+		```
+
+
+	7. Generico Arrow: 
+
+		Definimos una función generica y despues se lo pasamos a la función arrow. 
+
+
+		```ts
+
+		function identity<Type>(arg: Type): Type {
+		  return arg;
+		}
+		 
+		let myIdentity: <Type>(arg: Type) => Type = identity;		
+		```
+
+
+	Ejemplo: 
+
+		1. Función:
+
+		```ts
+
+		function createPair<S, T>(v1: S, v2: T): [S, T] {
+		  return [v1, v2];
+		}
+		console.log(createPair<string, number>('hello', 42)); // ['hello', 42]
+
+		```
+
+
+		2. Classes: 
+
+		```ts
+
+		class NamedValue<T> {
+		  private _value: T | undefined;
+
+		  constructor(private name: string) {}
+
+		  public setValue(value: T) {
+		    this._value = value;
+		  }
+
+		  public getValue(): T | undefined {
+		    return this._value;
+		  }
+
+		  public toString(): string {
+		    return `${this.name}: ${this._value}`;
+		  }
+		}
+
+		let value = new NamedValue<number>('myNumber');
+		value.setValue(10);
+		console.log(value.toString()); // myNumber: 10
+			
+		```
+
+
+		3. Type Aliases
+
+		
+		```ts
+
+		type Wrapped<T> = { value: T };
+
+		const wrappedValue: Wrapped<number> = { value: 10 };
+
+		```
+
+
+		4. Default Value: 
+
+		```ts
+
+		 class NamedValue<T = string> {
+		  private _value: T | undefined;
+
+		  constructor(private name: string) {}
+
+		  public setValue(value: T) {
+		    this._value = value;
+		  }
+
+		  public getValue(): T | undefined {
+		    return this._value;
+		  }
+
+		  public toString(): string {
+		    return `${this.name}: ${this._value}`;
+		  }
+		}
+
+		let value = new NamedValue('myNumber');
+		value.setValue('myValue');
+		console.log(value.toString()); // myNumber: myValue
+
+		```
+
+
+		5. Extends
+
+		```ts
+
+		function createLoggedPair<S extends string | number, T extends string | number>(v1: S, v2: T): [S, T] {
+		  console.log(`creating pair: v1='${v1}', v2='${v2}'`);
+		  return [v1, v2];
+		}
+
+
+		```
+
+
+	Ejemplo 2: 
+
+
+		```ts
+
+		// Función genérica que toma un argumento de tipo 'T' y devuelve un array de tipo 'T'
+		function imprimirElementos<T>(elementos: T[]): void {
+		    for (let elemento of elementos) {
+		        console.log(elemento);
+		    }
+		}
+
+		// Uso de la función genérica con un array de strings
+		let nombres: string[] = ["Juan", "María", "Carlos"];
+		imprimirElementos<string>(nombres);
+
+		// Uso de la función genérica con un array de números
+		let numeros: number[] = [1, 2, 3, 4, 5];
+		imprimirElementos<number>(numeros);
+
+		```
+
+		En este ejemplo, la función 'imprimirElementos' es una función genérica que puede trabajar con cualquier tipo de array. 
+
+		Se utiliza el parámetro '<T>'' para indicar que la función es genérica y se puede utilizar con cualquier tipo.
+
+		Al llamar a la función, se especifica el tipo de datos con el que se va a trabajar entre los corchetes angulares ('<tipo>''). 
+
+		Esto permite reutilizar la misma lógica de la función para diferentes tipos de datos, lo que hace que el código sea más flexible y adaptable.
+
+
+
+|| Buenas Prácticas
+
+	
+	Usar tipos explícitos: 
+
+		Especificar tipos explícitos para variables, parámetros de funciones y valores de retorno ayuda a mejorar la claridad del código y facilita la detección temprana de errores.
+
+
+		```ts
+
+		// Buena práctica
+		function suma(a: number, b: number): number {
+		    return a + b;
+		}
+
+		// Evitar (inferencia automática de tipo)
+		function suma(a, b) {
+		    return a + b;
+		}
+
+		```
+
+
+	Evitar el uso de any: 
+
+		Aunque TypeScript proporciona el tipo any para el manejo de datos dinámicos, es preferible evitarlo tanto como sea posible, ya que elimina muchos de los beneficios del tipado estático.
+
+
+		```ts
+
+		// Evitar
+		let variable: any = "Hola";
+
+		// Preferir
+		let variable: string = "Hola";
+
+		```
+
+
+	Utilizar uniones y tipos de intersección de manera efectiva:
+
+		Las uniones (|) y los tipos de intersección (&) pueden ser herramientas poderosas para modelar tipos de datos complejos. 
+
+		Úsalas de manera efectiva para representar relaciones entre tipos.	
+
+
+		```ts
+
+		// Unión
+		type Resultado = string | number;
+
+		// Intersección
+		type Persona = { nombre: string } & { edad: number };
+
+		```
+
+
+	Evitar la mutabilidad cuando sea posible: 
+
+		El uso de objetos inmutables puede facilitar la comprensión del código y reducir la posibilidad de errores. 
+
+		Considera el uso de readonly y técnicas funcionales.
+
+
+		```ts
+
+		// Evitar mutabilidad
+		let lista: readonly number[] = [1, 2, 3];
+
+		// Preferir
+		let lista: ReadonlyArray<number> = [1, 2, 3];
+
+		```
+
+
+	Hacer uso de tipos genéricos:
+
+		Los tipos genéricos son útiles cuando se desea escribir código que sea reutilizable para diferentes tipos de datos. 
+
+		Utiliza genéricos para funciones y clases cuando sea posible.
+
+
+		```ts
+
+		// Función genérica
+		function identidad<T>(valor: T): T {
+		    return valor;
+		}
+
+		// Interfaz genérica
+		interface Contenedor<T> {
+		    valor: T;
+		}
+
+		```
+
+
+	Configurar opciones del compilador (tsconfig.json):
+
+		Ajusta las opciones del compilador de TypeScript según las necesidades del proyecto. 
+
+		Esto puede incluir configuraciones como strict, noImplicitAny, y otras opciones relacionadas con el estilo de codificación y la consistencia.
+
+
+		```ts
+
+		{
+		  "compilerOptions": {
+		    "strict": true,
+		    "noImplicitAny": true,
+		    // Otras opciones...
+		  }
+		}
+
+		```
+
+
+	Documentar el código con JSDoc:
+
+		Proporcionar documentación clara para funciones, clases y tipos usando JSDoc facilita la comprensión del código por parte de otros desarrolladores y herramientas de desarrollo.
+
+
+		```ts
+
+		/**
+		 * Suma dos números.
+		 * @param {number} a - El primer número.
+		 * @param {number} b - El segundo número.
+		 * @returns {number} La suma de los dos números.
+		 */
+		function suma(a: number, b: number): number {
+		    return a + b;
+		}
+
+		```
+
+
+	Utilizar readonly de manera consistente: 
+
+		Considera el uso de readonly para declarar propiedades que no deben modificarse después de la inicialización. 
+
+		Esto puede ayudar a prevenir errores inadvertidos de modificación.
+
+
+		```ts
+
+		interface Persona {
+		    readonly nombre: string;
+		    edad: number;
+		}
+
+		```
+
+	Pruebas unitarias y TDD: 
+
+		Escribe pruebas unitarias para tu código TypeScript.
+
+		Las pruebas ayudan a garantizar que tus tipos y funciones hacen lo que se espera y facilitan la refactorización del código.
+
+	
+	Evitar la sobreingeniería:
+
+		Aunque el tipado estático puede brindar beneficios sustanciales, es importante encontrar un equilibrio y no caer en la sobreingeniería.
+
+		No siempre es necesario especificar tipos para cada variable o función si el contexto ya proporciona suficiente información.
+
+
